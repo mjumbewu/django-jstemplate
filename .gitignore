@@ -1,0 +1,5 @@
+.tox/
+htmlcov/
+*.egg
+django_icanhaz*.egg-info
+dist/
