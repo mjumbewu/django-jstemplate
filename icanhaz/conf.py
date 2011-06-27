@@ -17,4 +17,11 @@ class Configuration(object):
             raise ImproperlyConfigured("%s setting is required." % k)
 
 
-conf = Configuration()
+conf = Configuration(
+    ICANHAZ_FINDERS=[
+        "icanhaz.finders.FilesystemFinder",
+        "icanhaz.finders.AppFinder",
+        ],
+    ICANHAZ_DIRS=[],
+    ICANHAZ_APP_DIRNAMES=["jstemplates"],
+    )

@@ -1,6 +1,5 @@
 import os.path
 
-from django.core.exceptions import SuspiciousOperation
 from django.template import Template, Context, TemplateSyntaxError
 from django.test import TestCase
 
@@ -8,14 +7,14 @@ from .utils import override_settings
 
 
 
-__all__ = ["ICanHazTest"]
+__all__ = ["TemplateTagTest"]
 
 
 DIR = os.path.join(os.path.dirname(__file__), "templates")
 
 
-class ICanHazTest(TestCase):
-    @override_settings(ICANHAZ_DIR=DIR)
+class TemplateTagTest(TestCase):
+    @override_settings(ICANHAZ_DIRS=[DIR])
     def test_simple(self):
         res = Template(
             "{% load icanhaz %}{% icanhaz 'testtemplate' %}"
@@ -27,7 +26,7 @@ class ICanHazTest(TestCase):
             '<p>A template full of {{ foo }}.</p>\n\n</script>\n')
 
 
-    @override_settings(ICANHAZ_DIR=DIR)
+    @override_settings(ICANHAZ_DIRS=[DIR])
     def test_variable_template_name(self):
         res = Template(
             "{% load icanhaz %}{% icanhaz templatename %}").render(
@@ -39,7 +38,7 @@ class ICanHazTest(TestCase):
             '<p>A template full of {{ foo }}.</p>\n\n</script>\n')
 
 
-    @override_settings(ICANHAZ_DIR=DIR, DEBUG=False)
+    @override_settings(ICANHAZ_DIRS=[DIR], DEBUG=False)
     def test_no_template(self):
         res = Template(
             "{% load icanhaz %}{% icanhaz 'notemplate' %}"
@@ -48,28 +47,31 @@ class ICanHazTest(TestCase):
         self.assertEqual(res, "")
 
 
-    @override_settings(ICANHAZ_DIR=DIR, DEBUG=True)
+    @override_settings(ICANHAZ_DIRS=[DIR], DEBUG=True)
     def test_no_template_debug(self):
-        with self.assertRaises(IOError):
+        from icanhaz.loading import ICanHazTemplateNotFound
+        with self.assertRaises(ICanHazTemplateNotFound):
             Template(
                 "{% load icanhaz %}{% icanhaz 'notemplate' %}"
                 ).render(Context())
 
 
-    @override_settings(ICANHAZ_DIR=DIR)
-    def test_suspicious(self):
-        with self.assertRaises(SuspiciousOperation):
-            Template(
-                "{% load icanhaz %}{% icanhaz '../testtemplate' %}"
+    @override_settings(ICANHAZ_DIRS=[DIR])
+    def test_no_break_out(self):
+        res = Template(
+                "{% load icanhaz %}{% icanhaz '../outside_dir' %}"
                 ).render(Context())
 
+        self.assertEqual(res, "")
 
-    @override_settings(ICANHAZ_DIR=DIR)
-    def test_suspicious_absolute(self):
-        with self.assertRaises(SuspiciousOperation):
-            Template(
+
+    @override_settings(ICANHAZ_DIRS=[DIR])
+    def test_no_absolute(self):
+        res = Template(
                 "{% load icanhaz %}{% icanhaz '/testtemplate' %}"
                 ).render(Context())
+
+        self.assertEqual(res, "")
 
 
     def test_bad_args(self):

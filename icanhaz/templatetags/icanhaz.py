@@ -1,9 +1,7 @@
-import os.path
-
 from django import template
-from django.core.exceptions import SuspiciousOperation
 
 from ..conf import conf
+from ..loading import find, ICanHazTemplateNotFound
 
 
 
@@ -16,30 +14,17 @@ class ICanHazNode(template.Node):
         self.name = template.Variable(name)
 
 
-class ICanHazNode(template.Node):
-    def __init__(self, name):
-        self.name = template.Variable(name)
-
-
     def render(self, context):
         name = self.name.resolve(context)
 
-        filepath = os.path.abspath(os.path.join(
-            conf.ICANHAZ_DIR,
-            name + ".html"))
-
-        if not filepath.startswith(conf.ICANHAZ_DIR):
-            raise SuspiciousOperation(
-                "icanhaz tag attempting to open file at %r, outside of %r"
-                % (filepath, conf.ICANHAZ_DIR))
-
         try:
+            filepath = find(name)
             fp = open(filepath, "r")
             output = fp.read()
             fp.close()
             output = ('<script id="%s" type="text/html">\n'
                       % name) + output + "\n</script>\n"
-        except IOError:
+        except (IOError, ICanHazTemplateNotFound):
             output = ""
             if conf.DEBUG:
                 raise
@@ -51,8 +36,8 @@ class ICanHazNode(template.Node):
 @register.tag
 def icanhaz(parser, token):
     """
-    Outputs the contents of a given file, path relative to ICANHAZ_DIR
-    setting, into the page.
+    Finds the ICanHaz template for the given name and renders it surrounded by
+    the requisite ICanHaz <script> tags.
 
     """
     bits = token.contents.split()

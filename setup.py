@@ -34,13 +34,11 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.4",
-        "Programming Language :: Python :: 2.5",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Framework :: Django",
     ],
     zip_safe=False,
-    tests_require=["Django>=1.2"],
+    tests_require=["Django>=1.2", "mock"],
     test_suite="runtests.runtests"
 )
