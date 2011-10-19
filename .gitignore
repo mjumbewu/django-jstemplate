@@ -1,4 +1,7 @@
+*.py[c|o]
+*~
 .tox/
+.env/
 htmlcov/
 *.egg
 django_icanhaz*.egg-info
