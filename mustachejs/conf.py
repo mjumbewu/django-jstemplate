@@ -18,10 +18,10 @@ class Configuration(object):
 
 
 conf = Configuration(
-    ICANHAZ_FINDERS=[
-        "icanhaz.finders.FilesystemFinder",
-        "icanhaz.finders.AppFinder",
+    MUSTACHEJS_FINDERS=[
+        "mustachejs.finders.FilesystemFinder",
+        "mustachejs.finders.AppFinder",
         ],
-    ICANHAZ_DIRS=[],
-    ICANHAZ_APP_DIRNAMES=["jstemplates"],
+    MUSTACHEJS_DIRS=[],
+    MUSTACHEJS_APP_DIRNAMES=["jstemplates"],
     )

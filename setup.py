@@ -9,7 +9,7 @@ long_description = (open(join(here, "README.rst")).read() + "\n\n" +
                     open(join(here, "TODO.rst")).read())
 
 def get_version():
-    fh = open(join(here, "icanhaz", "__init__.py"))
+    fh = open(join(here, "mustachejs", "__init__.py"))
     try:
         for line in fh.readlines():
             if line.startswith("__version__ ="):
@@ -18,13 +18,13 @@ def get_version():
         fh.close()
 
 setup(
-    name="django-icanhaz",
+    name="django-mustachejs",
     version=get_version(),
-    description="A Django template tag for embedding ICanHaz.js templates safely.",
+    description="A Django template tag for embedding Mustache.js templates safely.",
     long_description=long_description,
     author="Carl Meyer",
     author_email="carl@oddbird.net",
-    url="https://github.com/carljm/django-icanhaz/",
+    url="https://github.com/carljm/django-mustachejs/",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",

@@ -11,13 +11,13 @@ def find(name):
         if filepath is not None:
             return filepath
 
-    raise ICanHazTemplateNotFound(name)
+    raise MustacheJSTemplateNotFound(name)
 
 
 
 def _get_finders():
     ret = []
-    for finder_path in conf.ICANHAZ_FINDERS:
+    for finder_path in conf.MUSTACHEJS_FINDERS:
         modpath, cls_name = finder_path.rsplit(".", 1)
         try:
             mod = import_module(modpath)
@@ -42,5 +42,5 @@ finders = _get_finders()
 
 
 
-class ICanHazTemplateNotFound(Exception):
+class MustacheJSTemplateNotFound(Exception):
     pass

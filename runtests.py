@@ -7,13 +7,13 @@ from django.conf import settings
 
 if not settings.configured:
     settings.configure(
-        INSTALLED_APPS=["icanhaz"],
+        INSTALLED_APPS=["mustachejs"],
         DATABASES={"default": {"ENGINE": "django.db.backends.sqlite3"}})
 
 
 def runtests(*test_args):
     if not test_args:
-        test_args = ["icanhaz"]
+        test_args = ["mustachejs"]
 
     parent = os.path.dirname(os.path.abspath(__file__))
     sys.path.insert(0, parent)

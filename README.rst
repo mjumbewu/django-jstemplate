@@ -1,11 +1,13 @@
-==============
-django-icanhaz
-==============
+=================
+django-mustachejs
+=================
 
-A templatetag for easier integration of `ICanHaz.js`_ JavaScript templates with
-Django templates.
+A templatetag for easier integration of `mustache.js`_ JavaScript templates with
+Django templates.  Inspired by `ICanHaz.js`_ and `jquery.mustache`_.
 
-.. _ICanHaz.js: http://icanhazjs.com
+.. _mustache.js: http://mustache.github.com/
+.. _ICanHaz.js: http://icanhazjs.com/
+.. _jquery.mustache: https://github.com/AF83/jquery.mustache
 
 Quickstart
 ==========
@@ -24,31 +26,34 @@ Installation
 
 Install from PyPI with ``pip``::
 
-    pip install django-icanhaz
+    pip install django-mustachejs
 
 or get the `in-development version`_::
 
-    pip install django-icanhaz==dev
+    pip install django-mustachejs==dev
 
-.. _in-development version: https://github.com/carljm/django-icanhaz/tarball/master#egg=django_secure-dev
+.. _in-development version: https://github.com/mjumbewu/django-mustache/tarball/master#egg=mustache
 
 Usage
 -----
 
-* Add ``"icanhaz"`` to your ``INSTALLED_APPS`` setting.
+* Add ``"mustachejs"`` to your ``INSTALLED_APPS`` setting.
 
-* Set the ``ICANHAZ_DIRS`` setting to a list of full (absolute) path to
+* Set the ``MUSTACHEJS_DIRS`` setting to a list of full (absolute) path to
   directories where you will store your ICanHaz templates.
 
-* ``{% load icanhaz %}`` and use ``{% icanhaz "templatename" %}`` in your
-  Django templates to safely embed the ICanHaz.js template at
-  ``<ICANHAZ_DIRS-entry>/templatename.html`` into your Django template,
-  automatically wrapped in ``<script id="templatename" type="text/html">``,
-  ready for ``ich.templatename({...})`` in your JavaScript.
+* ``{% load mustachejs %}`` and use ``{% mustachejs "templatename" %}`` in your
+  Django templates to safely embed the mustache.js template at
+  ``<MUSTACHEJS_DIRS-entry>/templatename.html`` into your Django template.  It
+  will be stored in the ``Mustache.TEMPLATES`` object as a string, accessible
+  as ``Mustache.TEMPLATES.templatename``.
 
-``django-icanhaz`` does not bundle `ICanHaz.js`_ or provide any JavaScript
-utilities; it just helps you easily embed the templates in your HTML. Include
-`ICanHaz.js`_ in your project's static assets and use it in your JS as usual.
+* In your JavaScript, use
+  ``Mustache.to_html(Mustache.TEMPLATES.templatename, {...}, Mustache.TEMPLATES)``
+  to render your mustache template.  Alternatively, if you include the
+  ``django.mustache.js`` script in your HTML, you can use
+  ``Mustache.template('templatename').render({...})`` to render your mustache
+  template.
 
 
 Advanced usage

@@ -16,7 +16,7 @@ class BaseFinder(object):
 class FilesystemFinder(BaseFinder):
     @property
     def directories(self):
-        return conf.ICANHAZ_DIRS
+        return conf.MUSTACHEJS_DIRS
 
 
     def find(self, name):
@@ -41,7 +41,7 @@ def _get_app_template_dirs():
         except ImportError, e:
             raise ImproperlyConfigured("ImportError %s: %s" % (app, e.args[0]))
         app_dir = os.path.dirname(mod.__file__)
-        for dirname in conf.ICANHAZ_APP_DIRNAMES:
+        for dirname in conf.MUSTACHEJS_APP_DIRNAMES:
             template_dir = os.path.join(app_dir, dirname)
             if os.path.isdir(template_dir):
                 ret.append(template_dir.decode(fs_encoding))
