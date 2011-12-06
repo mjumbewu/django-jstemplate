@@ -1,5 +1,4 @@
 (function(Mustache) {
-
     var CachedTemplate = function(template) {
         this.template = template;
     };
@@ -23,7 +22,7 @@
     */
     Mustache.template = function(name) {
         var template = Mustache.TEMPLATES[name];
-        return new CachedTemplate(template)
+        return new CachedTemplate(template);
     };
 
 })(Mustache);
