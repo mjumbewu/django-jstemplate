@@ -19,13 +19,13 @@ class MustacheJSNode(template.Node):
 
         try:
             filepath = find(name)
-            fp = open(filepath, "r")
-            output = fp.read()
+
+            with open(filepath, "r") as fp:
+                output = fp.read()
 
             output = output.replace('\\', r'\\')
             output = output.replace('\n', r'\n')
             output = output.replace("'", r"\'")
-            fp.close()
 
             output = ("<script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};"
                       + "Mustache.TEMPLATES['{0}']='".format(name)
