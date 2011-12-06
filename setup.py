@@ -22,9 +22,9 @@ setup(
     version=get_version(),
     description="A Django template tag for embedding Mustache.js templates safely.",
     long_description=long_description,
-    author="Carl Meyer",
-    author_email="carl@oddbird.net",
-    url="https://github.com/carljm/django-mustachejs/",
+    author="Mjumbe Wawatu Ukweli",
+    author_email="mjumbewu@gmail.com",
+    url="https://github.com/mjumbewu/django-mustachejs/",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",
