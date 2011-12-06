@@ -28,7 +28,7 @@ class MustacheJSNode(template.Node):
             fp.close()
 
             output = ("<script>Mustache.TEMPLATES['{0}']='".format(name)
-                      + output + "'</script>\n")
+                      + output + "';</script>\n")
         except (IOError, MustacheJSTemplateNotFound):
             output = ""
             if conf.DEBUG:

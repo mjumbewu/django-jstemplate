@@ -22,9 +22,9 @@ class TemplateTagTest(TestCase):
 
         self.assertEqual(
             res,
-             "<script>Mustache.TEMPLATES['testtemplate']='"
-            r"<p>Mustache\'s template full of {{ foo }} and \\.</p>\n"
-             "'</script>\n")
+             "<script>Mustache.TEMPLATES['testtemplate']="
+            r"'<p>Mustache\'s template full of {{ foo }} and \\.</p>\n';"
+             "</script>\n")
 
 
     @override_settings(MUSTACHEJS_DIRS=[DIR])
@@ -35,9 +35,9 @@ class TemplateTagTest(TestCase):
 
         self.assertEqual(
             res,
-             "<script>Mustache.TEMPLATES['testtemplate']='"
-            r"<p>Mustache\'s template full of {{ foo }} and \\.</p>\n"
-             "'</script>\n")
+             "<script>Mustache.TEMPLATES['testtemplate']="
+            r"'<p>Mustache\'s template full of {{ foo }} and \\.</p>\n';"
+             "</script>\n")
 
 
     @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=False)
