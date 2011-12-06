@@ -1,21 +1,24 @@
 (function(Mustache) {
     var CachedTemplate = function(template) {
-        this.template = template;
-    };
+        var self = this;
 
-    CachedTemplate.prototype = {
+        /*
+          The text of the template.
+        */
+        self.template = template;
+
         /*
           Turns this template into HTML using the given view data.
         */
-        render: function(view, partials, send_fun) {
+        self.render = function(view, partials, send_fun) {
 
             // Use either the parials specified, or the entire set of templates
             // stored in Mustache.TEMPLATES
             partials = partials || Mustache.TEMPLATES;
 
-            return Mustache.to_html(this.template, view, partials, send_fun);
-        }
-    }
+            return Mustache.to_html(self.template, view, partials, send_fun);
+        };
+    };
 
     /*
       Creates a new Template object.
