@@ -1,4 +1,4 @@
-django-icnahaz Copyright (c) 2011, Carl Meyer
+django-icanhaz Copyright (c) 2011, Carl Meyer
 django-mustachejs Copyright (c) 2011, Mjumbe Poe
 All rights reserved.
 
