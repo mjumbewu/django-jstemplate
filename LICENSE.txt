@@ -1,4 +1,5 @@
-Copyright (c) 2011, Carl Meyer
+django-icnahaz Copyright (c) 2011, Carl Meyer
+django-mustachejs Copyright (c) 2011, Mjumbe Poe
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
