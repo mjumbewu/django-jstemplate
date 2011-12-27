@@ -26,6 +26,7 @@ setup(
     author_email="mjumbewu@gmail.com",
     url="https://github.com/mjumbewu/django-mustachejs/",
     packages=find_packages(),
+    package_data={'mustachejs': ['static/mustache/js/*.js']},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Web Environment",
