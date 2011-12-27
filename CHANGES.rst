@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+0.3.3
+------------------
+
+* Add a package_data value to the setup call
+
+
 0.3.2
 ------------------
 
