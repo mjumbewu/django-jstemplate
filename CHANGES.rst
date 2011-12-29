@@ -1,7 +1,7 @@
 CHANGES
 =======
 
-0.3.4
+0.4.0
 ------------------
 
 * Add the MUSTACHEJS_EXTS configuration variable for specifying the extensions
