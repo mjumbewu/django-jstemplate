@@ -34,7 +34,7 @@ or get the `in-development version`_::
 
     pip install django-mustachejs==dev
 
-.. _in-development version: https://github.com/mjumbewu/django-mustache/tarball/master#egg=mustache
+.. _in-development version: https://github.com/mjumbewu/django-mustachejs/tarball/develop#egg=mustachejs
 
 Usage
 -----
@@ -102,7 +102,7 @@ I prefer to keep my JavaScript templates in separate files in a dedicated
 directory anyway, to avoid confusion between server-side and client-side
 templating. So my contribution to the array of solutions is essentially just an
 "include" tag that avoids parsing the included file as a Django template (and
-for convenience, automatically wraps it in the script tag that `mustache.js`_
+for convenience, automatically wraps it in the script tag that `ICanHaz.js`_
 expects to find it in).
 
 Enjoy!
