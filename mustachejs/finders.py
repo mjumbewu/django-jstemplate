@@ -20,7 +20,7 @@ class FilesystemFinder(BaseFinder):
 
     @property
     def extensions(self):
-        return ('mustache', 'html')
+        return conf.MUSTACHEJS_EXTS
 
 
     def find(self, name):

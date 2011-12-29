@@ -43,6 +43,13 @@ class FilesystemFinderTest(TestCase):
             ["/one/path", "/another/path"])
 
 
+    @override_settings(MUSTACHEJS_EXTS=["thtml"])
+    def test_extensions(self):
+        self.assertEqual(
+            self.finder.extensions,
+            ["thtml"])
+
+
     @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
     def test_find_html_file(self):
         self.assertEqual(
