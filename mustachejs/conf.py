@@ -23,5 +23,6 @@ conf = Configuration(
         "mustachejs.finders.AppFinder",
         ],
     MUSTACHEJS_DIRS=[],
+    MUSTACHEJS_EXTS=["mustache", "html"],
     MUSTACHEJS_APP_DIRNAMES=["jstemplates"],
     )

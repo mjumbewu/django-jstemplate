@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+0.3.4
+------------------
+
+* Add the MUSTACHEJS_EXTS configuration variable for specifying the extensions
+  allowed for template files located by the FilesystemFinder (and, by extension,
+  the AppFinder).
+
+
 0.3.3
 ------------------
 

@@ -18,15 +18,20 @@ class FilesystemFinder(BaseFinder):
     def directories(self):
         return conf.MUSTACHEJS_DIRS
 
+    @property
+    def extensions(self):
+        return conf.MUSTACHEJS_EXTS
+
 
     def find(self, name):
         for directory in self.directories:
-            filepath = os.path.abspath(os.path.join(
-                directory,
-                name + ".html"))
+            for extension in self.extensions:
+                filepath = os.path.abspath(os.path.join(
+                    directory,
+                    name + "." + extension))
 
-            if filepath.startswith(directory) and os.path.exists(filepath):
-                return filepath
+                if filepath.startswith(directory) and os.path.exists(filepath):
+                    return filepath
 
         return None
 

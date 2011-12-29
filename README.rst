@@ -42,7 +42,12 @@ Usage
 * Add ``"mustachejs"`` to your ``INSTALLED_APPS`` setting.
 
 * Set the ``MUSTACHEJS_DIRS`` setting to a list of full (absolute) path to
-  directories where you will store your mustache templates.
+  directories where you will store your mustache templates.  By default this is
+  set to a directory named ``jstemplates``.
+
+* Set the ``MUSTACHEJS_EXTS`` setting to a list of the app should search for
+  to find template files.  By default this is set to ``['mustache', 'html']``.
+  Order matters (e.g., ``*.mustache`` will take precedence over ``*.html``).
 
 * ``{% load mustachejs %}`` and use ``{% mustachejs "templatename" %}`` in your
   Django templates to safely embed the mustache.js template at

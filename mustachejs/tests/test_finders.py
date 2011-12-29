@@ -43,11 +43,34 @@ class FilesystemFinderTest(TestCase):
             ["/one/path", "/another/path"])
 
 
+    @override_settings(MUSTACHEJS_EXTS=["thtml"])
+    def test_extensions(self):
+        self.assertEqual(
+            self.finder.extensions,
+            ["thtml"])
+
+
     @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
-    def test_find(self):
+    def test_find_html_file(self):
         self.assertEqual(
             self.finder.find("testtemplate"),
             os.path.join(here, "templates", "testtemplate.html"))
+
+
+    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    def test_find_mustache_file(self):
+        # This will not only demonstrate that it finds .mustache files, but also
+        # that .mustache files take precedence over .html files.
+        self.assertEqual(
+            self.finder.find("othertesttemplate"),
+            os.path.join(here, "templates", "othertesttemplate.mustache"))
+
+
+    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    def test_mustache_file_takes_precedence_over_html(self):
+        self.assertEqual(
+            self.finder.find("bothtesttemplate"),
+            os.path.join(here, "templates", "bothtesttemplate.mustache"))
 
 
     @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
