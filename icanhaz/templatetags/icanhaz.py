@@ -20,7 +20,7 @@ class ICanHazNode(template.Node):
         try:
             filepath = find(name)
             fp = open(filepath, "r")
-            output = fp.read()
+            output = fp.read().decode(conf.FILE_CHARSET)
             fp.close()
             output = ('<script id="%s" type="text/html">\n'
                       % name) + output + "\n</script>\n"
