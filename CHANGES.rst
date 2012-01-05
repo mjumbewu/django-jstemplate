@@ -4,6 +4,9 @@ CHANGES
 0.2.0 (2011.06.26)
 ------------------
 
+* Fixed template reading to explicitly decode template file contents using
+  Django's ``FILE_CHARSET`` setting. Thanks Eduardo.
+
 * Fixed template-finding failure with non-normalized directories in
   ``ICANHAZ_DIRS``. Thanks Eduardo for report and patch.
 
