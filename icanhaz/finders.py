@@ -25,7 +25,7 @@ class FilesystemFinder(BaseFinder):
                 directory,
                 name + ".html"))
 
-            if filepath.startswith(directory) and os.path.exists(filepath):
+            if filepath.startswith(os.path.normpath(directory)) and os.path.exists(filepath):
                 return filepath
 
         return None
