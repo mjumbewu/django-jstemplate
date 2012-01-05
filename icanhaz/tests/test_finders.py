@@ -50,6 +50,14 @@ class FilesystemFinderTest(TestCase):
             os.path.join(here, "templates", "testtemplate.html"))
 
 
+    @override_settings(
+        ICANHAZ_DIRS=[os.path.join(here, "..", "tests", "templates")])
+    def test_find_non_normalized_dir(self):
+        self.assertEqual(
+            self.finder.find("testtemplate"),
+            os.path.join(here, "templates", "testtemplate.html"))
+
+
     @override_settings(ICANHAZ_DIRS=[os.path.join(here, "templates")])
     def test_find_non_existing(self):
         self.assertEqual(self.finder.find("doesntexist"), None)
