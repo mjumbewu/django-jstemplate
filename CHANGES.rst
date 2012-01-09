@@ -1,8 +1,8 @@
 CHANGES
 =======
 
-tip (unreleased)
-----------------
+0.2.1 (2012.01.09)
+------------------
 
 * Fixed template reading to explicitly decode template file contents using
   Django's ``FILE_CHARSET`` setting. Thanks Eduard Iskandarov.
