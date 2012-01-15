@@ -1,6 +1,16 @@
 CHANGES
 =======
 
+0.4.1 (2012.01.09)
+------------------
+
+* Fixed template reading to explicitly decode template file contents using
+  Django's ``FILE_CHARSET`` setting. Thanks Eduard Iskandarov.
+
+* Fixed template-finding failure with non-normalized directories in
+  ``MUSTACHEJS_DIRS``. Thanks Eduard Iskandarov for report and patch.
+
+
 0.4.0
 ------------------
 
