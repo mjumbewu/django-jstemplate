@@ -69,13 +69,13 @@ Usage
 An Example
 ----------
 
-  For example consider the files ``app/jstemplates/main.mustache``::
+For example consider the files ``app/jstemplates/main.mustache``::
 
     <div>
       <p>This is {{ name }}'s template</p>
     </div>
 
-  and ``app/templates/main.html``::
+and ``app/templates/main.html``::
 
     {% load mustachejs %}
 
@@ -117,22 +117,22 @@ An Example
 What's going on?
 ----------------
 
-  Any time you use the ``mustachejs`` template tag::
+Any time you use the ``mustachejs`` template tag::
 
     {% load mustachejs %}
     {% mustachejs "main" %}
 
-  django-mustachejs will generate the following::
+django-mustachejs will generate the following::
 
     <script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};Mustache.TEMPLATES['main']='<div>\n  <p>This is {{ name }}\'s template</p>\n</div>';</script>
 
-  This stores the text of the template in an attribute on the ``Mustache.TEMPLATES``
-  object (it will first create the object if it does not yet exist).  The
-  ``Mustache.template(...)`` function then creates an object with a ``render(...)`` method
-  that has a similar signature as ``Mustache.to_html(...)``, except without the template
-  name as the first parameter.  The ``render`` method will also use the set of templates
-  in ``Mustache.TEMPLATES`` as partials, allowing any template that django-mustachejs
-  knows about to be used as a template partial as well.
+This stores the text of the template in an attribute on the ``Mustache.TEMPLATES``
+object (it will first create the object if it does not yet exist).  The
+``Mustache.template(...)`` function then creates an object with a ``render(...)`` method
+that has a similar signature as ``Mustache.to_html(...)``, except without the template
+name as the first parameter.  The ``render`` method will also use the set of templates
+in ``Mustache.TEMPLATES`` as partials, allowing any template that django-mustachejs
+knows about to be used as a template partial as well.
 
 Advanced usage
 --------------
