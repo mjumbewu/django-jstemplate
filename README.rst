@@ -49,14 +49,14 @@ Usage
   to find template files.  By default this is set to ``['mustache', 'html']``.
   Order matters (e.g., ``*.mustache`` will take precedence over ``*.html``).
 
+* In your HTML header, include ``mustache/js/mustache-<version>.js``.  The
+  versions shipped with django-mustache are ``0.3.0`` and ``0.4.0-dev``.
+
 * ``{% load mustachejs %}`` and use ``{% mustachejs "templatename" %}`` in your
   Django templates to safely embed the mustache.js template at
   ``<MUSTACHEJS_DIRS-entry>/templatename.html`` into your Django template.  It
   will be stored in the ``Mustache.TEMPLATES`` object as a string, accessible
   as ``Mustache.TEMPLATES.templatename``.
-
-* In your HTML header, include ``mustache/js/mustache-<version>.js``.  The
-  versions shipped with django-mustache are ``0.3.0`` and ``0.4.0-dev``.
 
 * In your JavaScript, use
   ``Mustache.to_html(Mustache.TEMPLATES.templatename, {...}, Mustache.TEMPLATES)``
@@ -65,6 +65,74 @@ Usage
   ``Mustache.template('templatename').render({...})`` to render your mustache
   template.
 
+
+An Example
+----------
+
+  For example consider the files ``app/jstemplates/main.mustache``::
+
+    <div>
+      <p>This is {{ name }}'s template</p>
+    </div>
+
+  and ``app/templates/main.html``::
+
+    {% load mustachejs %}
+
+    <html>
+    <head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+
+      <script src="{{ STATIC_URL }}mustache/js/mustache-0.3.0.js"></script>
+      <script src="{{ STATIC_URL }}mustache/js/django.mustache.js"></script>
+    </head>
+
+    <body>
+      <div id="dynamic-area"></div>
+
+      {% mustachejs "main" %}
+
+      <script>
+        $(document).ready(function() {
+
+          var $area = $('#dynamic-area')
+            , template;
+
+          // Either render by accessing the TEMPLATES object 
+          // directly...
+
+          $area.html(Mustache.to_html(Mustache.TEMPLATES.main));
+
+          // ...or render by using a cached template object
+          // (requires django.mustache.js)
+
+          template = Mustache.template('main');
+          $area.html(template.render());
+
+        });
+      </script>
+    </body>
+    </html>
+
+What's going on?
+----------------
+
+  Any time you use the ``mustachejs`` template tag::
+
+    {% load mustachejs %}
+    {% mustachejs "main" %}
+
+  django-mustachejs will generate the following::
+
+    <script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};Mustache.TEMPLATES['main']='<div>\n  <p>This is {{ name }}\'s template</p>\n</div>';</script>
+
+  This stores the text of the template in an attribute on the ``Mustache.TEMPLATES``
+  object (it will first create the object if it does not yet exist).  The
+  ``Mustache.template(...)`` function then creates an object with a ``render(...)`` method
+  that has a similar signature as ``Mustache.to_html(...)``, except without the template
+  name as the first parameter.  The ``render`` method will also use the set of templates
+  in ``Mustache.TEMPLATES`` as partials, allowing any template that django-mustachejs
+  knows about to be used as a template partial as well.
 
 Advanced usage
 --------------
