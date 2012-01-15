@@ -21,7 +21,7 @@ class MustacheJSNode(template.Node):
             filepath = find(name)
 
             with open(filepath, "r") as fp:
-                output = fp.read()
+                output = fp.read().decode(conf.FILE_CHARSET)
 
             output = output.replace('\\', r'\\')
             output = output.replace('\n', r'\n')
