@@ -3,37 +3,25 @@ from django import template
 from ..conf import conf
 from ..loading import find, MustacheJSTemplateNotFound
 
+from mustacheraw import MustacheRaw
 
 
 register = template.Library()
 
 
 
-class MustacheJSNode(template.Node):
-    def __init__(self, name):
-        self.name = template.Variable(name)
-
-
+class MustacheJSNode(MustacheRaw):
     def render(self, context):
         name = self.name.resolve(context)
 
-        try:
-            filepath = find(name)
-
-            with open(filepath, "r") as fp:
-                output = fp.read().decode(conf.FILE_CHARSET)
-
-            output = output.replace('\\', r'\\')
-            output = output.replace('\n', r'\n')
-            output = output.replace("'", r"\'")
-
-            output = ("<script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};"
-                      + "Mustache.TEMPLATES['{0}']='".format(name)
-                      + output + "';</script>")
-        except (IOError, MustacheJSTemplateNotFound):
-            output = ""
-            if conf.DEBUG:
-                raise
+        output = MustacheRaw.render(self, context)
+        output = output.replace('\\', r'\\')
+        output = output.replace('\n', r'\n')
+        output = output.replace("'", r"\'")
+        
+        output = ("<script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};"
+                    + "Mustache.TEMPLATES['{0}']='".format(name)
+                    + output + "';</script>")
 
         return output
 
