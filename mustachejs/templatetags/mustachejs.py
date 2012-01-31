@@ -4,9 +4,14 @@ from ..conf import conf
 from ..loading import find, MustacheJSTemplateNotFound
 
 from .base import BaseMustacheNode
+from .mustacheraw import mustacheraw
+from .mustacheich import mustacheich
 
 
 register = template.Library()
+
+register.tag(mustacheraw)
+register.tag(mustacheich)
 
 
 
