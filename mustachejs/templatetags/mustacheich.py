@@ -13,7 +13,7 @@ register = template.Library()
 
 class MustacheICanHazNode(BaseMustacheNode):
     def generate_node_text(self, resolved_name, file_content):
-        output = ('<script id="{0}">'.format(resolved_name)
+        output = ('<script type="text/html" id="{0}">'.format(resolved_name)
                     + file_content + '</script>')
         return output
 

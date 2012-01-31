@@ -98,7 +98,7 @@ class ICHTemplateTagTest(TestCase):
 
         self.assertEqual(
             res,
-             '<script id="testtemplate">'
+             '<script type="text/html" id="testtemplate">'
              "<p>Mustache's template full of {{ foo }} and \\.</p>\n"
              '</script>')
 
@@ -111,7 +111,7 @@ class ICHTemplateTagTest(TestCase):
 
         self.assertEqual(
             res,
-             '<script id="testtemplate">'
+             '<script type="text/html" id="testtemplate">'
              "<p>Mustache's template full of {{ foo }} and \\.</p>\n"
              '</script>')
 
