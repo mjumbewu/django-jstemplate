@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+0.5.0
+------------------
+
+* Add ``mustacheraw`` tag to insert just the raw text of a mustacehe template.
+  Thanks to Greg Hinch.
+
+* Add ``mustacheich`` tag to insert a mustache script block as icanhaz expects.
+
 0.4.1 (2012.01.09)
 ------------------
 
