@@ -3,24 +3,22 @@ from django import template
 from ..conf import conf
 from ..loading import find, MustacheJSTemplateNotFound
 
-from mustacheraw import MustacheRaw
+from .base import BaseMustacheNode
 
 
 register = template.Library()
 
 
 
-class MustacheJSNode(MustacheRaw):
-    def render(self, context):
-        name = self.name.resolve(context)
-
-        output = MustacheRaw.render(self, context)
+class MustacheJSNode(BaseMustacheNode):
+    def generate_node_text(self, resolved_name, file_content):
+        output = file_content
         output = output.replace('\\', r'\\')
         output = output.replace('\n', r'\n')
         output = output.replace("'", r"\'")
-        
+
         output = ("<script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};"
-                    + "Mustache.TEMPLATES['{0}']='".format(name)
+                    + "Mustache.TEMPLATES['{0}']='".format(resolved_name)
                     + output + "';</script>")
 
         return output

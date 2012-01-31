@@ -3,32 +3,17 @@ from django import template
 from ..conf import conf
 from ..loading import find, MustacheJSTemplateNotFound
 
+from .base import BaseMustacheNode
+
 
 
 register = template.Library()
 
 
 
-class MustacheRaw(template.Node):
-    def __init__(self, name):
-        self.name = template.Variable(name)
-
-
-    def render(self, context):
-        name = self.name.resolve(context)
-
-        try:
-            filepath = find(name)
-
-            with open(filepath, "r") as fp:
-                output = fp.read().decode(conf.FILE_CHARSET)
-
-        except (IOError, MustacheJSTemplateNotFound):
-            output = ""
-            if conf.DEBUG:
-                raise
-
-        return output
+class MustacheRaw(BaseMustacheNode):
+    def generate_node_text(self, resolved_name, file_content):
+        return file_content
 
 
 
