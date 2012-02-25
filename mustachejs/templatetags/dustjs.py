@@ -4,15 +4,9 @@ from ..conf import conf
 from ..loading import find, MustacheJSTemplateNotFound
 
 from .base import BaseMustacheNode
-from .mustacheraw import mustacheraw
-from .mustacheich import mustacheich
 
 
 register = template.Library()
-
-register.tag(mustacheraw)
-register.tag(mustacheich)
-
 
 
 class DustJSNode(BaseMustacheNode):
@@ -22,14 +16,14 @@ class DustJSNode(BaseMustacheNode):
         output = output.replace('\n', r'\n')
         output = output.replace("'", r"\'")
 
-        output = """
-        <script type="text/javascript">
-        if (typeof(dust) !== 'undefined') {
-            compiled = dust.compile('%s', '%s')
-            dust.loadSource(compiled)
-        }
-        </script>
-        """ % (output, format(resolved_name))
+        output = (
+            '<script type="text/javascript">'
+            "if (typeof(dust) !== 'undefined') {"
+                "compiled = dust.compile('%s', '%s');"
+                "dust.loadSource(compiled);"
+            "}"
+            '</script>'
+        ) % (output, format(resolved_name))
         return output
 
 @register.tag
@@ -43,4 +37,3 @@ def dustjs(parser, token):
         raise template.TemplateSyntaxError(
             "'dustjs' tag takes one argument: the name/id of the template")
     return DustJSNode(bits[1])
-

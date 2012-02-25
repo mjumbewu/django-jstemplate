@@ -11,6 +11,7 @@ __all__ = [
     "JSTemplateTagTest",
     "RawTemplateTagTest",
     "ICHTemplateTagTest",
+    "DustTemplateTagTest",
 ]
 
 
@@ -130,14 +131,14 @@ class ICHTemplateTagTest(TestCase):
         from mustachejs.loading import MustacheJSTemplateNotFound
         with self.assertRaises(MustacheJSTemplateNotFound):
             Template(
-                "{% load mustachejs %}{% mustachejs 'notemplate' %}"
+                "{% load mustachejs %}{% mustacheich 'notemplate' %}"
                 ).render(Context())
 
 
     @override_settings(MUSTACHEJS_DIRS=[DIR])
     def test_no_break_out(self):
         res = Template(
-                "{% load mustachejs %}{% mustachejs '../outside_dir' %}"
+                "{% load mustachejs %}{% mustacheich '../outside_dir' %}"
                 ).render(Context())
 
         self.assertEqual(res, "")
@@ -146,7 +147,7 @@ class ICHTemplateTagTest(TestCase):
     @override_settings(MUSTACHEJS_DIRS=[DIR])
     def test_no_absolute(self):
         res = Template(
-                "{% load mustachejs %}{% mustachejs '/testtemplate' %}"
+                "{% load mustachejs %}{% mustacheich '/testtemplate' %}"
                 ).render(Context())
 
         self.assertEqual(res, "")
@@ -155,7 +156,83 @@ class ICHTemplateTagTest(TestCase):
     def test_bad_args(self):
         with self.assertRaises(TemplateSyntaxError):
             Template(
-                "{% load mustachejs %}{% mustachejs %}"
+                "{% load mustachejs %}{% mustacheich %}"
+                ).render(Context())
+
+
+class DustTemplateTagTest(TestCase):
+    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    def test_simple(self):
+        res = Template(
+            "{% load mustachejs %}{% dustjs 'testtemplate' %}"
+            ).render(Context())
+
+        self.assertEqual(
+            res,
+            '<script type="text/javascript">'
+            "if (typeof(dust) !== 'undefined') {"
+                "compiled = dust.compile('<p>Mustache\\'s template full of {{ foo }} and \\\\.</p>\\n', 'testtemplate');"
+                "dust.loadSource(compiled);"
+            "}"
+            '</script>')
+
+
+    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    def test_variable_template_name(self):
+        res = Template(
+            "{% load mustachejs %}{% dustjs templatename %}").render(
+            Context({"templatename": "testtemplate"}))
+
+        self.assertEqual(
+            res,
+            '<script type="text/javascript">'
+            "if (typeof(dust) !== 'undefined') {"
+                "compiled = dust.compile('<p>Mustache\\'s template full of {{ foo }} and \\\\.</p>\\n', 'testtemplate');"
+                "dust.loadSource(compiled);"
+            "}"
+            '</script>')
+
+
+    @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=False)
+    def test_no_template(self):
+        res = Template(
+            "{% load mustachejs %}{% dustjs 'notemplate' %}"
+            ).render(Context())
+
+        self.assertEqual(res, "")
+
+
+    @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=True)
+    def test_no_template_debug(self):
+        from mustachejs.loading import MustacheJSTemplateNotFound
+        with self.assertRaises(MustacheJSTemplateNotFound):
+            Template(
+                "{% load mustachejs %}{% dustjs 'notemplate' %}"
+                ).render(Context())
+
+
+    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    def test_no_break_out(self):
+        res = Template(
+                "{% load mustachejs %}{% dustjs '../outside_dir' %}"
+                ).render(Context())
+
+        self.assertEqual(res, "")
+
+
+    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    def test_no_absolute(self):
+        res = Template(
+                "{% load mustachejs %}{% dustjs '/testtemplate' %}"
+                ).render(Context())
+
+        self.assertEqual(res, "")
+
+
+    def test_bad_args(self):
+        with self.assertRaises(TemplateSyntaxError):
+            Template(
+                "{% load mustachejs %}{% dustjs %}"
                 ).render(Context())
 
 

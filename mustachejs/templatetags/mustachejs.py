@@ -6,12 +6,14 @@ from ..loading import find, MustacheJSTemplateNotFound
 from .base import BaseMustacheNode
 from .mustacheraw import mustacheraw
 from .mustacheich import mustacheich
+from .dustjs import dustjs
 
 
 register = template.Library()
 
 register.tag(mustacheraw)
 register.tag(mustacheich)
+register.tag(dustjs)
 
 
 
