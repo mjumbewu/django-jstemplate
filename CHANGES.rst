@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+0.6.0
+------------------
+
+* Add ``dustjs`` tag to insert a script block to create a compiled dustjs
+  template.  Thanks to `Gehan Gonsalkorale <https://github.com/gehan>`_.
+
 0.5.0
 ------------------
 
