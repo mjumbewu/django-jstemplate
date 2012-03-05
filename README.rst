@@ -177,3 +177,9 @@ Enjoy!
 
 .. _one solution: https://gist.github.com/975505
 .. _another: https://gist.github.com/629508
+
+
+|build status|_
+
+.. |build status| image:: https://secure.travis-ci.org/mjumbewu/django-mustachejs.png 
+.. _build status: https://secure.travis-ci.org/mjumbewu/django-mustachejs
