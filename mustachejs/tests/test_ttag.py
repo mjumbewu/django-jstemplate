@@ -25,7 +25,7 @@ class BaseMustacheJSTagTestMixin (object):
     @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=False)
     def test_no_template(self):
         res = Template(
-            "{{% load mustachejs %}}{{% {} 'notemplate' %}}".format(self.tag_string)
+            "{{% load mustachejs %}}{{% {0} 'notemplate' %}}".format(self.tag_string)
             ).render(Context())
 
         self.assertEqual(res, "")
@@ -36,14 +36,14 @@ class BaseMustacheJSTagTestMixin (object):
         from mustachejs.loading import MustacheJSTemplateNotFound
         with self.assertRaises(MustacheJSTemplateNotFound):
             Template(
-                "{{% load mustachejs %}}{{% {} 'notemplate' %}}".format(self.tag_string)
+                "{{% load mustachejs %}}{{% {0} 'notemplate' %}}".format(self.tag_string)
                 ).render(Context())
 
 
     @override_settings(MUSTACHEJS_DIRS=[DIR])
     def test_no_break_out(self):
         res = Template(
-                "{{% load mustachejs %}}{{% {} '../outside_dir' %}}".format(self.tag_string)
+                "{{% load mustachejs %}}{{% {0} '../outside_dir' %}}".format(self.tag_string)
                 ).render(Context())
 
         self.assertEqual(res, "")
@@ -52,7 +52,7 @@ class BaseMustacheJSTagTestMixin (object):
     @override_settings(MUSTACHEJS_DIRS=[DIR])
     def test_no_absolute(self):
         res = Template(
-                "{{% load mustachejs %}}{{% {} '/testtemplate' %}}".format(self.tag_string)
+                "{{% load mustachejs %}}{{% {0} '/testtemplate' %}}".format(self.tag_string)
                 ).render(Context())
 
         self.assertEqual(res, "")
@@ -61,7 +61,7 @@ class BaseMustacheJSTagTestMixin (object):
     def test_bad_args(self):
         with self.assertRaises(TemplateSyntaxError):
             Template(
-                "{{% load mustachejs %}}{{% {} %}}".format(self.tag_string)
+                "{{% load mustachejs %}}{{% {0} %}}".format(self.tag_string)
                 ).render(Context())
 
 class JSTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
