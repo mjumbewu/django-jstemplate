@@ -2,6 +2,11 @@
 django-mustachejs
 =================
 
+|build status|_
+
+.. |build status| image:: https://secure.travis-ci.org/mjumbewu/django-mustachejs.png 
+.. _build status: https://secure.travis-ci.org/mjumbewu/django-mustachejs
+
 A templatetag for easier integration of `mustache.js`_ JavaScript templates with
 Django templates.  Inspired by `ICanHaz.js`_, `django-icanhaz`_, and
 `jquery.mustache`_.
@@ -178,8 +183,3 @@ Enjoy!
 .. _one solution: https://gist.github.com/975505
 .. _another: https://gist.github.com/629508
 
-
-|build status|_
-
-.. |build status| image:: https://secure.travis-ci.org/mjumbewu/django-mustachejs.png 
-.. _build status: https://secure.travis-ci.org/mjumbewu/django-mustachejs
