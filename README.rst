@@ -4,7 +4,7 @@ django-mustachejs
 
 |build status|_
 
-.. |build status| image:: https://secure.travis-ci.org/mjumbewu/django-mustachejs.png 
+.. |build status| image:: https://secure.travis-ci.org/mjumbewu/django-mustachejs.png
 .. _build status: https://secure.travis-ci.org/mjumbewu/django-mustachejs
 
 A templatetag for easier integration of `mustache.js`_ JavaScript templates with
@@ -103,7 +103,7 @@ and ``app/templates/main.html``::
           var $area = $('#dynamic-area')
             , template;
 
-          // Either render by accessing the TEMPLATES object 
+          // Either render by accessing the TEMPLATES object
           // directly...
 
           $area.html(Mustache.to_html(Mustache.TEMPLATES.main));
@@ -139,6 +139,18 @@ name as the first parameter.  The ``render`` method will also use the set of tem
 in ``Mustache.TEMPLATES`` as partials, allowing any template that django-mustachejs
 knows about to be used as a template partial as well.
 
+Regular Expressions in Template Tags
+------------------------------------
+
+Using the template tag ``{% mustachejs [directory] [regex] %}`` in your
+Django templates will embed all files matching that regex in the given
+directory.  So, ``{% mustachejs './' '.*_template' %}`` would match
+`note_template.html` and `comment_template.html`, giving them templatename
+`note_template` and `comment_template`, respectively.  (Note that the ".html"
+extension is assumed.  See the advanced usage section for how to customize
+this behavior).
+
+
 Advanced usage
 --------------
 
@@ -153,12 +165,33 @@ setting, which is a list of dotted paths to finder classes. A finder class
 should be instantiable with no arguments, and have a ``find(name)`` method
 which returns the full absolute path to a template file, given a base-name.
 
+Regex finding of templates can be fully controlled via the
+``MUSTACHEJS_REGEX_FINDERS`` setting.  A regex finder class should be
+instantiable with no arguments and have a ``find(dir, regex)`` method
+which takes in two strings (directory and regex) and returns a list of
+matches in the form `[(name, filepath)...]` where name is the id given
+to a template and filepath is a full absolute path to a template file.
+
 By default, ``MUSTACHEJS_FINDERS`` contains ``"mustachejs.finders.FilesystemFinder"``
 (which searches directories listed in ``MUSTACHEJS_DIRS``) and
 ``"mustachejs.finders.AppFinder"`` (which searches subdirectories named in
 ``MUSTACHEJS_APP_DIRNAMES`` of each app in ``INSTALLED_APPS``), in that order --
 thus templates found in ``MUSTACHEJS_DIRS`` take precedence over templates in
 apps.
+
+By default, ``MUSTACHEJS_REGEX_FINDERS`` contains
+``"mustachejs.finders.FilesystemRegexFinder"` (which searches directories listed
+in ``MUSTACHEJS_DIRS``) and ``"mustachejs.finders.AppRegexFinder"`` (which searches
+subdirectories named in ``MUSTACHEJS_APP_DIRNAMES`` of each app in
+``INSTALLED_APPS``).  Precedence is unimportant, as all matching templates
+are added.  Further, django-mustachejs is bundled with two convenience scoping
+regex finders: ``mustachejs.finders.ScopedFilesystemRegexFinder`` and
+``mustachejs.finders.ScopedAppRegexFinder`` which each prepend a scope derived
+from the directory path given to each name: so, if
+``{% mustachejs './all/my/templates/' '.*_template' %}` matches
+`note_template.html` and `comment_template.html`, they will have names
+`all_my_templates_note_template` and `all_my_templates_comment_template`,
+respectively.
 
 
 Rationale (from `django-icanhaz`_)
@@ -182,4 +215,3 @@ Enjoy!
 
 .. _one solution: https://gist.github.com/975505
 .. _another: https://gist.github.com/629508
-

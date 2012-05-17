@@ -27,4 +27,8 @@ conf = Configuration(
     MUSTACHEJS_APP_DIRNAMES=["jstemplates"],
     MUSTACHEJS_I18N_TAGS=["_", "i18n"],
     MUSTACHEJS_PREPROCESSORS=['mustachejs.preprocessors.I18nPreprocessor'],
+    MUSTACHEJS_REGEX_FINDERS=[
+        "mustachejs.finders.FilesystemRegexFinder",
+        "mustachejs.finders.AppRegexFinder",
+        ],
     )
