@@ -1,25 +1,31 @@
 from django import template
 
 from ..conf import conf
-from ..loading import find, MustacheJSTemplateNotFound
-
+from ..loading import find, preprocess, MustacheJSTemplateNotFound
 
 
 register = template.Library()
 
 
-
 class BaseMustacheNode(template.Node):
+    preprocessors = conf.MUSTACHEJS_PREPROCESSORS
+
     def __init__(self, name):
         self.name = template.Variable(name)
 
+    def find_template_file(self, name):
+        return find(name)
+
+    def preprocess(self, content):
+        return preprocess(content)
 
     def render(self, context):
         resolved_name = self.name.resolve(context)
 
         try:
-            filepath = find(resolved_name)
+            filepath = self.find_template_file(resolved_name)
             content = self.read_template_file_contents(filepath)
+            content = self.preprocess(content)
             output = self.generate_node_text(resolved_name, content)
 
         except (IOError, MustacheJSTemplateNotFound):
@@ -31,7 +37,9 @@ class BaseMustacheNode(template.Node):
 
     def read_template_file_contents(self, filepath):
         with open(filepath, "r") as fp:
-            return fp.read().decode(conf.FILE_CHARSET)
+            template_text = fp.read().decode(conf.FILE_CHARSET)
+            template_text = self.preprocess(template_text)
+            return template_text
 
     def generate_node_text(self, resolved_name, file_content):
         raise NotImplementedError()

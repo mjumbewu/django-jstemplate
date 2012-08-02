@@ -1,7 +1,9 @@
+import mock
 import os.path
 
 from django.template import Template, Context, TemplateSyntaxError
 from django.test import TestCase
+from mock import patch
 
 from .utils import override_settings
 
@@ -63,6 +65,24 @@ class BaseMustacheJSTagTestMixin (object):
             Template(
                 "{{% load mustachejs %}}{{% {0} %}}".format(self.tag_string)
                 ).render(Context())
+
+    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    def test_calls_preprocessors(self):
+        from mustachejs.tests.mockpreprocessors import MockPreprocessor1
+        from mustachejs.tests.mockpreprocessors import MockPreprocessor2
+        p1 = MockPreprocessor1()
+        p2 = MockPreprocessor2()
+        p1.process = mock.Mock(return_value="duck")
+        p2.process = mock.Mock(return_value="duck")
+
+        with patch('mustachejs.loading.preprocessors', [p1,p2]):
+            res = Template(
+                      "{{% load mustachejs %}}{{% {0} '/testtemplate' %}}".format(self.tag_string)
+                      ).render(Context())
+
+            import pdb; pdb.set_trace()
+            self.assertEqual(p1.process.call_count, 1)
+            self.assertEqual(p2.process.call_count, 1)
 
 class JSTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
     tag_string = 'mustachejs'

@@ -14,11 +14,17 @@ def find(name):
     raise MustacheJSTemplateNotFound(name)
 
 
+def preprocess(content):
+    for preprocessor in preprocessors:
+        content = preprocessor.process(content)
 
-def _get_finders():
+    return content
+
+
+def _get_classes(dotted_paths):
     ret = []
-    for finder_path in conf.MUSTACHEJS_FINDERS:
-        modpath, cls_name = finder_path.rsplit(".", 1)
+    for path in dotted_paths:
+        modpath, cls_name = path.rsplit(".", 1)
         try:
             mod = import_module(modpath)
         except ImportError, e:
@@ -36,10 +42,17 @@ def _get_finders():
     return ret
 
 
+def _get_finders():
+    return _get_classes(conf.MUSTACHEJS_FINDERS)
+
+
+def _get_preprocessors():
+    return _get_classes(conf.MUSTACHEJS_PREPROCESSORS)
+
 
 # Instantiate finders
 finders = _get_finders()
-
+preprocessors = _get_preprocessors()
 
 
 class MustacheJSTemplateNotFound(Exception):

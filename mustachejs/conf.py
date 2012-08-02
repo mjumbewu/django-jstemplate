@@ -25,4 +25,6 @@ conf = Configuration(
     MUSTACHEJS_DIRS=[],
     MUSTACHEJS_EXTS=["mustache", "html"],
     MUSTACHEJS_APP_DIRNAMES=["jstemplates"],
+    MUSTACHEJS_I18N_TAGS=["_", "i18n"],
+    MUSTACHEJS_PREPROCESSORS=['mustachejs.preprocessors.I18nPreprocessor'],
     )
