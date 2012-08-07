@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+0.7.0
+------------------
+
+* Pulled in commit from django-icanhaz to load templates using regular
+  expressions.
+
+* Added preprocessing framework, and a preprocessor for i18n.
+
 0.6.0
 ------------------
 
