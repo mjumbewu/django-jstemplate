@@ -63,34 +63,6 @@ class BaseMustacheNode(template.Node):
         raise NotImplementedError()
 
 
-class BaseMustacheRegexNode(template.Node):
-    def __init__(self, dir, regex):
-        self.dir = template.Variable(dir)
-        self.regex = template.Variable(regex)
-
-
-    def render(self, context):
-        dir = self.dir.resolve(context)
-        regex = self.regex.resolve(context)
-
-        pairs = findAll(dir, regex)
-        result = ""
-
-        for (name, filepath) in pairs:
-            try:
-                fp = open(filepath, "r")
-                output = fp.read().decode(conf.FILE_CHARSET)
-                fp.close()
-                result += ('<script id="%s" type="text/html">\n'
-                           % name) + output + "\n</script>\n"
-            except IOError:
-                if conf.DEBUG:
-                    raise
-
-        return result
-
-
-
 @register.tag
 def mustacheraw(parser, token):
     """

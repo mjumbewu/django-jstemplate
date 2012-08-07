@@ -26,5 +26,7 @@ def mustacheraw(parser, token):
     bits = token.contents.split()
     if len(bits) not in [2, 3]:
         raise template.TemplateSyntaxError(
-            "'mustacheraw' tag takes one argument: the name/id of the template")
-    return MustacheRaw(bits[1])
+            "'mustacheraw' tag takes either (1) one argument: the name/id of "
+            "the template, or (2)  two arguments: the name of a subdirectory "
+            "to search and a regular expression of files to search for")
+    return MustacheRaw(*bits[1:])

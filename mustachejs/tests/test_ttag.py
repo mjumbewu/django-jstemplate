@@ -34,6 +34,18 @@ class BaseMustacheJSTagTestMixin (object):
 
 
     @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=True)
+    def test_multiple_templates(self):
+        res = Template(
+            "{{% load mustachejs %}}{{% {0} '' 'many.*' %}}".format(self.tag_string)
+            ).render(Context())
+
+        import re
+        self.assertEqual(len(re.findall('Mustache #1', res)), 1)
+        self.assertEqual(len(re.findall('Mustache #2', res)), 1)
+        self.assertEqual(len(re.findall('Mustache #3', res)), 1)
+
+
+    @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=True)
     def test_no_template_debug(self):
         from mustachejs.loading import MustacheJSTemplateNotFound
         with self.assertRaises(MustacheJSTemplateNotFound):
@@ -66,23 +78,23 @@ class BaseMustacheJSTagTestMixin (object):
                 "{{% load mustachejs %}}{{% {0} %}}".format(self.tag_string)
                 ).render(Context())
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
-    def test_calls_preprocessors(self):
-        from mustachejs.tests.mockpreprocessors import MockPreprocessor1
-        from mustachejs.tests.mockpreprocessors import MockPreprocessor2
-        p1 = MockPreprocessor1()
-        p2 = MockPreprocessor2()
-        p1.process = mock.Mock(return_value="duck")
-        p2.process = mock.Mock(return_value="duck")
+#    @override_settings(MUSTACHEJS_DIRS=[DIR])
+#    def test_calls_preprocessors(self):
+#        from mustachejs.tests.mockpreprocessors import MockPreprocessor1
+#        from mustachejs.tests.mockpreprocessors import MockPreprocessor2
+#        p1 = MockPreprocessor1()
+#        p2 = MockPreprocessor2()
+#        p1.process = mock.Mock(return_value="duck")
+#        p2.process = mock.Mock(return_value="duck")
 
-        with patch('mustachejs.loading.preprocessors', [p1,p2]):
-            res = Template(
-                      "{{% load mustachejs %}}{{% {0} '/testtemplate' %}}".format(self.tag_string)
-                      ).render(Context())
+#        with patch('mustachejs.loading.preprocessors', [p1,p2]):
+#            res = Template(
+#                      "{{% load mustachejs %}}{{% {0} '/testtemplate' %}}".format(self.tag_string)
+#                      ).render(Context())
 
-            import pdb; pdb.set_trace()
-            self.assertEqual(p1.process.call_count, 1)
-            self.assertEqual(p2.process.call_count, 1)
+#            import pdb; pdb.set_trace()
+#            self.assertEqual(p1.process.call_count, 1)
+#            self.assertEqual(p2.process.call_count, 1)
 
 class JSTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
     tag_string = 'mustachejs'

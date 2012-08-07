@@ -49,20 +49,19 @@ class FilesystemFinder(BaseFinder):
 class FilesystemRegexFinder(BaseRegexFinder):
     @property
     def directories(self):
-        return conf.ICANHAZ_DIRS
+        return conf.MUSTACHEJS_DIRS
 
 
-    def findAll(self, dir, regex):
+    def findAll(self, path, regex):
         result = []
 
         regex = re.compile("(" + regex + ").html")
         for directory in self.directories:
-            dirpath = os.path.abspath(os.path.join(directory, dir))
+            dirpath = os.path.abspath(os.path.join(directory, path))
             for file in os.listdir(dirpath):
                 if not os.path.isdir(file):
                     match = regex.match(file)
                     if match is not None:
-                        print match.groups()[0]
                         result += [(match.groups()[0], os.path.join(dirpath, file))]
 
         return result
