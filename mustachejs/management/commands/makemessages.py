@@ -42,7 +42,7 @@ def templatize(src, origin=None):
             # Build a string that looks like a Python file that's ready to be
             # translated.
             translatable = '\n'.join(['_(r"{0}")'.format(
-                string.replace('"', r'\"')) for string in strings
+                string.replace('"', r'\"')).replace('\n', '"\n"') for string in strings
             ])
 
             return translatable

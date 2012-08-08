@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-08 00:48-0500\n"
+"POT-Creation-Date: 2012-08-08 15:28-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,4 +23,12 @@ msgstr ""
 
 #: project/jstemplates/my-template.html:1
 msgid "it's Mustache's turn to do i18n"
+msgstr ""
+
+#: project/jstemplates/my-template.html:2
+msgid "this is a <b>string</b> with <i>tags</i>"
+msgstr ""
+
+#: project/jstemplates/my-template.html:3
+msgid "this is a {{ string }} {{# with }} variables {{/ with }}"
 msgstr ""

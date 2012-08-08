@@ -75,3 +75,11 @@ class I18nTest (TestCase):
         )
 
         self.assertEqual(res, '<div>XXX Hello, {{name}}!</div>')
+
+    def test_string_with_newlines_translation(self):
+        translation.activate('fr')
+        res = I18nPreprocessor().process(
+            '<div>{{# _ }}Hello, \n{{name}}\n!{{/ _ }}</div>'
+        )
+
+        self.assertEqual(res, '<div>XXX Hello, \n{{name}}\n!</div>')

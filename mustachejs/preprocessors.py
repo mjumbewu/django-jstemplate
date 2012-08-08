@@ -22,4 +22,4 @@ class I18nPreprocessor(object):
         return ugettext(string) if len(string) > 0 else u''
 
     def process(self, content):
-        return re.sub(self.trans_re, self.translate, content)
+        return re.sub(self.trans_re, self.translate, content, flags=re.DOTALL)

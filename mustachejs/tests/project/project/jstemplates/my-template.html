@@ -1,4 +1,10 @@
-This is {% trans "Translated text, Django style" %}
-More {% blocktrans %}translated text in a block{% endblocktrans %}
-
 Now {{#_}}it's Mustache's turn to do i18n{{/_}}!
+
+Now, {{#_}}this is a <b>string</b> with <i>tags</i>{{/_}}.
+
+And, {{#_}}this is a {{ string }} {{# with }} variables {{/ with }}{{/_}}.
+
+{{#_}}Here is
+      a multi-line
+      string
+{{/_}}
