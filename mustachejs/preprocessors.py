@@ -14,7 +14,7 @@ class I18nPreprocessor(object):
         start_tag = r'\{\{#\s*(?:' + tagnames + r')\s*\}\}'
         end_tag = r'\{\{\/\s*(?:' + tagnames + r')\s*\}\}'
 
-        return start_tag + '(.*)' + end_tag
+        return start_tag + '(.*?)' + end_tag
 
     def translate(self, match):
         """Translate a result of matching the compiled trans_re pattern."""

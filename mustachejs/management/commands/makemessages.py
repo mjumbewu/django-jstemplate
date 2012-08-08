@@ -37,7 +37,7 @@ def templatize(src, origin=None):
 
             # Find all the translatable strings.
             processor = I18nPreprocessor()
-            strings = set(re.findall(processor.trans_re, content))
+            strings = set(re.findall(processor.trans_re, content, re.DOTALL))
 
             # Build a string that looks like a Python file that's ready to be
             # translated.
