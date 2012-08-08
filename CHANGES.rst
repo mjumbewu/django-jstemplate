@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+0.7.2
+------------------
+
+* Changed search pattern to be non-greedy.
+
 0.7.1
 ------------------
 
