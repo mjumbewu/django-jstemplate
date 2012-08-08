@@ -9,6 +9,8 @@ CHANGES
 
 * Added preprocessing framework, and a preprocessor for i18n.
 
+* Hijack the makemessages command to find js template messages as well.
+
 0.6.0
 ------------------
 

@@ -92,7 +92,6 @@ class BaseMustacheJSTagTestMixin (object):
 #                      "{{% load mustachejs %}}{{% {0} '/testtemplate' %}}".format(self.tag_string)
 #                      ).render(Context())
 
-#            import pdb; pdb.set_trace()
 #            self.assertEqual(p1.process.call_count, 1)
 #            self.assertEqual(p2.process.call_count, 1)
 

@@ -150,6 +150,22 @@ directory.  So, ``{% mustachejs './' '.*_template' %}`` would match
 extension is assumed.  See the advanced usage section for how to customize
 this behavior).
 
+Internationalization (i18n)
+---------------------------
+
+django-mustachejs supports internationalization tags.  In your settings module,
+set the ``MUSTACHEJS_I18N_TAGS`` variables (default: ``('_', 'i18n')``).  These
+tags can be used to preprocess the javascript templates into translatable
+content. For example::
+
+    <div>{{#_}}Hello, {{name}}.  I like your {{color}} {{thing}}?{{/_}}</div>
+
+may render to::
+
+    <div>Salut, {{name}}.  J'aime votre {{thing}} {{color}}?</div>
+
+The translatable strings will be picked up by Django's ``makemessages``
+management command.
 
 Advanced usage
 --------------
