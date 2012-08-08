@@ -39,10 +39,14 @@ def templatize(src, origin=None):
             processor = I18nPreprocessor()
             strings = set(re.findall(processor.trans_re, content, re.DOTALL))
 
+            def escape(s):
+                s = s.replace('\\', '\\\\')
+                s = s.replace('"', r'\"')
+                return s
+
             # Build a string that looks like a Python file that's ready to be
             # translated.
-            translatable = '\n'.join(['_(r"{0}")'.format(
-                string.replace('"', r'\"')).replace('\n', '"\n"') for string in strings
+            translatable = '\n'.join(['_("""{0}""")'.format(escape(string)) for string in strings
             ])
 
             return translatable
