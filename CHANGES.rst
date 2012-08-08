@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+0.7.3
+------------------
+
+* Correctly escaped translated strings.
+
 0.7.2
 ------------------
 
