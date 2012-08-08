@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+0.7.1
+------------------
+
+* Handle translation strings with new lines.
+
 0.7.0
 ------------------
 
