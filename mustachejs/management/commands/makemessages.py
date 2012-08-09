@@ -37,7 +37,8 @@ def templatize(src, origin=None):
 
             # Find all the translatable strings.
             processor = I18nPreprocessor()
-            strings = set(re.findall(processor.trans_re, content, re.DOTALL))
+            pattern = re.compile(processor.trans_re, flags=re.DOTALL)
+            strings = set(re.findall(pattern, content))
 
             def escape(s):
                 s = s.replace('\\', '\\\\')
@@ -48,7 +49,7 @@ def templatize(src, origin=None):
             # translated.
             translatable = '\n'.join(['_("""{0}""")'.format(escape(string)) for string in strings
             ])
-
+            print translatable
             return translatable
 
     # If the file isn't in one of our paths, then delegate to the original
