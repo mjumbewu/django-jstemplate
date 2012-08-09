@@ -22,4 +22,8 @@ class I18nPreprocessor(object):
         return ugettext(string) if len(string) > 0 else u''
 
     def process(self, content):
-        return re.sub(self.trans_re, self.translate, content, flags=re.DOTALL)
+        # TODO: cache the compiled regex.
+        # We need to compile here because re.sub doesn't accept a flags
+        # argument in python < 2.7, but re.compile does.
+        pattern = re.compile(self.trans_re, flags=re.DOTALL)
+        return re.sub(pattern, self.translate, content)
