@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+0.7.4
+------------------
+
+* Fix i18n preprocessor for python 2.6 compatibility
+
 0.7.3
 ------------------
 
