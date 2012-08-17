@@ -22,24 +22,20 @@ import os
 import re
 import sys
 
-from django.core.management.commands.makemessages import Command as I18nCommand
-from django.core.management.base import BaseCommand, CommandError
-from django.utils.text import get_text_list
-from django.utils.translation import templatize as orig_templatize
+from django.core.management.commands.makemessages \
+    import Command as BaseI18nCommand
+from django.utils.translation \
+    import templatize as base_templatize
 
-from mustachejs.loading import find, preprocess, MustacheJSTemplateNotFound
+from mustachejs.loading import find, preprocess
 from mustachejs.preprocessors import I18nPreprocessor
 
-class Command (I18nCommand):
-    help = 'Adds the translatable strings from the js templates to the messages'
+
+class Command (BaseI18nCommand):
+    help = ('Adds the translatable strings from the js templates to the '
+            'messages')
 
     def handle_noargs(self, *args, **options):
-        # Monkey-patch django.utils.translation.templatize to use the
-        # mustachejs version when dealing with a file that is in a mustachejs
-        # finder directory.
-        import django.utils.translation
-        django.utils.translation.templatize = templatize
-
         return super(Command, self).handle_noargs(*args, **options)
 
 
@@ -67,8 +63,8 @@ def templatize(src, origin=None):
 
             # Build a string that looks like a Python file that's ready to be
             # translated.
-            translatable = '\n'.join(['_("""{0}""")'.format(escape(string)) for string in strings
-            ])
+            translatable = '\n'.join(['_("""{0}""")'.format(escape(string))
+                                      for string in strings])
 
             return translatable
 
@@ -76,3 +72,14 @@ def templatize(src, origin=None):
     # method.
     else:
         return orig_templatize(src, origin)
+
+
+# ============================================================================
+#
+# Monkey-patch django.utils.translation.templatize to use the mustachejs
+# version when dealing with a file that is in a mustachejs finder directory.
+# Patch it globally so that any other commands that also patch the function
+# will inherit this functionality.
+
+import django.utils.translation
+django.utils.translation.templatize = templatize
