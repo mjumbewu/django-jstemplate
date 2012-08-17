@@ -28,7 +28,7 @@ setup(
     packages=find_packages(),
     package_data={'mustachejs': ['static/mustache/js/*.js']},
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
