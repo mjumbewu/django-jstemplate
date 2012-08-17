@@ -36,7 +36,7 @@ class BaseMustacheJSTagTestMixin (object):
     @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=True)
     def test_multiple_templates_with_regex(self):
         res = Template(
-            "{{% load mustachejs %}}{{% {0} '' 'many.*' %}}".format(self.tag_string)
+            "{{% load mustachejs %}}{{% {0} '(many.*)' %}}".format(self.tag_string)
             ).render(Context())
 
         import re

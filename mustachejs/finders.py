@@ -12,16 +12,6 @@ class BaseFinder(object):
         raise NotImplementedError()
 
 
-
-class BaseRegexFinder(object):
-    # Returns a list of (name, filepath) pairs
-    # from the given dir matching the given regex
-    def findAll(self, dir, regex):
-        raise NotImplementedError()
-
-
-
-
 class FilesystemFinder(BaseFinder):
     @property
     def directories(self):
@@ -70,7 +60,7 @@ class FilesystemFinder(BaseFinder):
                     matches[matchname] = absfilepath
 
 
-class FilesystemRegexFinder(BaseRegexFinder):
+class FilesystemRegexFinder(BaseFinder):
     @property
     def directories(self):
         return conf.MUSTACHEJS_DIRS
@@ -79,30 +69,26 @@ class FilesystemRegexFinder(BaseRegexFinder):
     def extensions(self):
         return conf.MUSTACHEJS_EXTS
 
-    def findAll(self, path, regex):
-        result = []
+    def find(self, name):
+        matches = {}
 
-        regex = re.compile("(" + regex + ").(?:" + '|'.join(self.extensions) + ")")
+        pattern = re.compile(name + ".(?:" + '|'.join(self.extensions) + ")")
+
+        # Bail if there are no capturing groups in the pattern
+        if pattern.groups == 0:
+            return []
+
         for directory in self.directories:
-            dirpath = os.path.abspath(os.path.join(directory, path))
-            for file in os.listdir(dirpath):
-                if not os.path.isdir(file):
-                    match = regex.match(file)
-                    if match is not None:
-                        result += [(match.groups()[0], os.path.join(dirpath, file))]
+            self._update_matches(matches, directory, pattern)
 
-        return result
+        return matches.items()
 
-
-
-# Convenience subclass to add directory scope to
-# the names of the files
-class ScopedFilesystemRegexFinder(FilesystemRegexFinder):
-    def findAll(self, dir, regex):
-        res = super(ScopedFilesystemRegexFinder, self).findAll(dir, regex)
-        dir = str(os.path.join(dir))
-        scope_list = [x for x in dir.split("/") if x is not "." and len(x) > 0]
-        return [("_".join(scope_list + [name]), dir) for (name, dir) in res]
+    def _update_matches(self, matches, directory, pattern):
+        for filename in os.listdir(directory):
+            if not os.path.isdir(filename):
+                match = pattern.match(filename)
+                if match is not None and match.group(1) not in matches:
+                    matches[match.group(1)] = os.path.join(directory, filename)
 
 
 
@@ -136,13 +122,6 @@ class AppFinder(FilesystemFinder):
 
 
 class AppRegexFinder(FilesystemRegexFinder):
-    @property
-    def directories(self):
-        return app_template_dirs
-
-
-
-class ScopedAppRegexFinder(ScopedFilesystemRegexFinder):
     @property
     def directories(self):
         return app_template_dirs

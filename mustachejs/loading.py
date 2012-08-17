@@ -41,15 +41,6 @@ def preprocess(content):
     return content
 
 
-def findAll(dir, regex):
-    result = []
-    for finder in regexfinders:
-        paths = finder.findAll(dir, regex)
-        if paths is not None:
-            result += paths
-    return result
-
-
 def _get_classes(dotted_paths):
     ret = []
     for path in dotted_paths:
@@ -75,17 +66,12 @@ def _get_finders():
     return _get_classes(conf.MUSTACHEJS_FINDERS)
 
 
-def _get_regexfinders():
-    return _get_classes(conf.MUSTACHEJS_REGEX_FINDERS)
-
-
 def _get_preprocessors():
     return _get_classes(conf.MUSTACHEJS_PREPROCESSORS)
 
 
 # Instantiate finders
 finders = _get_finders()
-regexfinders = _get_regexfinders()
 preprocessors = _get_preprocessors()
 
 

@@ -1,7 +1,7 @@
 from django import template
 
 from ..conf import conf
-from ..loading import find, findAll, preprocess, MustacheJSTemplateNotFound
+from ..loading import find, preprocess, MustacheJSTemplateNotFound
 
 
 register = template.Library()
@@ -10,41 +10,26 @@ register = template.Library()
 class BaseMustacheNode(template.Node):
     preprocessors = conf.MUSTACHEJS_PREPROCESSORS
 
-    def __init__(self, name_or_path, pattern=None):
-        if pattern is None:
-            self.name = template.Variable(name_or_path)
-        else:
-            self.path = template.Variable(name_or_path)
-            self.pattern = template.Variable(pattern)
+    def __init__(self, name):
+        self.name = template.Variable(name)
 
-    def find_template_matches(self, path):
-        return find(path)
+    def find_template_matches(self, name):
+        return find(name)
 
     def preprocess(self, content):
         return preprocess(content)
 
     def render(self, context):
-        # If this is a path and a patter, loop through and render all the files
-        # that match the pattern.
-        if hasattr(self, 'pattern'):
-            resolved_path = self.path.resolve(context)
-            pattern = self.pattern.resolve(context)
-            pairs = findAll(resolved_path, pattern)
-            return ''.join([self.render_file(context, name, filepath)
-                            for (name, filepath) in pairs])
+        name = self.name.resolve(context)
 
-        # If this is just a file name, render that file.
+        try:
+            matches = self.find_template_matches(name)
+        except MustacheJSTemplateNotFound:
+            if conf.DEBUG: raise
+            else: return ''
         else:
-            name = self.name.resolve(context)
-
-            try:
-                matches = self.find_template_matches(name)
-            except MustacheJSTemplateNotFound:
-                if conf.DEBUG: raise
-                else: return ''
-            else:
-                return ''.join([self.render_file(context, matchname, filepath)
-                                for (matchname, filepath) in matches])
+            return ''.join([self.render_file(context, matchname, filepath)
+                            for (matchname, filepath) in matches])
 
     def render_file(self, context, resolved_name, filepath):
         try:
