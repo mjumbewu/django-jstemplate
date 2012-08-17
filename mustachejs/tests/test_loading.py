@@ -21,14 +21,14 @@ class FindTest(TestCase):
 
     @patch("mustachejs.loading.finders", [MockFinder("/path/to/a/file.html")])
     def test_find(self):
-        self.assertEqual(self.func("file"), "/path/to/a/file.html")
+        self.assertEqual(self.func("file"), [("file", "/path/to/a/file.html")])
 
 
     @patch(
         "mustachejs.loading.finders",
         [MockFinder(), MockFinder("/path/to/a/file.html")])
     def test_find_fallback(self):
-        self.assertEqual(self.func("file"), "/path/to/a/file.html")
+        self.assertEqual(self.func("file"), [("file", "/path/to/a/file.html")])
 
 
     @patch("mustachejs.loading.finders", [MockFinder()])

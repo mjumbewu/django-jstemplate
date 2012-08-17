@@ -6,12 +6,32 @@ from .conf import conf
 
 
 def find(name):
-    for finder in finders:
-        filepath = finder.find(name)
-        if filepath is not None:
-            return filepath
+    all_matches = {}
 
-    raise MustacheJSTemplateNotFound(name)
+    for finder in finders:
+        matches = finder.find(name)
+
+        # <finder>.find may return a single string.  The name of the template
+        # will then be the name given to 'find'
+        if isinstance(matches, basestring):
+            filepath = matches
+            if name not in all_matches:
+                all_matches[name] = filepath
+
+        # None valus should be ignored
+        elif matches is None:
+            continue
+
+        # Otherwise, matches should be a list of (name, filepath) pairs
+        else:
+            for matchname, filepath in matches:
+                if matchname not in all_matches:
+                    all_matches[matchname] = filepath
+
+    if len(all_matches) == 0:
+        raise MustacheJSTemplateNotFound(name)
+
+    return all_matches.items()
 
 
 def preprocess(content):

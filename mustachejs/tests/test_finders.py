@@ -54,7 +54,7 @@ class FilesystemFinderTest(TestCase):
     def test_find_html_file(self):
         self.assertEqual(
             self.finder.find("testtemplate"),
-            os.path.join(here, "templates", "testtemplate.html"))
+            [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
 
 
     @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
@@ -63,14 +63,24 @@ class FilesystemFinderTest(TestCase):
         # that .mustache files take precedence over .html files.
         self.assertEqual(
             self.finder.find("othertesttemplate"),
-            os.path.join(here, "templates", "othertesttemplate.mustache"))
+            [("othertesttemplate", os.path.join(here, "templates", "othertesttemplate.mustache"))])
+
+
+    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    def test_find_many_files(self):
+        self.assertEqual(
+            set(self.finder.find("many*")),
+            set([("manytemplates1", os.path.join(here, "templates", "manytemplates1.html")),
+                 ("manytemplates2", os.path.join(here, "templates", "manytemplates2.mustache")),
+                 ("manytemplates3", os.path.join(here, "templates", "manytemplates3.html"))])
+        )
 
 
     @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
     def test_mustache_file_takes_precedence_over_html(self):
         self.assertEqual(
             self.finder.find("bothtesttemplate"),
-            os.path.join(here, "templates", "bothtesttemplate.mustache"))
+            [("bothtesttemplate", os.path.join(here, "templates", "bothtesttemplate.mustache"))])
 
 
     @override_settings(
@@ -78,12 +88,12 @@ class FilesystemFinderTest(TestCase):
     def test_find_non_normalized_dir(self):
         self.assertEqual(
             self.finder.find("testtemplate"),
-            os.path.join(here, "templates", "testtemplate.html"))
+            [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
 
 
     @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
     def test_find_non_existing(self):
-        self.assertEqual(self.finder.find("doesntexist"), None)
+        self.assertEqual(self.finder.find("doesntexist"), [])
 
 
 

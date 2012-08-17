@@ -17,7 +17,7 @@ class BaseMustacheNode(template.Node):
             self.path = template.Variable(name_or_path)
             self.pattern = template.Variable(pattern)
 
-    def find_template_file(self, path):
+    def find_template_matches(self, path):
         return find(path)
 
     def preprocess(self, content):
@@ -36,17 +36,23 @@ class BaseMustacheNode(template.Node):
         # If this is just a file name, render that file.
         else:
             name = self.name.resolve(context)
-            return self.render_file(context, name)
 
-    def render_file(self, context, resolved_name, filepath=None):
+            try:
+                matches = self.find_template_matches(name)
+            except MustacheJSTemplateNotFound:
+                if conf.DEBUG: raise
+                else: return ''
+            else:
+                return ''.join([self.render_file(context, matchname, filepath)
+                                for (matchname, filepath) in matches])
+
+    def render_file(self, context, resolved_name, filepath):
         try:
-            if filepath is None:
-                filepath = self.find_template_file(resolved_name)
             content = self.read_template_file_contents(filepath)
             content = self.preprocess(content)
             output = self.generate_node_text(resolved_name, content)
 
-        except (IOError, MustacheJSTemplateNotFound):
+        except IOError:
             output = ""
             if conf.DEBUG:
                 raise

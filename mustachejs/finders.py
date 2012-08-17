@@ -1,4 +1,4 @@
-import os, sys, re
+import glob, os, sys, re
 
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.importlib import import_module
@@ -31,19 +31,43 @@ class FilesystemFinder(BaseFinder):
     def extensions(self):
         return conf.MUSTACHEJS_EXTS
 
-
     def find(self, name):
+        matches = {}
+
         for directory in self.directories:
             for extension in self.extensions:
-                filepath = os.path.abspath(os.path.join(
-                    directory,
-                    name + "." + extension))
+                self._update_matches(matches, name, directory, extension)
 
-                if filepath.startswith(os.path.normpath(directory)) and os.path.exists(filepath):
-                    return filepath
+        return matches.items()
 
-        return None
+    def _update_matches(self, matches, pathspec, directory, extension):
+        """
+        Add names and paths corresponding to the given glob pattern (pathspec)
+        to the mapping (matches).  Do not override existing matching entries.
+        """
 
+        lenext = len(extension) + 1  # The +1 is for the '.'
+        lendir = len(directory)
+
+        # Catch the ending '/', if it's not already accounted for
+        if not directory.endswith(os.path.sep):
+            lendir += 1
+
+        normdir = os.path.normpath(directory)
+
+        pathname = os.path.join(directory, pathspec + "." + extension)
+        pathmatches = glob.glob(pathname)
+
+        for filepath in pathmatches:
+            # Remove the template directory name and the extension to
+            # get the template name
+            matchname = filepath[lendir:-lenext]
+
+            # Add matchname => filepath to the mapping.  Do not override.
+            if matchname not in matches:
+                absfilepath = os.path.abspath(filepath)
+                if absfilepath.startswith(normdir):
+                    matches[matchname] = absfilepath
 
 
 class FilesystemRegexFinder(BaseRegexFinder):
@@ -54,7 +78,6 @@ class FilesystemRegexFinder(BaseRegexFinder):
     @property
     def extensions(self):
         return conf.MUSTACHEJS_EXTS
-
 
     def findAll(self, path, regex):
         result = []

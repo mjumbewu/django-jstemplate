@@ -34,9 +34,21 @@ class BaseMustacheJSTagTestMixin (object):
 
 
     @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=True)
-    def test_multiple_templates(self):
+    def test_multiple_templates_with_regex(self):
         res = Template(
             "{{% load mustachejs %}}{{% {0} '' 'many.*' %}}".format(self.tag_string)
+            ).render(Context())
+
+        import re
+        self.assertEqual(len(re.findall('Mustache #1', res)), 1)
+        self.assertEqual(len(re.findall('Mustache #2', res)), 1)
+        self.assertEqual(len(re.findall('Mustache #3', res)), 1)
+
+
+    @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=True)
+    def test_multiple_templates_with_glob(self):
+        res = Template(
+            "{{% load mustachejs %}}{{% {0} 'many*' %}}".format(self.tag_string)
             ).render(Context())
 
         import re
