@@ -67,7 +67,7 @@ def templatize(src, origin=None):
             # translated.
             translatable = '\n'.join(['_("""{0}""")'.format(escape(string)) for string in strings
             ])
-            print translatable
+
             return translatable
 
     # If the file isn't in one of our paths, then delegate to the original

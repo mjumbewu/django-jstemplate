@@ -1,7 +1,12 @@
 CHANGES
 =======
 
-0.7.5
+0.8.1
+------------------
+
+* Fix makemessages to work with recent code updates
+
+0.8.0
 ------------------
 
 * Have the regex finder respect the MUSTACHEJS_EXTS setting
