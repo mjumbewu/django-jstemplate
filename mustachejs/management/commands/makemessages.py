@@ -1,3 +1,21 @@
+"""In order to avoid having to send our project's translation mapping to the
+client, we have built-in the ability to preprocess i18n tags in the mustache
+templates.
+
+There aren't any nice solutions here.  The code behind ``makemessages``
+unfortunately isn't extensible, so we can:
+
+  * Duplicate the command + code behind it.
+  * Offer a separate command for Mustache tag extraction.
+  * Try to get Django to offer hooks into makemessages().
+  * Monkey-patch.
+
+We are currently doing that last thing. It turns out there we are lucky
+for once: It's simply a matter of extending two regular expressions.
+Credit for the approach goes to:
+http://stackoverflow.com/questions/2090717/getting-translation-strings-for-jinja2-templates-integrated-with-django-1-x
+"""
+
 import os
 import re
 import sys
@@ -7,7 +25,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.utils.text import get_text_list
 from django.utils.translation import templatize as orig_templatize
 
-from mustachejs.loading import find, findAll, preprocess, MustacheJSTemplateNotFound
+from mustachejs.loading import find, preprocess, MustacheJSTemplateNotFound
 from mustachejs.preprocessors import I18nPreprocessor
 
 class Command (I18nCommand):
@@ -25,7 +43,7 @@ class Command (I18nCommand):
 
 def templatize(src, origin=None):
     # Get all the paths that we know about
-    paths = [os.path.abspath(path) for name, path in findAll('', '.*')]
+    paths = [os.path.abspath(path) for name, path in find('(.*)')]
 
     # Hijack the process if the file we're talking about is in one of the
     # finder paths.
