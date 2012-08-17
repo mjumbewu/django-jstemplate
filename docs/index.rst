@@ -255,4 +255,4 @@ Source
 
 The source for django-mustachejs is available on `GitHub`_
 
-..GitHub: http://github.com/mjumbewu/django-mustachejs/
+.. _GitHub: http://github.com/mjumbewu/django-mustachejs/
