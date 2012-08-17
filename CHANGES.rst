@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+0.7.5
+------------------
+
+* Have the regex finder respect the MUSTACHEJS_EXTS setting
+* Update normal file finders to use glob patterns
+
 0.7.4
 ------------------
 
