@@ -7,14 +7,9 @@
 django-mustachejs
 =================
 
-|build status|_
-
-.. |build status| image:: https://secure.travis-ci.org/mjumbewu/django-mustachejs.png
-.. _build status: https://secure.travis-ci.org/mjumbewu/django-mustachejs
-
-A templatetag for easier integration of `mustache.js`_ JavaScript templates with
-Django templates.  Inspired by `ICanHaz.js`_, `django-icanhaz`_, and
-`jquery.mustache`_.
+A templatetag framework for easier integration of `mustache.js`_ JavaScript
+templates with Django templates. Inspired by `ICanHaz.js`_, `django-icanhaz`_,
+and `jquery.mustache`_.
 
 .. _mustache.js: http://mustache.github.com/
 .. _django-icanhaz: http://github.com/carljm/django-icanhaz
@@ -51,16 +46,10 @@ Usage
 
 * Add ``"mustachejs"`` to your ``INSTALLED_APPS`` setting.
 
-* Set the ``MUSTACHEJS_DIRS`` setting to a list of full (absolute) path to
-  directories where you will store your mustache templates.  By default this is
-  set to a directory named ``jstemplates``.
-
-* Set the ``MUSTACHEJS_EXTS`` setting to a list of the app should search for
-  to find template files.  By default this is set to ``['mustache', 'html']``.
-  Order matters (e.g., ``*.mustache`` will take precedence over ``*.html``).
-
-* In your HTML header, include ``mustache/js/mustache-<version>.js``.  The
-  versions shipped with django-mustache are ``0.3.0`` and ``0.4.0-dev``.
+* In your HTML header, include your desired version of mustache.js.  This
+  application comes with two versions of the library available at
+  ``mustache/js/mustache-<version>.js``. The versions shipped with
+  django-mustache are ``0.3.0`` and ``0.4.0-dev``.
 
 * ``{% load mustachejs %}`` and use ``{% mustachejs "templatename" %}`` in your
   Django templates to safely embed the mustache.js template at
@@ -144,6 +133,18 @@ name as the first parameter.  The ``render`` method will also use the set of tem
 in ``Mustache.TEMPLATES`` as partials, allowing any template that django-mustachejs
 knows about to be used as a template partial as well.
 
+Flavors of Mustache
+-------------------
+
+In addition to ``{% mustachejs ... %}``, django-mustachejs comes with several
+template tags that you can use to render your mustache templates:
+
+* ``{% dustjs ... %}`` renders templates ready for consumption by dust.js
+* ``{% mustacheich ... %}`` renders templates ready for consumption by
+  ICanHaz.js
+* ``{% mustacheraw ... %}`` renders the raw contents of a mustache template,
+  after preprocessing
+
 Matching Multiple Template Files
 --------------------------------
 
@@ -157,8 +158,9 @@ matching that regex in the template directories. So, ``{% mustachejs
 expression pattern must contain parentheses denoting a single matching group;
 this group will become the name of the template).
 
+
 Internationalization (i18n)
----------------------------
+===========================
 
 django-mustachejs supports internationalization tags.  In your settings module,
 set the ``MUSTACHEJS_I18N_TAGS`` variables (default: ``('_', 'i18n')``).  These
@@ -174,14 +176,53 @@ may render to::
 The translatable strings will be picked up by Django's ``makemessages``
 management command.
 
-Advanced usage
---------------
 
-You can also bundle MustacheJS templates with Django reusable apps; by default
-``django-mustache`` will look for templates in a ``jstemplates`` subdirectory of
-each app in ``INSTALLED_APPS``. The app subdirectory name(s) to check can be
-configured via the ``MUSTACHEJS_APP_DIRNAMES`` setting, which defaults to
-``["jstemplates"]``.
+Settings
+========
+
+* Set ``MUSTACHEJS_FINDERS`` to configure the dotted class names of the finders
+  the application will use.  By default, this is the following list::
+
+    ["mustachejs.finders.FilesystemFinder",
+     "mustachejs.finders.AppFinder",
+     "mustachejs.finders.FilesystemRegexFinder",
+     "mustachejs.finders.AppRegexFinder",]
+
+* Set the ``MUSTACHEJS_DIRS`` setting to a list of full (absolute) path to
+  directories where you will store your mustache templates.  By default this is
+  an empty list.
+
+* Set ``MUSTACHEJS_APP_DIRNAMES`` to a list of directory names that can be
+  found under directories of applications specified in ``INSTALLED_APPS``.  By
+  default, this setting has the value of ``["jstemplates"]``.
+
+* Set the ``MUSTACHEJS_EXTS`` setting to a list of the app should search for
+  to find template files.  By default this is set to ``['mustache', 'html']``.
+  Order matters (e.g., ``*.mustache`` will take precedence over ``*.html``).
+
+* Set the ``MUSTACHEJS_PREPROCESSORS`` variable to control how the templates
+  are preprocessed.  By default, there is one preprocessor activated::
+
+    ['mustachejs.preprocessors.I18nPreprocessor']
+
+  The ``I18nPreprocessor`` will translate marked strings before rendering the
+  template.  To disable this feature, set ``MUSTACHEJS_PREPROCESSORS`` to an
+  empty list.
+
+* Set ``MUSTACHEJS_I18N_TAGS`` to the names of the tags used to mark strings
+  for internationalization.  By default, this is set to the list::
+
+    ["_", "i18n"]
+
+  Meaning that text falling between the tags ``{{#_}}...{{/_}}`` and
+  ``{{#i18n}}...{{/i18n}}`` will be marked for translation.
+
+
+Advanced usage
+==============
+
+Custom Finders
+--------------
 
 The finding of templates can be fully controlled via the ``MUSTACHEJS_FINDERS``
 setting, which is a list of dotted paths to finder classes. A finder class
@@ -200,32 +241,18 @@ thus templates found in ``MUSTACHEJS_DIRS`` take precedence over templates in
 apps, and templates identified by file glob patterns take precedence over those
 identified by regular expression patterns.
 
+Custom Flavors
+--------------
 
-Rationale (from `django-icanhaz`_)
-----------------------------------
+It is simple to extend django-mustachejs to prepare your mustache templates to
+be used with your favorite Javascript library creating a template node class
+that derives from ``mustachejs.templatetags.BaseMustacheNode``, and overriding
+a single function.  Refer to the existing tag definitions for ``mustachejs``,
+``mustacheich``, ``mustacheraw``, and ``dustjs`` for more information.
 
-The collision between Django templates' use of ``{{`` and ``}}`` as template
-variable markers and `mustache.js`_' use of same has spawned a variety of
-solutions. `One solution`_ simply replaces ``[[`` and ``]]`` with ``{{`` and
-``}}`` inside an ``mustachejs`` template tag; `another`_ makes a valiant attempt
-to reconstruct verbatim text within a chunk of a Django template after it has
-already been mangled by the Django template tokenizer.
+Source
+======
 
-I prefer to keep my JavaScript templates in separate files in a dedicated
-directory anyway, to avoid confusion between server-side and client-side
-templating. So my contribution to the array of solutions is essentially just an
-"include" tag that avoids parsing the included file as a Django template (and
-for convenience, automatically wraps it in the script tag that `ICanHaz.js`_
-expects to find it in).
+The source for django-mustachejs is available on `GitHub`_
 
-Enjoy!
-
-.. _one solution: https://gist.github.com/975505
-.. _another: https://gist.github.com/629508
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+..GitHub: http://github.com/mjumbewu/django-mustachejs/
