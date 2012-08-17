@@ -176,6 +176,28 @@ may render to::
 The translatable strings will be picked up by Django's ``makemessages``
 management command.
 
+Under the hood
+--------------
+
+In order to avoid having to send our project's translation mapping to the
+client, we have built-in the ability to preprocess i18n tags in the mustache
+templates.
+
+There aren't any nice solutions here.  The code behind ``makemessages``
+unfortunately isn't extensible, so we can:
+
+  * Duplicate the command + code behind it.
+  * Offer a separate command for Mustache tag extraction.
+  * Try to get Django to offer hooks into ``makemessages``.
+  * Monkey-patch.
+
+We are currently doing that last thing. In this case we override the
+``templatize`` method. ``templatize`` takes a template, extracts the
+translatable strings (along with desired metadata), and generates a file that
+xgettext knows how to parse, e.g. a file with Python syntax. We override this
+function to find Mustache-tagged strings if the file that we are templatizing is
+in one of the paths found by the active ``MUSTACHEJS_FINDERS``.
+
 
 Settings
 ========

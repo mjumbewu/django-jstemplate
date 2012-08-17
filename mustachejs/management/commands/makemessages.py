@@ -10,10 +10,12 @@ unfortunately isn't extensible, so we can:
   * Try to get Django to offer hooks into makemessages().
   * Monkey-patch.
 
-We are currently doing that last thing. It turns out there we are lucky
-for once: It's simply a matter of extending two regular expressions.
-Credit for the approach goes to:
-http://stackoverflow.com/questions/2090717/getting-translation-strings-for-jinja2-templates-integrated-with-django-1-x
+We are currently doing that last thing. In this case we override the templatize
+method.  Templatize takes a template, extracts the translatable strings (along
+with desired metadata), and generates a file that xgettext knows how to parse,
+e.g. a file with Python syntax.  We override this function to find
+Mustache-tagged strings if the file that we are templatizing is in one of the
+paths found by the active MUSTACHEJS_FINDERS.
 """
 
 import os
