@@ -51,11 +51,15 @@ class FilesystemRegexFinder(BaseRegexFinder):
     def directories(self):
         return conf.MUSTACHEJS_DIRS
 
+    @property
+    def extensions(self):
+        return conf.MUSTACHEJS_EXTS
+
 
     def findAll(self, path, regex):
         result = []
 
-        regex = re.compile("(" + regex + ").html")
+        regex = re.compile("(" + regex + ").(?:" + '|'.join(self.extensions) + ")")
         for directory in self.directories:
             dirpath = os.path.abspath(os.path.join(directory, path))
             for file in os.listdir(dirpath):
