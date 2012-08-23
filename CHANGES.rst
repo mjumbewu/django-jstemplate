@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+0.8.2
+------------------
+
+* Fix the FilesystemRegexFinder to match exactly the extensions specified in
+  the configuration, and no more
+
 0.8.1
 ------------------
 
