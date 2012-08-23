@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+0.8.3
+------------------
+
+* Fix incorrect identifier name in makemessages command
+
 0.8.2
 ------------------
 
