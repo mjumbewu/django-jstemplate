@@ -9,7 +9,8 @@ from .utils import override_settings
 
 
 
-__all__ = ["BaseFinderTest", "FilesystemFinderTest", "AppFinderTest"]
+__all__ = ["BaseFinderTest", "FilesystemFinderTest", "AppFinderTest",
+           "FilesystemRegexFinderTest"]
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -95,6 +96,48 @@ class FilesystemFinderTest(TestCase):
     def test_find_non_existing(self):
         self.assertEqual(self.finder.find("doesntexist"), [])
 
+
+class FilesystemRegexFinderTest(TestCase):
+    @property
+    def finder(self):
+        from mustachejs.finders import FilesystemRegexFinder
+        return FilesystemRegexFinder()
+
+
+    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    def test_find_file(self):
+        self.assertEqual(
+            self.finder.find("(test.*)"),
+            [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
+
+
+    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    def test_find_file(self):
+        self.assertEqual(
+            self.finder.find("(test.*)"),
+            [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
+
+
+    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    def test_requires_match_group(self):
+        self.assertEqual(
+            self.finder.find("test.*"), [])
+
+
+    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    def test_requires_exact_match_for_extensions(self):
+        self.assertEqual(
+            self.finder.find("(wrong_extension)"), [])
+
+
+    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    def test_find_many_files(self):
+        self.assertEqual(
+            set(self.finder.find("(many.*)")),
+            set([("manytemplates1", os.path.join(here, "templates", "manytemplates1.html")),
+                 ("manytemplates2", os.path.join(here, "templates", "manytemplates2.mustache")),
+                 ("manytemplates3", os.path.join(here, "templates", "manytemplates3.html"))])
+        )
 
 
 class AppFinderTest(TestCase):
