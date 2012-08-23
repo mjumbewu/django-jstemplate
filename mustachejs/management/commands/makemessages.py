@@ -71,7 +71,7 @@ def templatize(src, origin=None):
     # If the file isn't in one of our paths, then delegate to the original
     # method.
     else:
-        return orig_templatize(src, origin)
+        return base_templatize(src, origin)
 
 
 # ============================================================================
