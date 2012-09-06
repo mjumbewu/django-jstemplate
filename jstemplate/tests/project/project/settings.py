@@ -26,5 +26,5 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 INSTALLED_APPS = (
   'project',
-  'mustachejs'
+  'jstemplate'
 )
