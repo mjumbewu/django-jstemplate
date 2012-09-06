@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+1.0.1
+------------------
+
+* Simplify the template tag methods, and get rid of unused imports in the
+  template tag modules
+* Update project references in the docs
+
 1.0.0
 ------------------
 
