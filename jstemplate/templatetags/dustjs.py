@@ -1,15 +1,11 @@
 from django import template
-
-from ..conf import conf
-from ..loading import find, MustacheJSTemplateNotFound
-
-from .base import BaseMustacheNode
+from .base import BaseJSTemplateNode, jstemplate_tag_helper
 
 
 register = template.Library()
 
 
-class DustJSNode(BaseMustacheNode):
+class DustJSNode(BaseJSTemplateNode):
     def generate_node_text(self, resolved_name, file_content):
         output = file_content
         output = output.replace('\\', r'\\')
@@ -32,9 +28,5 @@ def dustjs(parser, token):
     Finds the DustJS template for the given name and compiles.
 
     """
-    bits = token.contents.split()
-    if len(bits) != 2:
-        raise template.TemplateSyntaxError(
-            "'dustjs' tag takes either one argument: the name/id of "
-            "the template, or a pattern matching a set of templates.")
-    return DustJSNode(*bits[1:])
+    return jstemplate_tag_helper('dustjs', DustJSNode,
+                                 parser, token)

@@ -27,8 +27,8 @@ from django.core.management.commands.makemessages \
 from django.utils.translation \
     import templatize as base_templatize
 
-from mustachejs.loading import find, preprocess
-from mustachejs.preprocessors import I18nPreprocessor
+from jstemplate.loading import find, preprocess
+from jstemplate.preprocessors import I18nPreprocessor
 
 
 class Command (BaseI18nCommand):

@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+1.0.0
+------------------
+
+* Rename project to "django-jstemplate" (from "django-mustachejs")
+* Rename the "mustacheraw" template tag to "rawjstemplate"
+* Rename the "mustacheich" template tag to "icanhazjs"
+
 0.8.3
 ------------------
 

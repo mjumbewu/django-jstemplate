@@ -5,7 +5,7 @@ from django.template import Template, Context, TemplateSyntaxError
 from django.test import TestCase
 from mock import patch
 
-from mustachejs.management.commands import makemessages
+from jstemplate.management.commands import makemessages
 
 from .utils import override_settings
 
@@ -13,7 +13,7 @@ DIR = os.path.join(os.path.dirname(__file__), "project", "project", "jstemplates
 
 class MonkeyPatchedTemplatizeTest (TestCase):
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_translateable_strings_are_discovered(self):
         filepath = os.path.join(DIR, 'my-template.html')
         result = makemessages.templatize(None, filepath)

@@ -2,7 +2,7 @@ import os.path
 
 from django.test import TestCase
 from django.utils import translation
-from mustachejs.preprocessors import I18nPreprocessor
+from jstemplate.preprocessors import I18nPreprocessor
 
 from .utils import override_settings
 
@@ -54,7 +54,7 @@ class I18nTest (TestCase):
 
         self.assertEqual(res, '<div></div>')
 
-    @override_settings(MUSTACHEJS_I18N_TAGS=['hello', 'world'])
+    @override_settings(JSTEMPLATE_I18N_TAGS=['hello', 'world'])
     def test_different_tagname(self):
         res = I18nPreprocessor().process(
             '<div>{{# hello }}{{name}}{{/ hello }}</div>'

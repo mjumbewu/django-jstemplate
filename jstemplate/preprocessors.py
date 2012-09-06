@@ -5,7 +5,7 @@ from .conf import conf
 class I18nPreprocessor(object):
     @property
     def tagnames(self):
-        return conf.MUSTACHEJS_I18N_TAGS
+        return conf.JSTEMPLATE_I18N_TAGS
 
     @property
     def trans_re(self):

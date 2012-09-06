@@ -10,7 +10,7 @@ from .utils import override_settings
 
 
 __all__ = [
-    "JSTemplateTagTest",
+    "MustacheJSTemplateTagTest",
     "RawTemplateTagTest",
     "ICHTemplateTagTest",
     "DustTemplateTagTest",
@@ -20,23 +20,23 @@ __all__ = [
 DIR = os.path.join(os.path.dirname(__file__), "templates")
 
 
-class BaseMustacheJSTagTestMixin (object):
+class BaseJSTemplateTagTestMixin (object):
     # The following should be true for all tag types.  Remember to define
     # tag_string for any derived test classes.
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=False)
+    @override_settings(JSTEMPLATE_DIRS=[DIR], DEBUG=False)
     def test_no_template(self):
         res = Template(
-            "{{% load mustachejs %}}{{% {0} 'notemplate' %}}".format(self.tag_string)
+            "{{% load jstemplate %}}{{% {0} 'notemplate' %}}".format(self.tag_string)
             ).render(Context())
 
         self.assertEqual(res, "")
 
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=True)
+    @override_settings(JSTEMPLATE_DIRS=[DIR], DEBUG=True)
     def test_multiple_templates_with_regex(self):
         res = Template(
-            "{{% load mustachejs %}}{{% {0} '(many.*)' %}}".format(self.tag_string)
+            "{{% load jstemplate %}}{{% {0} '(many.*)' %}}".format(self.tag_string)
             ).render(Context())
 
         import re
@@ -45,10 +45,10 @@ class BaseMustacheJSTagTestMixin (object):
         self.assertEqual(len(re.findall('Mustache #3', res)), 1)
 
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=True)
+    @override_settings(JSTEMPLATE_DIRS=[DIR], DEBUG=True)
     def test_multiple_templates_with_glob(self):
         res = Template(
-            "{{% load mustachejs %}}{{% {0} 'many*' %}}".format(self.tag_string)
+            "{{% load jstemplate %}}{{% {0} 'many*' %}}".format(self.tag_string)
             ).render(Context())
 
         import re
@@ -57,28 +57,28 @@ class BaseMustacheJSTagTestMixin (object):
         self.assertEqual(len(re.findall('Mustache #3', res)), 1)
 
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR], DEBUG=True)
+    @override_settings(JSTEMPLATE_DIRS=[DIR], DEBUG=True)
     def test_no_template_debug(self):
-        from mustachejs.loading import MustacheJSTemplateNotFound
-        with self.assertRaises(MustacheJSTemplateNotFound):
+        from jstemplate.loading import JSTemplateNotFound
+        with self.assertRaises(JSTemplateNotFound):
             Template(
-                "{{% load mustachejs %}}{{% {0} 'notemplate' %}}".format(self.tag_string)
+                "{{% load jstemplate %}}{{% {0} 'notemplate' %}}".format(self.tag_string)
                 ).render(Context())
 
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_no_break_out(self):
         res = Template(
-                "{{% load mustachejs %}}{{% {0} '../outside_dir' %}}".format(self.tag_string)
+                "{{% load jstemplate %}}{{% {0} '../outside_dir' %}}".format(self.tag_string)
                 ).render(Context())
 
         self.assertEqual(res, "")
 
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_no_absolute(self):
         res = Template(
-                "{{% load mustachejs %}}{{% {0} '/testtemplate' %}}".format(self.tag_string)
+                "{{% load jstemplate %}}{{% {0} '/testtemplate' %}}".format(self.tag_string)
                 ).render(Context())
 
         self.assertEqual(res, "")
@@ -87,33 +87,33 @@ class BaseMustacheJSTagTestMixin (object):
     def test_bad_args(self):
         with self.assertRaises(TemplateSyntaxError):
             Template(
-                "{{% load mustachejs %}}{{% {0} %}}".format(self.tag_string)
+                "{{% load jstemplate %}}{{% {0} %}}".format(self.tag_string)
                 ).render(Context())
 
-#    @override_settings(MUSTACHEJS_DIRS=[DIR])
+#    @override_settings(JSTEMPLATE_DIRS=[DIR])
 #    def test_calls_preprocessors(self):
-#        from mustachejs.tests.mockpreprocessors import MockPreprocessor1
-#        from mustachejs.tests.mockpreprocessors import MockPreprocessor2
+#        from jstemplate.tests.mockpreprocessors import MockPreprocessor1
+#        from jstemplate.tests.mockpreprocessors import MockPreprocessor2
 #        p1 = MockPreprocessor1()
 #        p2 = MockPreprocessor2()
 #        p1.process = mock.Mock(return_value="duck")
 #        p2.process = mock.Mock(return_value="duck")
 
-#        with patch('mustachejs.loading.preprocessors', [p1,p2]):
+#        with patch('jstemplate.loading.preprocessors', [p1,p2]):
 #            res = Template(
-#                      "{{% load mustachejs %}}{{% {0} '/testtemplate' %}}".format(self.tag_string)
+#                      "{{% load jstemplate %}}{{% {0} '/testtemplate' %}}".format(self.tag_string)
 #                      ).render(Context())
 
 #            self.assertEqual(p1.process.call_count, 1)
 #            self.assertEqual(p2.process.call_count, 1)
 
-class JSTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
+class MustacheJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
     tag_string = 'mustachejs'
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_simple(self):
         res = Template(
-            "{% load mustachejs %}{% mustachejs 'testtemplate' %}"
+            "{% load jstemplate %}{% mustachejs 'testtemplate' %}"
             ).render(Context())
 
         self.assertEqual(
@@ -124,10 +124,10 @@ class JSTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
              "</script>")
 
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_variable_template_name(self):
         res = Template(
-            "{% load mustachejs %}{% mustachejs templatename %}").render(
+            "{% load jstemplate %}{% mustachejs templatename %}").render(
             Context({"templatename": "testtemplate"}))
 
         self.assertEqual(
@@ -140,13 +140,13 @@ class JSTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
 
 
 
-class ICHTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
-    tag_string = 'mustacheich'
+class ICHTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
+    tag_string = 'icanhazjs'
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_simple(self):
         res = Template(
-            "{% load mustachejs %}{% mustacheich 'testtemplate' %}"
+            "{% load jstemplate %}{% icanhazjs 'testtemplate' %}"
             ).render(Context())
 
         self.assertEqual(
@@ -156,10 +156,10 @@ class ICHTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
              '</script>')
 
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_variable_template_name(self):
         res = Template(
-            "{% load mustachejs %}{% mustacheich templatename %}").render(
+            "{% load jstemplate %}{% icanhazjs templatename %}").render(
             Context({"templatename": "testtemplate"}))
 
         self.assertEqual(
@@ -169,13 +169,13 @@ class ICHTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
              '</script>')
 
 
-class DustTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
+class DustTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
     tag_string = 'dustjs'
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_simple(self):
         res = Template(
-            "{% load mustachejs %}{% dustjs 'testtemplate' %}"
+            "{% load jstemplate %}{% dustjs 'testtemplate' %}"
             ).render(Context())
 
         self.assertEqual(
@@ -188,10 +188,10 @@ class DustTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
             '</script>')
 
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_variable_template_name(self):
         res = Template(
-            "{% load mustachejs %}{% dustjs templatename %}").render(
+            "{% load jstemplate %}{% dustjs templatename %}").render(
             Context({"templatename": "testtemplate"}))
 
         self.assertEqual(
@@ -204,13 +204,13 @@ class DustTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
             '</script>')
 
 
-class RawTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
-    tag_string = 'mustacheraw'
+class RawTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
+    tag_string = 'rawjstemplate'
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_simple(self):
         res = Template(
-            "{% load mustachejs %}{% mustacheraw 'testtemplate' %}"
+            "{% load jstemplate %}{% rawjstemplate 'testtemplate' %}"
             ).render(Context())
 
         self.assertEqual(
@@ -218,10 +218,10 @@ class RawTemplateTagTest(TestCase, BaseMustacheJSTagTestMixin):
             "<p>Mustache's template full of {{ foo }} and \\.</p>\n")
 
 
-    @override_settings(MUSTACHEJS_DIRS=[DIR])
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_variable_template_name(self):
         res = Template(
-            "{% load mustachejs %}{% mustacheraw templatename %}").render(
+            "{% load jstemplate %}{% rawjstemplate templatename %}").render(
             Context({"templatename": "testtemplate"}))
 
         self.assertEqual(

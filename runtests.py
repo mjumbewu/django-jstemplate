@@ -7,13 +7,13 @@ from django.conf import settings
 
 if not settings.configured:
     settings.configure(
-        INSTALLED_APPS=["mustachejs"],
+        INSTALLED_APPS=["jstemplate"],
         DATABASES={"default": {"ENGINE": "django.db.backends.sqlite3"}})
 
 
 def runtests(*test_args):
     if not test_args:
-        test_args = ["mustachejs"]
+        test_args = ["jstemplate"]
 
     parent = os.path.dirname(os.path.abspath(__file__))
     sys.path.insert(0, parent)

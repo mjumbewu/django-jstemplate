@@ -18,15 +18,15 @@ class Configuration(object):
 
 
 conf = Configuration(
-    MUSTACHEJS_FINDERS=[
-        "mustachejs.finders.FilesystemFinder",
-        "mustachejs.finders.AppFinder",
-        "mustachejs.finders.FilesystemRegexFinder",
-        "mustachejs.finders.AppRegexFinder",
+    JSTEMPLATE_FINDERS=[
+        "jstemplate.finders.FilesystemFinder",
+        "jstemplate.finders.AppFinder",
+        "jstemplate.finders.FilesystemRegexFinder",
+        "jstemplate.finders.AppRegexFinder",
         ],
-    MUSTACHEJS_DIRS=[],
-    MUSTACHEJS_EXTS=["mustache", "html"],
-    MUSTACHEJS_APP_DIRNAMES=["jstemplates"],
-    MUSTACHEJS_I18N_TAGS=["_", "i18n"],
-    MUSTACHEJS_PREPROCESSORS=['mustachejs.preprocessors.I18nPreprocessor'],
+    JSTEMPLATE_DIRS=[],
+    JSTEMPLATE_EXTS=["mustache", "html"],
+    JSTEMPLATE_APP_DIRNAMES=["jstemplates"],
+    JSTEMPLATE_I18N_TAGS=["_", "i18n"],
+    JSTEMPLATE_PREPROCESSORS=['jstemplate.preprocessors.I18nPreprocessor'],
     )

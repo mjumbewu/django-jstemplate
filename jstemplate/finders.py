@@ -15,11 +15,11 @@ class BaseFinder(object):
 class FilesystemFinder(BaseFinder):
     @property
     def directories(self):
-        return conf.MUSTACHEJS_DIRS
+        return conf.JSTEMPLATE_DIRS
 
     @property
     def extensions(self):
-        return conf.MUSTACHEJS_EXTS
+        return conf.JSTEMPLATE_EXTS
 
     def find(self, name):
         matches = {}
@@ -63,11 +63,11 @@ class FilesystemFinder(BaseFinder):
 class FilesystemRegexFinder(BaseFinder):
     @property
     def directories(self):
-        return conf.MUSTACHEJS_DIRS
+        return conf.JSTEMPLATE_DIRS
 
     @property
     def extensions(self):
-        return conf.MUSTACHEJS_EXTS
+        return conf.JSTEMPLATE_EXTS
 
     def find(self, name):
         matches = {}
@@ -101,7 +101,7 @@ def _get_app_template_dirs():
         except ImportError, e:
             raise ImproperlyConfigured("ImportError %s: %s" % (app, e.args[0]))
         app_dir = os.path.dirname(mod.__file__)
-        for dirname in conf.MUSTACHEJS_APP_DIRNAMES:
+        for dirname in conf.JSTEMPLATE_APP_DIRNAMES:
             template_dir = os.path.join(app_dir, dirname)
             if os.path.isdir(template_dir):
                 ret.append(template_dir.decode(fs_encoding))

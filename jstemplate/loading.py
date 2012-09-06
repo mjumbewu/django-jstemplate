@@ -29,7 +29,7 @@ def find(name):
                     all_matches[matchname] = filepath
 
     if len(all_matches) == 0:
-        raise MustacheJSTemplateNotFound(name)
+        raise JSTemplateNotFound(name)
 
     return all_matches.items()
 
@@ -63,11 +63,11 @@ def _get_classes(dotted_paths):
 
 
 def _get_finders():
-    return _get_classes(conf.MUSTACHEJS_FINDERS)
+    return _get_classes(conf.JSTEMPLATE_FINDERS)
 
 
 def _get_preprocessors():
-    return _get_classes(conf.MUSTACHEJS_PREPROCESSORS)
+    return _get_classes(conf.JSTEMPLATE_PREPROCESSORS)
 
 
 # Instantiate finders
@@ -75,5 +75,5 @@ finders = _get_finders()
 preprocessors = _get_preprocessors()
 
 
-class MustacheJSTemplateNotFound(Exception):
+class JSTemplateNotFound(Exception):
     pass

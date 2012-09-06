@@ -1,14 +1,10 @@
 from django import template
-
 from ..conf import conf
-from ..loading import find, preprocess, MustacheJSTemplateNotFound
+from ..loading import find, preprocess, JSTemplateNotFound
 
 
-register = template.Library()
-
-
-class BaseMustacheNode(template.Node):
-    preprocessors = conf.MUSTACHEJS_PREPROCESSORS
+class BaseJSTemplateNode(template.Node):
+    preprocessors = conf.JSTEMPLATE_PREPROCESSORS
 
     def __init__(self, name):
         self.name = template.Variable(name)
@@ -24,7 +20,7 @@ class BaseMustacheNode(template.Node):
 
         try:
             matches = self.find_template_matches(name)
-        except MustacheJSTemplateNotFound:
+        except JSTemplateNotFound:
             if conf.DEBUG: raise
             else: return ''
         else:
@@ -52,3 +48,18 @@ class BaseMustacheNode(template.Node):
 
     def generate_node_text(self, resolved_name, file_content):
         raise NotImplementedError()
+
+
+def jstemplate_tag_helper(tagname, TagNodeClass, parser, token):
+    """
+    Finds the JavaScript template or templates specified in the tag arguments
+    and uses the appropriate tag node to render it.
+
+    """
+    bits = token.contents.split()
+    if len(bits) != 2:
+        raise template.TemplateSyntaxError(
+            "'%s' tag takes either one argument: the name/id of "
+            "the template, or a pattern matching a set of templates."
+            % tagname)
+    return TagNodeClass(*bits[1:])

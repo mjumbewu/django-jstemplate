@@ -9,7 +9,7 @@ long_description = (open(join(here, "README.rst")).read() + "\n\n" +
                     open(join(here, "TODO.rst")).read())
 
 def get_version():
-    fh = open(join(here, "mustachejs", "__init__.py"))
+    fh = open(join(here, "jstemplate", "__init__.py"))
     try:
         for line in fh.readlines():
             if line.startswith("__version__ ="):
@@ -18,15 +18,15 @@ def get_version():
         fh.close()
 
 setup(
-    name="django-mustachejs",
+    name="django-jstemplate",
     version=get_version(),
-    description="A Django template tag for embedding Mustache.js templates safely.",
+    description="A Django template tag for embedding Mustache.js -- or other JavaScript templates -- templates safely.",
     long_description=long_description,
     author="Mjumbe Wawatu Ukweli",
     author_email="mjumbewu@gmail.com",
-    url="https://github.com/mjumbewu/django-mustachejs/",
+    url="https://github.com/mjumbewu/django-jstemplate/",
     packages=find_packages(),
-    package_data={'mustachejs': ['static/mustache/js/*.js']},
+    package_data={'jstemplate': ['static/libs/*.js']},
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",

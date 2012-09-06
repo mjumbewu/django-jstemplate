@@ -1,23 +1,10 @@
 from django import template
-
-from ..conf import conf
-from ..loading import find, MustacheJSTemplateNotFound
-
-from .base import BaseMustacheNode
-from .mustacheraw import mustacheraw
-from .mustacheich import mustacheich
-from .dustjs import dustjs
-
+from .base import BaseJSTemplateNode, jstemplate_tag_helper
 
 register = template.Library()
 
-register.tag(mustacheraw)
-register.tag(mustacheich)
-register.tag(dustjs)
 
-
-
-class MustacheJSNode(BaseMustacheNode):
+class MustacheJSNode(BaseJSTemplateNode):
     def generate_node_text(self, resolved_name, file_content):
         output = file_content
         output = output.replace('\\', r'\\')
@@ -39,9 +26,5 @@ def mustachejs(parser, token):
     the requisite MustacheJS <script> tags.
 
     """
-    bits = token.contents.split()
-    if len(bits) != 2:
-        raise template.TemplateSyntaxError(
-            "'mustachejs' tag takes either one argument: the name/id of "
-            "the template, or a pattern matching a set of templates.")
-    return MustacheJSNode(*bits[1:])
+    return jstemplate_tag_helper('mustachejs', MustacheJSNode,
+                                 parser, token)

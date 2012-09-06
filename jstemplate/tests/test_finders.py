@@ -20,7 +20,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 class BaseFinderTest(TestCase):
     @property
     def finder(self):
-        from mustachejs.finders import BaseFinder
+        from jstemplate.finders import BaseFinder
         return BaseFinder()
 
 
@@ -33,32 +33,32 @@ class BaseFinderTest(TestCase):
 class FilesystemFinderTest(TestCase):
     @property
     def finder(self):
-        from mustachejs.finders import FilesystemFinder
+        from jstemplate.finders import FilesystemFinder
         return FilesystemFinder()
 
 
-    @override_settings(MUSTACHEJS_DIRS=["/one/path", "/another/path"])
+    @override_settings(JSTEMPLATE_DIRS=["/one/path", "/another/path"])
     def test_directories(self):
         self.assertEqual(
             self.finder.directories,
             ["/one/path", "/another/path"])
 
 
-    @override_settings(MUSTACHEJS_EXTS=["thtml"])
+    @override_settings(JSTEMPLATE_EXTS=["thtml"])
     def test_extensions(self):
         self.assertEqual(
             self.finder.extensions,
             ["thtml"])
 
 
-    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_html_file(self):
         self.assertEqual(
             self.finder.find("testtemplate"),
             [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
 
 
-    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_mustache_file(self):
         # This will not only demonstrate that it finds .mustache files, but also
         # that .mustache files take precedence over .html files.
@@ -67,7 +67,7 @@ class FilesystemFinderTest(TestCase):
             [("othertesttemplate", os.path.join(here, "templates", "othertesttemplate.mustache"))])
 
 
-    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_many_files(self):
         self.assertEqual(
             set(self.finder.find("many*")),
@@ -77,7 +77,7 @@ class FilesystemFinderTest(TestCase):
         )
 
 
-    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_mustache_file_takes_precedence_over_html(self):
         self.assertEqual(
             self.finder.find("bothtesttemplate"),
@@ -85,14 +85,14 @@ class FilesystemFinderTest(TestCase):
 
 
     @override_settings(
-        MUSTACHEJS_DIRS=[os.path.join(here, "..", "tests", "templates")])
+        JSTEMPLATE_DIRS=[os.path.join(here, "..", "tests", "templates")])
     def test_find_non_normalized_dir(self):
         self.assertEqual(
             self.finder.find("testtemplate"),
             [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
 
 
-    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_non_existing(self):
         self.assertEqual(self.finder.find("doesntexist"), [])
 
@@ -100,37 +100,37 @@ class FilesystemFinderTest(TestCase):
 class FilesystemRegexFinderTest(TestCase):
     @property
     def finder(self):
-        from mustachejs.finders import FilesystemRegexFinder
+        from jstemplate.finders import FilesystemRegexFinder
         return FilesystemRegexFinder()
 
 
-    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_file(self):
         self.assertEqual(
             self.finder.find("(test.*)"),
             [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
 
 
-    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_file(self):
         self.assertEqual(
             self.finder.find("(test.*)"),
             [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
 
 
-    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_requires_match_group(self):
         self.assertEqual(
             self.finder.find("test.*"), [])
 
 
-    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_requires_exact_match_for_extensions(self):
         self.assertEqual(
             self.finder.find("(wrong_extension)"), [])
 
 
-    @override_settings(MUSTACHEJS_DIRS=[os.path.join(here, "templates")])
+    @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_many_files(self):
         self.assertEqual(
             set(self.finder.find("(many.*)")),
@@ -143,13 +143,13 @@ class FilesystemRegexFinderTest(TestCase):
 class AppFinderTest(TestCase):
     @property
     def finder(self):
-        from mustachejs.finders import AppFinder
+        from jstemplate.finders import AppFinder
         return AppFinder()
 
 
     def test_directories(self):
         with patch(
-            "mustachejs.finders.app_template_dirs",
+            "jstemplate.finders.app_template_dirs",
             [os.path.join(here, "templates")]):
             dirs = self.finder.directories
 
@@ -158,18 +158,18 @@ class AppFinderTest(TestCase):
 
     @property
     def func(self):
-        from mustachejs.finders import _get_app_template_dirs
+        from jstemplate.finders import _get_app_template_dirs
         return _get_app_template_dirs
 
 
     @override_settings(
-        INSTALLED_APPS=["mustachejs.tests"],
-        MUSTACHEJS_APP_DIRNAMES=["templates", "jstemplates"])
+        INSTALLED_APPS=["jstemplate.tests"],
+        JSTEMPLATE_APP_DIRNAMES=["templates", "jstemplates"])
     def test_get_app_template_dirs(self):
         self.assertEqual(self.func(), [os.path.join(here, "templates")])
 
 
-    @override_settings(INSTALLED_APPS=["mustachejs.nonexistent"])
+    @override_settings(INSTALLED_APPS=["jstemplate.nonexistent"])
     def test_bad_app(self):
         with self.assertRaises(ImproperlyConfigured):
             self.func()
