@@ -1,20 +1,23 @@
 =================
-django-mustachejs
+django-jstemplate
 =================
 
 |build status|_
 
-.. |build status| image:: https://secure.travis-ci.org/mjumbewu/django-mustachejs.png
-.. _build status: https://secure.travis-ci.org/mjumbewu/django-mustachejs
+.. |build status| image:: https://secure.travis-ci.org/mjumbewu/django-jstemplate.png
+.. _build status: https://secure.travis-ci.org/mjumbewu/django-jstemplate
 
-A templatetag framework for easier integration of `mustache.js`_ JavaScript
-templates with Django templates. Inspired by `ICanHaz.js`_, `django-icanhaz`_,
-and `jquery.mustache`_.
+A templatetag framework for easier integration of `mustache.js`_, `dust.js`_,
+`handlebars.js`_, or other JavaScript templates with Django templates. Also will
+wrap your templates in elements expected for libraries such as `ICanHaz.js`_.
+Django-jstemplates is extensible, so if your favorite template library is not
+included, it's easy to add.  Inspired by `django-icanhaz`_.
 
 .. _mustache.js: http://mustache.github.com/
+.. _dust.js: http://akdubya.github.com/dustjs/
+.. _handlebars.js: http://handlebarsjs.com/
+.. _ICahHaz.js: http://icanhazjs.com/
 .. _django-icanhaz: http://github.com/carljm/django-icanhaz
-.. _ICanHaz.js: http://icanhazjs.com/
-.. _jquery.mustache: https://github.com/AF83/jquery.mustache
 
 Quick Usage
 -----------
@@ -23,7 +26,7 @@ Quick Usage
 
 .. _Read the Docs: http://django-mustachejs.readthedocs.org/en/latest/
 
-Add ``"mustachejs"`` to your ``INSTALLED_APPS`` setting.
+Add ``"jstemplate"`` to your ``INSTALLED_APPS`` setting.
 
 ``app/jstemplates/main.mustache``::
 
@@ -33,13 +36,13 @@ Add ``"mustachejs"`` to your ``INSTALLED_APPS`` setting.
 
 ``app/templates/main.html``::
 
-    {% load mustachejs %}
+    {% load jstemplate %}
 
     <html>
     <head>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-      <script src="{{ STATIC_URL }}mustache/js/mustache-0.3.0.js"></script>
-      <script src="{{ STATIC_URL }}mustache/js/django.mustache.js"></script>
+      <script src="{{ STATIC_URL }}libs/mustache-0.3.0.js"></script>
+      <script src="{{ STATIC_URL }}libs/django.mustache.js"></script>
     </head>
 
     <body>
@@ -62,8 +65,8 @@ Add ``"mustachejs"`` to your ``INSTALLED_APPS`` setting.
     </html>
 
 
-Rationale (from `django-icanhaz`_)
-----------------------------------
+Rationale
+---------
 
 The collision between Django templates' use of ``{{`` and ``}}`` as template
 variable markers and `mustache.js`_' use of same has spawned a variety of
@@ -74,10 +77,8 @@ already been mangled by the Django template tokenizer.
 
 I prefer to keep my JavaScript templates in separate files in a dedicated
 directory anyway, to avoid confusion between server-side and client-side
-templating. So my contribution to the array of solutions is essentially just an
-"include" tag that avoids parsing the included file as a Django template (and
-for convenience, automatically wraps it in the script tag that `ICanHaz.js`_
-expects to find it in).
+templating. So this solution is essentially just an "include" tag that avoids
+parsing the included file as a Django template.
 
 Enjoy!
 
