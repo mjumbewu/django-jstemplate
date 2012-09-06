@@ -270,10 +270,33 @@ thus templates found in ``JSTEMPLATE_DIRS`` take precedence over templates in
 apps, and templates identified by file glob patterns take precedence over those
 identified by regular expression patterns.
 
+Custom Preprocessors
+--------------------
+
+Before your JavaScript templates are placed into your Django templates, they are run
+through preprocessors.  By default, the only preprocessor enabled is for
+`internationalization (i18n)`_.  The i18n preprocessor finds all text between ``{{#_}}``
+and ``{{/_}}``, translates it with ``gettext``, and inserts the translated text into
+the template, stripping the ``{{#_}}`` and ``{{/_}}`` tags.
+
+You can build your own preprocessors as well.  A good use would be to do things like
+including generated URLs in your templates.  For example, in your template, when you
+have ``{{reverse_url 'my_url_name'}}``, you might want to run that through Django's
+``reverse`` method.
+
+A preprocessor class is pretty simple.  All it requires is a method with the following
+signature::
+
+    def process(self, content):
+        ...
+
+Where ``content`` is the actual text of the JS template.  Then, just add the dotted
+name of your class ot the ``JSTEMPLATE_PREPROCESSORS`` settings variable.
+
 Custom Flavors
 --------------
 
-It is simple to extend django-jstemplate to prepare your mustache templates to
+It is simple to extend django-jstemplate to prepare your JavaScript templates to
 be used with your favorite Javascript library creating a template node class
 that derives from ``jstemplate.templatetags.BaseJSTemplateNode``, and overriding
 a single function.  Refer to the existing tag definitions for ``mustachejs``,
