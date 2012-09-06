@@ -24,7 +24,7 @@ Quick Usage
 
 (Read the full docs on `Read the Docs`_)
 
-.. _Read the Docs: http://django-mustachejs.readthedocs.org/en/latest/
+.. _Read the Docs: http://django-jstemplate.readthedocs.org/en/latest/
 
 Add ``"jstemplate"`` to your ``INSTALLED_APPS`` setting.
 
