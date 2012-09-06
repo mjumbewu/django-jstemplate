@@ -16,7 +16,7 @@ included, it's easy to add.  Inspired by `django-icanhaz`_.
 .. _mustache.js: http://mustache.github.com/
 .. _dust.js: http://akdubya.github.com/dustjs/
 .. _handlebars.js: http://handlebarsjs.com/
-.. _ICahHaz.js: http://icanhazjs.com/
+.. _ICanHaz.js: http://icanhazjs.com/
 .. _django-icanhaz: http://github.com/carljm/django-icanhaz
 
 Quick Usage
