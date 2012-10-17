@@ -51,7 +51,7 @@ Usage
 
 * In your HTML header, include your desired version of mustache.js.  This
   application comes with two versions of the library available at
-  ``mustache/js/mustache-<version>.js``. The versions shipped with
+  ``libs/mustache-<version>.js``. The versions shipped with
   django-mustache are ``0.3.0`` and ``0.4.0-dev``.
 
 * ``{% load jstemplate %}`` and use ``{% mustachejs "templatename" %}`` in your
@@ -63,7 +63,7 @@ Usage
 * In your JavaScript, use
   ``Mustache.to_html(Mustache.TEMPLATES.templatename, {...}, Mustache.TEMPLATES)``
   to render your mustache template.  Alternatively, if you include the
-  ``mustache/js/django.mustache.js`` script in your HTML, you can use
+  ``libs/django.mustache.js`` script in your HTML, you can use
   ``Mustache.template('templatename').render({...})`` to render your mustache
   template.
 
