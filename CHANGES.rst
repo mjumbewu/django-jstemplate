@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.0.2
+------------------
+
+* Update MANIFEST file to use "jstemplate" folder instead of "mustachejs"
+
 1.0.1
 ------------------
 
