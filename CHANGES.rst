@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.0.3
+------------------
+
+* Move the static/mustache/js/ folder to static/libs/
+
 1.0.2
 ------------------
 
