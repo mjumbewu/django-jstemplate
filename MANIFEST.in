@@ -4,4 +4,4 @@ include LICENSE.txt
 include README.rst
 include TODO.rst
 include MANIFEST.in
-recursive-include mustachejs/static *.js
+recursive-include jstemplate/static *.js
