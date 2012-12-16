@@ -20,14 +20,14 @@ def get_version():
 setup(
     name="django-jstemplate",
     version=get_version(),
-    description="A Django template tag for embedding Mustache.js -- or other JavaScript templates -- templates safely.",
+    description="A Django template tag for embedding Mustache.js templates -- or other JavaScript templates -- safely.",
     long_description=long_description,
     author="Mjumbe Wawatu Ukweli",
     author_email="mjumbewu@gmail.com",
     url="https://github.com/mjumbewu/django-jstemplate/",
     packages=find_packages(),
     package_data={'jstemplate': ['static/libs/*.js']},
-    requires=['six'],
+    requires=['Django>=1.3', 'six'],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
@@ -38,9 +38,11 @@ setup(
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.2",
         "Framework :: Django",
     ],
     zip_safe=False,
-    tests_require=["Django>=1.2", "mock", "six"],
+    tests_require=["Django>=1.3", "mock", "six"],
     test_suite="runtests.runtests"
 )
