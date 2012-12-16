@@ -28,6 +28,12 @@ Quick Usage
 
 Add ``"jstemplate"`` to your ``INSTALLED_APPS`` setting.
 
+Download the templating library of your choice (I like to go straight
+mustache.js)::
+
+    wget https://raw.github.com/janl/mustache.js/master/mustache.js
+    mv mustache.js app/static/libs/
+
 ``app/jstemplates/main.mustache``::
 
     <div>
@@ -41,7 +47,7 @@ Add ``"jstemplate"`` to your ``INSTALLED_APPS`` setting.
     <html>
     <head>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-      <script src="{{ STATIC_URL }}libs/mustache-0.3.0.js"></script>
+      <script src="{{ STATIC_URL }}libs/mustache.js"></script>
       <script src="{{ STATIC_URL }}libs/django.mustache.js"></script>
     </head>
 

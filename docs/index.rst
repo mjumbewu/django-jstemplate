@@ -49,10 +49,11 @@ Usage
 
 * Add ``"jstemplate"`` to your ``INSTALLED_APPS`` setting.
 
-* In your HTML header, include your desired version of mustache.js.  This
-  application comes with two versions of the library available at
-  ``libs/mustache-<version>.js``. The versions shipped with
-  django-mustache are ``0.3.0`` and ``0.4.0-dev``.
+* In your HTML header, include the Javascript templating library of your choice
+  (I like to use mustache.js)::
+
+      wget https://raw.github.com/janl/mustache.js/master/mustache.js
+      mv mustache.js app/static/libs/
 
 * ``{% load jstemplate %}`` and use ``{% mustachejs "templatename" %}`` in your
   Django templates to safely embed the mustache.js template at
@@ -85,7 +86,7 @@ and ``app/templates/main.html``::
     <head>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
 
-      <script src="{{ STATIC_URL }}libs/mustache-0.3.0.js"></script>
+      <script src="{{ STATIC_URL }}libs/mustache.js"></script>
       <script src="{{ STATIC_URL }}libs/django.mustache.js"></script>
     </head>
 
