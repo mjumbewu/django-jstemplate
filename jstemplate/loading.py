@@ -27,9 +27,12 @@ def find(name):
 
         # Otherwise, matches should be a list of (name, filepath) pairs
         else:
-            for matchname, filepath in matches:
-                if matchname not in all_matches:
-                    all_matches[matchname] = filepath
+            try:
+                for matchname, filepath in matches:
+                    if matchname not in all_matches:
+                        all_matches[matchname] = filepath
+            except ValueError:
+                import pdb; pdb.set_trace()
 
     if len(all_matches) == 0:
         raise JSTemplateNotFound(name)

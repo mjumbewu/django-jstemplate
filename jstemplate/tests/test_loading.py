@@ -19,14 +19,14 @@ class FindTest(TestCase):
         return find
 
 
-    @patch("jstemplate.loading.finders", [MockFinder("/path/to/a/file.html")])
+    @patch("jstemplate.loading.finders", [MockFinder([("file", "/path/to/a/file.html")])])
     def test_find(self):
         self.assertEqual(list(self.func("file")), [("file", "/path/to/a/file.html")])
 
 
     @patch(
         "jstemplate.loading.finders",
-        [MockFinder(), MockFinder("/path/to/a/file.html")])
+        [MockFinder(), MockFinder([("file", "/path/to/a/file.html")])])
     def test_find_fallback(self):
         self.assertEqual(list(self.func("file")), [("file", "/path/to/a/file.html")])
 
