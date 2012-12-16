@@ -1,8 +1,14 @@
 #!/usr/bin/env python
 
+from __future__ import unicode_literals
 import os, sys
+import six
 
-from django.conf import settings
+try:
+    from django.conf import settings
+except ImportError:
+    print("Django has not been installed.")
+    sys.exit(0)
 
 
 if not settings.configured:
@@ -32,4 +38,10 @@ def runtests(*test_args):
 
 
 if __name__ == '__main__':
+    import django
+    if six.PY3 and django.VERSION < (1, 5):
+        print("Django " + '.'.join([str(i) for i in django.VERSION]) +
+              " is not compatible with Python 3. Skipping tests.")
+        sys.exit(0)
+
     runtests()
