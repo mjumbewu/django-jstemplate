@@ -12,7 +12,7 @@ env:
   - DJANGO="git+git://github.com/django/django.git@master#egg=django"
 
 # command to install dependencies
-install: ./.travis-install.sh
+install: ci/install.sh
 
 # command to run tests
 script: python runtests.py
