@@ -1,4 +1,7 @@
+from __future__ import unicode_literals
+
 import os.path
+import six
 
 from django.test import TestCase
 from django.utils import translation
@@ -32,8 +35,12 @@ class I18nTest (TestCase):
         fake_translation = translation.trans_real._active.value
 
         # wrap the ugettext and ungettext functions so that 'XXX ' will prefix each translation
-        self.original_ugettext = fake_translation.ugettext
-        fake_translation.ugettext = wrap_with_xxx(fake_translation.ugettext)
+        if six.PY3:
+            self.original_gettext = fake_translation.gettext
+            fake_translation.gettext = wrap_with_xxx(fake_translation.gettext)
+        else:
+            self.original_ugettext = fake_translation.ugettext
+            fake_translation.ugettext = wrap_with_xxx(fake_translation.ugettext)
 
         # Turn back on our old translations
         translation.activate(self.native_lang)
@@ -42,7 +49,10 @@ class I18nTest (TestCase):
         # Restore the french translation function
         translation.activate("fr")
         fake_translation = translation.trans_real._active.value
-        fake_translation.ugettext = self.original_ugettext
+        if six.PY3:
+            fake_translation.gettext = self.original_gettext
+        else:
+            fake_translation.ugettext = self.original_ugettext
 
         # Turn back on our old translations
         translation.activate(self.native_lang)

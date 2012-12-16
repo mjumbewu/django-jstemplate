@@ -54,7 +54,7 @@ class FilesystemFinderTest(TestCase):
     @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_html_file(self):
         self.assertEqual(
-            self.finder.find("testtemplate"),
+            list(self.finder.find("testtemplate")),
             [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
 
 
@@ -63,7 +63,7 @@ class FilesystemFinderTest(TestCase):
         # This will not only demonstrate that it finds .mustache files, but also
         # that .mustache files take precedence over .html files.
         self.assertEqual(
-            self.finder.find("othertesttemplate"),
+            list(self.finder.find("othertesttemplate")),
             [("othertesttemplate", os.path.join(here, "templates", "othertesttemplate.mustache"))])
 
 
@@ -80,7 +80,7 @@ class FilesystemFinderTest(TestCase):
     @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_mustache_file_takes_precedence_over_html(self):
         self.assertEqual(
-            self.finder.find("bothtesttemplate"),
+            list(self.finder.find("bothtesttemplate")),
             [("bothtesttemplate", os.path.join(here, "templates", "bothtesttemplate.mustache"))])
 
 
@@ -88,13 +88,13 @@ class FilesystemFinderTest(TestCase):
         JSTEMPLATE_DIRS=[os.path.join(here, "..", "tests", "templates")])
     def test_find_non_normalized_dir(self):
         self.assertEqual(
-            self.finder.find("testtemplate"),
+            list(self.finder.find("testtemplate")),
             [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
 
 
     @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_non_existing(self):
-        self.assertEqual(self.finder.find("doesntexist"), [])
+        self.assertEqual(list(self.finder.find("doesntexist")), [])
 
 
 class FilesystemRegexFinderTest(TestCase):
@@ -107,27 +107,27 @@ class FilesystemRegexFinderTest(TestCase):
     @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_file(self):
         self.assertEqual(
-            self.finder.find("(test.*)"),
+            list(self.finder.find("(test.*)")),
             [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
 
 
     @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_file(self):
         self.assertEqual(
-            self.finder.find("(test.*)"),
+            list(self.finder.find("(test.*)")),
             [("testtemplate", os.path.join(here, "templates", "testtemplate.html"))])
 
 
     @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_requires_match_group(self):
         self.assertEqual(
-            self.finder.find("test.*"), [])
+            list(self.finder.find("test.*")), [])
 
 
     @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_requires_exact_match_for_extensions(self):
         self.assertEqual(
-            self.finder.find("(wrong_extension)"), [])
+            list(self.finder.find("(wrong_extension)")), [])
 
 
     @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])

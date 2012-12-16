@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import re
 from django.utils.translation import ugettext
 from .conf import conf
@@ -19,7 +21,7 @@ class I18nPreprocessor(object):
     def translate(self, match):
         """Translate a result of matching the compiled trans_re pattern."""
         string = match.group(1)
-        return ugettext(string) if len(string) > 0 else u''
+        return ugettext(string) if len(string) > 0 else ''
 
     def process(self, content):
         # TODO: cache the compiled regex.

@@ -27,6 +27,7 @@ setup(
     url="https://github.com/mjumbewu/django-jstemplate/",
     packages=find_packages(),
     package_data={'jstemplate': ['static/libs/*.js']},
+    requires=['six'],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
@@ -40,6 +41,6 @@ setup(
         "Framework :: Django",
     ],
     zip_safe=False,
-    tests_require=["Django>=1.2", "mock"],
+    tests_require=["Django>=1.2", "mock", "six"],
     test_suite="runtests.runtests"
 )

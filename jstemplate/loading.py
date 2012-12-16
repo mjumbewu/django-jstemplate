@@ -1,3 +1,6 @@
+from __future__ import unicode_literals
+
+import six
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.importlib import import_module
 
@@ -13,7 +16,7 @@ def find(name):
 
         # <finder>.find may return a single string.  The name of the template
         # will then be the name given to 'find'
-        if isinstance(matches, basestring):
+        if isinstance(matches, six.text_type):
             filepath = matches
             if name not in all_matches:
                 all_matches[name] = filepath
@@ -47,13 +50,13 @@ def _get_classes(dotted_paths):
         modpath, cls_name = path.rsplit(".", 1)
         try:
             mod = import_module(modpath)
-        except ImportError, e:
+        except ImportError as e:
             raise ImproperlyConfigured(
                 "ImportError %s: %s" % (modpath, e.args[0]))
 
         try:
             cls = getattr(mod, cls_name)
-        except AttributeError, e:
+        except AttributeError as e:
             raise ImproperlyConfigured(
                 "AttributeError %s: %s" % (cls_name, e.args[0]))
 

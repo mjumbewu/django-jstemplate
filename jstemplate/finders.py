@@ -1,4 +1,7 @@
+from __future__ import unicode_literals
+
 import glob, os, sys, re
+import six
 
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.importlib import import_module
@@ -98,13 +101,15 @@ def _get_app_template_dirs():
     for app in conf.INSTALLED_APPS:
         try:
             mod = import_module(app)
-        except ImportError, e:
+        except ImportError as e:
             raise ImproperlyConfigured("ImportError %s: %s" % (app, e.args[0]))
         app_dir = os.path.dirname(mod.__file__)
         for dirname in conf.JSTEMPLATE_APP_DIRNAMES:
             template_dir = os.path.join(app_dir, dirname)
             if os.path.isdir(template_dir):
-                ret.append(template_dir.decode(fs_encoding))
+                if not six.PY3:
+                    template_dir = template_dir.decode(fs_encoding)
+                ret.append(template_dir)
     return ret
 
 
