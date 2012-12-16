@@ -25,8 +25,8 @@ Quickstart
 Dependencies
 ------------
 
-Tested with `Django`_ 1.3 through trunk, and `Python`_ 2.6 and 2.7. Almost
-certainly works with older versions of both.
+Tested with `Django`_ 1.3 through trunk, and `Python`_ 2.6, 2.7, and 3.2.
+Almost certainly works with older versions of both.
 
 .. _Django: http://www.djangoproject.com/
 .. _Python: http://www.python.org/
@@ -140,8 +140,8 @@ knows about to be used as a template partial as well.
 Other tags, just as ``{% icanhazjs %}`` wrap your template in the elements
 expected for particular libraries (like for `ICanHaz.js`_ in that situation).
 
-Flavors of Mustache
--------------------
+Flavors of Javascript templates
+-------------------------------
 
 In addition to ``{% mustachejs ... %}``, django-jstemplate comes with several
 template tags that you can use to render your mustache templates:
@@ -297,7 +297,7 @@ Custom Flavors
 --------------
 
 It is simple to extend django-jstemplate to prepare your JavaScript templates to
-be used with your favorite Javascript library creating a template node class
+be used with your favorite Javascript library by creating a template node class
 that derives from ``jstemplate.templatetags.BaseJSTemplateNode``, and overriding
 a single function.  Refer to the existing tag definitions for ``mustachejs``,
 ``icanhazjs``, ``rawjstemplate``, and ``dustjs`` for more information.
