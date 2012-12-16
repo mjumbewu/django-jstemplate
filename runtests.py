@@ -2,9 +2,9 @@
 
 from __future__ import unicode_literals
 import os, sys
-import six
 
 try:
+    import six
     from django.conf import settings
 except ImportError:
     print("Django has not been installed.")
