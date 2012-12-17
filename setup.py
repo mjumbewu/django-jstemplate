@@ -28,7 +28,7 @@ setup(
     packages=find_packages(),
     package_data={'jstemplate': ['static/libs/*.js']},
     install_requires=[
-        'Django (>=1.3)',
+        'Django >= 1.3',
         'six'
     ],
     classifiers=[
