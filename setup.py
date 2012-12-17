@@ -27,7 +27,10 @@ setup(
     url="https://github.com/mjumbewu/django-jstemplate/",
     packages=find_packages(),
     package_data={'jstemplate': ['static/libs/*.js']},
-    requires=['Django (>=1.3)', 'six'],
+    install_requires=[
+        'Django (>=1.3)',
+        'six'
+    ],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
