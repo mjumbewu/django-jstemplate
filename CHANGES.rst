@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.1.1
+------------------
+
+* Fix setup script requirements
+
 1.1.0
 ------------------
 
