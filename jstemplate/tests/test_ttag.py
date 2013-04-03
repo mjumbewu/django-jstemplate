@@ -13,6 +13,7 @@ __all__ = [
     "MustacheJSTemplateTagTest",
     "RawTemplateTagTest",
     "ICHTemplateTagTest",
+    "HandlebarsJSTemplateTagTest",
     "DustTemplateTagTest",
 ]
 
@@ -165,6 +166,35 @@ class ICHTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
         self.assertEqual(
             res,
              '<script type="text/html" id="testtemplate">'
+             "<p>Mustache's template full of {{ foo }} and \\.</p>\n"
+             '</script>')
+
+
+class HandlebarsJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
+    tag_string = 'handlebarsjs'
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_simple(self):
+        res = Template(
+            "{% load jstemplate %}{% handlebarsjs 'testtemplate' %}"
+            ).render(Context())
+
+        self.assertEqual(
+            res,
+             '<script type="text/x-handlebars-template" id="testtemplate">'
+             "<p>Mustache's template full of {{ foo }} and \\.</p>\n"
+             '</script>')
+
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_variable_template_name(self):
+        res = Template(
+            "{% load jstemplate %}{% handlebarsjs templatename %}").render(
+            Context({"templatename": "testtemplate"}))
+
+        self.assertEqual(
+            res,
+             '<script type="text/x-handlebars-template" id="testtemplate">'
              "<p>Mustache's template full of {{ foo }} and \\.</p>\n"
              '</script>')
 
