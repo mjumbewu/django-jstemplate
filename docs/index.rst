@@ -150,6 +150,8 @@ template tags that you can use to render your mustache templates:
 * ``{% dustjs ... %}`` renders templates ready for consumption by dust.js
 * ``{% icanhazjs ... %}`` renders templates ready for consumption by
   ICanHaz.js
+* ``{% handlebarsjs ... %}`` renders templates ready for consumption by
+  Handlebars.js
 * ``{% rawjstemplate ... %}`` renders the raw contents of a mustache template,
   after preprocessing
 
