@@ -4,5 +4,5 @@
 .env/
 htmlcov/
 *.egg
-django_icanhaz*.egg-info
+django_jstemplate.egg-info
 dist/
