@@ -15,6 +15,7 @@ __all__ = [
     "ICHTemplateTagTest",
     "HandlebarsJSTemplateTagTest",
     "DustTemplateTagTest",
+    "DoTJSTemplateTagTest",
 ]
 
 
@@ -257,3 +258,47 @@ class RawTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
         self.assertEqual(
             res,
             "<p>Mustache's template full of {{ foo }} and \\.</p>\n")
+
+
+class DoTJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
+    tag_string = 'doTjs'
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_simple(self):
+        res = Template(
+            "{% load jstemplate %}{% doTjs 'testtemplate' %}"
+            ).render(Context())
+
+        self.assertEqual(
+            res,
+             '<script type="text/x-dot-template" id="testtemplate">'
+             "<p>Mustache's template full of {{ foo }} and \\.</p>\n"
+             '</script>')
+
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_variable_template_name(self):
+        res = Template(
+            "{% load jstemplate %}{% doTjs templatename %}").render(
+            Context({"templatename": "testtemplate"}))
+
+        self.assertEqual(
+            res,
+             '<script type="text/x-dot-template" id="testtemplate">'
+             "<p>Mustache's template full of {{ foo }} and \\.</p>\n"
+             '</script>')
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR], JSTEMPLATE_EXTS=["jst"])
+    def test_simple_with_jst_syntax(self):
+        res = Template(
+            "{% load jstemplate %}{% doTjs 'testtemplate' %}"
+            ).render(Context())
+
+        self.assertEqual(
+            res,
+             '<script type="text/x-dot-template" id="testtemplate">'
+            "<p>doT's template full of {{= it.foo }} {{?? it.awesome === true }} and {{??}}\\.</p>\n"
+             '</script>')
+
+
+
