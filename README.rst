@@ -4,8 +4,8 @@ django-jstemplate
 
 |build status|_
 
-.. |build status| image:: https://secure.travis-ci.org/mjumbewu/django-jstemplate.png
-.. _build status: https://secure.travis-ci.org/mjumbewu/django-jstemplate
+.. |build status| image:: https://travis-ci.org/mjumbewu/django-jstemplate.png?branch=master
+.. _build status: https://travis-ci.org/mjumbewu/django-jstemplate
 
 A templatetag framework for easier integration of `mustache.js`_, `dust.js`_,
 `handlebars.js`_, or other JavaScript templates with Django templates. Also will
