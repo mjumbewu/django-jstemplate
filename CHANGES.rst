@@ -1,6 +1,17 @@
 CHANGES
 =======
 
+1.2.1
+------------------
+
+* Allow optional precompiling and and registering of partials for the
+  Handlebars.js tag. For example::
+
+      {% handlebarsjs '(.*)' precompile register_partials }
+
+  This will add a `templates` object to `Handlebars`, and register all
+  templates for use as partials.
+
 1.2.0
 ------------------
 
