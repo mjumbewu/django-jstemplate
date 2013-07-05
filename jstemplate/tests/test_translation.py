@@ -64,6 +64,42 @@ class I18nTest (TestCase):
 
         self.assertEqual(res, '<div></div>')
 
+    def test_short_style_simple_string_translation(self):
+        translation.activate('fr')
+        res = I18nPreprocessor().process(
+            '<div>{{ _ "Hello, world!" }}</div>'
+        )
+
+        self.assertEqual(res, '<div>{{ "XXX Hello, world!" }}</div>')
+
+    def test_short_style_no_string(self):
+        res = I18nPreprocessor().process(
+            '<div>{{_ ""}}</div>'
+        )
+
+        self.assertEqual(res, '<div>{{""}}</div>')
+
+    def test_short_style_ignore_mismatched_quotes(self):
+        res = I18nPreprocessor().process(
+            '<div>{{_ "\'}}</div>'
+        )
+
+        self.assertEqual(res, '<div>{{_ "\'}}</div>')
+
+    @override_settings(JSTEMPLATE_I18N_TAGS=['hello', 'world'])
+    def test_short_style_different_tagname(self):
+        res = I18nPreprocessor().process(
+            "<div>{{ hello 'World' }}</div>"
+        )
+
+        self.assertEqual(res, "<div>{{ 'World' }}</div>")
+
+        res = I18nPreprocessor().process(
+            '<div>{{ _ "World" }}</div>'
+        )
+
+        self.assertEqual(res, '<div>{{ _ "World" }}</div>')
+
     @override_settings(JSTEMPLATE_I18N_TAGS=['hello', 'world'])
     def test_different_tagname(self):
         res = I18nPreprocessor().process(

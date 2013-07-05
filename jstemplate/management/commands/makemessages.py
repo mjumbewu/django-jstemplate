@@ -21,6 +21,7 @@ paths found by the active MUSTACHEJS_FINDERS.
 import os
 import re
 import sys
+from itertools import chain
 
 from django.core.management.commands.makemessages \
     import Command as BaseI18nCommand
@@ -53,8 +54,13 @@ def templatize(src, origin=None):
 
             # Find all the translatable strings.
             processor = I18nPreprocessor()
-            pattern = re.compile(processor.trans_re, flags=re.DOTALL)
-            strings = set(re.findall(pattern, content))
+            short_pattern = re.compile(processor.short_trans_re)
+            long_pattern = re.compile(processor.long_trans_re, re.DOTALL)
+            strings = set()
+
+            for match in chain(re.finditer(short_pattern, content),
+                               re.finditer(long_pattern, content)):
+                strings.add(match.group('msg'))
 
             def escape(s):
                 s = s.replace('\\', '\\\\')
