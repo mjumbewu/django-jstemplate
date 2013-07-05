@@ -303,7 +303,7 @@ It is simple to extend django-jstemplate to prepare your JavaScript templates to
 be used with your favorite Javascript library by creating a template node class
 that derives from ``jstemplate.templatetags.BaseJSTemplateNode``, and overriding
 a single function.  Refer to the existing tag definitions for ``mustachejs``,
-``icanhazjs``, ``rawjstemplate``, and ``dustjs`` for more information.
+``icanhazjs``, ``rawjstemplate``, and ``handlebarsjs`` for more information.
 
 Source
 ======

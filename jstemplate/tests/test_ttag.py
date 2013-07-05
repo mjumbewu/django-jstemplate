@@ -199,6 +199,35 @@ class HandlebarsJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
              '</script>')
 
 
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_with_precompile(self):
+        res = Template(
+            "{% load jstemplate %}{% handlebarsjs 'testtemplate' precompile %}"
+            ).render(Context())
+
+        self.assertEqual(
+            res,
+             '<script type="text/x-handlebars-template" id="testtemplate">'
+             '<p>Mustache\'s template full of {{ foo }} and \\.</p>\n'
+             '</script><script>function(H) {var source = $("#testtemplate").html();'
+             'H.templates = H.templates || {};'
+             'H.templates["testtemplate"] = H.compile(source);}(Handlebars);</script>')
+
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_with_partials(self):
+        res = Template(
+            "{% load jstemplate %}{% handlebarsjs 'testtemplate' register_partials %}"
+            ).render(Context())
+
+        self.assertEqual(
+            res,
+             '<script type="text/x-handlebars-template" id="testtemplate">'
+             '<p>Mustache\'s template full of {{ foo }} and \\.</p>\n'
+             '</script><script>function(H) {var source = $("#testtemplate").html();'
+             'H.registerPartial("testtemplate", source);}(Handlebars);</script>')
+
+
 class DustTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
     tag_string = 'dustjs'
 
