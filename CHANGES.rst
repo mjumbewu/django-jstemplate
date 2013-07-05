@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+1.3.0
+------------------
+
+* Add a short translation form::
+
+      {{ _ 'this is translatable' }}
+
 1.2.1
 ------------------
 
