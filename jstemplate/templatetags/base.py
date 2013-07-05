@@ -9,8 +9,9 @@ from ..loading import find, preprocess, JSTemplateNotFound
 class BaseJSTemplateNode(template.Node):
     preprocessors = conf.JSTEMPLATE_PREPROCESSORS
 
-    def __init__(self, name):
+    def __init__(self, name, *args):
         self.name = template.Variable(name)
+        self.args = args
 
     def find_template_matches(self, name):
         return find(name)
@@ -65,9 +66,9 @@ def jstemplate_tag_helper(tagname, TagNodeClass, parser, token):
 
     """
     bits = token.contents.split()
-    if len(bits) != 2:
+    if len(bits) < 2:
         raise template.TemplateSyntaxError(
-            "'%s' tag takes either one argument: the name/id of "
-            "the template, or a pattern matching a set of templates."
+            "'%s' tag takes at least one argument: the name/id of "
+            "the template, or a pattern matching a set of templates. "
             % tagname)
     return TagNodeClass(*bits[1:])
