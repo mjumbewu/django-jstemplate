@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+1.3.1
+------------------
+
+* Bug fix: Closure that was registering Handlbars partials was not wrapped in 
+  parentheses.
+
 1.3.0
 ------------------
 
