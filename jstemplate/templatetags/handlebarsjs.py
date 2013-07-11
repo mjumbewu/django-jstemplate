@@ -20,7 +20,7 @@ class HandlebarsJSNode(BaseJSTemplateNode):
         if self.args:
             output += (
                 '<script>'
-                    'function(H) {{'
+                    '(function(H) {{'
                         'var source = $("#{name}").html();'
             )
 
@@ -32,7 +32,7 @@ class HandlebarsJSNode(BaseJSTemplateNode):
                            'H.templates["{name}"] = H.compile(source);')
 
             output += (
-                    '}}(Handlebars);'
+                    '}})(Handlebars);'
                 '</script>'
             )
 
