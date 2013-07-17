@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.3.2
+------------------
+
+* All template renderers handle unicode characters.
+
 1.3.1
 ------------------
 
