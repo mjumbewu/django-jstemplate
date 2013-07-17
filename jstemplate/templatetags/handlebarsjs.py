@@ -11,29 +11,29 @@ register = template.Library()
 class HandlebarsJSNode(BaseJSTemplateNode):
     def generate_node_text(self, resolved_name, file_content):
         output = (
-            '<script type="text/x-handlebars-template" id="{name}">'
-                '{content}'
-            '</script>'
+            u'<script type="text/x-handlebars-template" id="{name}">'
+                u'{content}'
+            u'</script>'
         )
 
         # If there are additional arguments, process the template further
         if self.args:
             output += (
-                '<script>'
-                    '(function(H) {{'
-                        'var source = $("#{name}").html();'
+                u'<script>'
+                    u'(function(H) {{'
+                        u'var source = $("#{name}").html();'
             )
 
             if 'register_partials' in self.args:
-                output += 'H.registerPartial("{name}", source);'
+                output += u'H.registerPartial("{name}", source);'
 
             if 'precompile' in self.args:
-                output += ('H.templates = H.templates || {{}};'
-                           'H.templates["{name}"] = H.compile(source);')
+                output += (u'H.templates = H.templates || {{}};'
+                           u'H.templates["{name}"] = H.compile(source);')
 
             output += (
-                    '}})(Handlebars);'
-                '</script>'
+                    u'}})(Handlebars);'
+                u'</script>'
             )
 
         return output.format(name=resolved_name, content=file_content)

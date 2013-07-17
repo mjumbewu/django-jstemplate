@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import mock
 import os.path
 
@@ -112,6 +114,20 @@ class MustacheJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
     tag_string = 'mustachejs'
 
     @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_unicode(self):
+        res = Template(
+            "{% load jstemplate %}{% mustachejs 'unicodetemplate' %}"
+            ).render(Context())
+
+        self.assertEqual(
+            res,
+             u"<script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};"
+             u"Mustache.TEMPLATES['unicodetemplate']="
+             u"'北京';"
+             u"</script>")
+
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_simple(self):
         res = Template(
             "{% load jstemplate %}{% mustachejs 'testtemplate' %}"
@@ -145,6 +161,19 @@ class ICHTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
     tag_string = 'icanhazjs'
 
     @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_unicode(self):
+        res = Template(
+            "{% load jstemplate %}{% icanhazjs 'unicodetemplate' %}"
+            ).render(Context())
+
+        self.assertEqual(
+            res,
+             u'<script type="text/html" id="unicodetemplate">'
+             u'北京'
+             u'</script>')
+
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_simple(self):
         res = Template(
             "{% load jstemplate %}{% icanhazjs 'testtemplate' %}"
@@ -172,6 +201,19 @@ class ICHTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
 
 class HandlebarsJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
     tag_string = 'handlebarsjs'
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_unicode(self):
+        res = Template(
+            "{% load jstemplate %}{% handlebarsjs 'unicodetemplate' %}"
+            ).render(Context())
+
+        self.assertEqual(
+            res,
+             u'<script type="text/x-handlebars-template" id="unicodetemplate">'
+             u'北京'
+             u'</script>')
+
 
     @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_simple(self):
@@ -232,6 +274,22 @@ class DustTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
     tag_string = 'dustjs'
 
     @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_unicode(self):
+        res = Template(
+            "{% load jstemplate %}{% dustjs 'unicodetemplate' %}"
+            ).render(Context())
+
+        self.assertEqual(
+            res,
+            u'<script type="text/javascript">'
+            u"if (typeof(dust) !== 'undefined') {"
+                u"compiled = dust.compile('北京', 'unicodetemplate');"
+                u"dust.loadSource(compiled);"
+            u"}"
+            u'</script>')
+
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_simple(self):
         res = Template(
             "{% load jstemplate %}{% dustjs 'testtemplate' %}"
@@ -265,6 +323,17 @@ class DustTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
 
 class RawTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
     tag_string = 'rawjstemplate'
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_unicode(self):
+        res = Template(
+            "{% load jstemplate %}{% rawjstemplate 'unicodetemplate' %}"
+            ).render(Context())
+
+        self.assertEqual(
+            res,
+            u'北京')
+
 
     @override_settings(JSTEMPLATE_DIRS=[DIR])
     def test_simple(self):

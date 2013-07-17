@@ -1,5 +1,6 @@
 from django import template
 from .base import BaseJSTemplateNode, jstemplate_tag_helper
+from ..conf import conf
 
 register = template.Library()
 
