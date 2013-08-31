@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+1.3.3
+------------------
+
+* Sort translatable strings so that results are consistent across Python
+  versions.
+
 1.3.2
 ------------------
 
