@@ -22,5 +22,5 @@ class MonkeyPatchedTemplatizeTest (TestCase):
       string
 """)
 _("""it's Mustache's turn to do i18n""")
-_("""this is a {{ string }} {{# with }} variables {{/ with }}""")
-_("""this is a \\"<b>string</b>\\" with <i>tags</i>""")''')
+_("""this is a \\"<b>string</b>\\" with <i>tags</i>""")
+_("""this is a {{ string }} {{# with }} variables {{/ with }}""")''')
