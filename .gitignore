@@ -9,3 +9,4 @@ htmlcov/
 *.egg-info/
 django_icanhaz*.egg-info
 dist/
+_build/
