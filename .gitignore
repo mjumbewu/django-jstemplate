@@ -2,7 +2,10 @@
 *~
 .tox/
 .env/
+env/
+env3/
 htmlcov/
 *.egg
+*.egg-info/
 django_icanhaz*.egg-info
 dist/
