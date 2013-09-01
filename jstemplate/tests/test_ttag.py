@@ -6,6 +6,7 @@ import os.path
 from django.template import Template, Context, TemplateSyntaxError
 from django.test import TestCase
 from mock import patch
+import six
 
 from .utils import override_settings
 
@@ -119,12 +120,20 @@ class MustacheJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
             "{% load jstemplate %}{% mustachejs 'unicodetemplate' %}"
             ).render(Context())
 
-        self.assertEqual(
-            res,
+        if six.PY3:
+            expected = (
+             "<script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};"
+             "Mustache.TEMPLATES['unicodetemplate']="
+             "'北京';"
+             "</script>")
+        else:
+            expected = (
              u"<script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};"
              u"Mustache.TEMPLATES['unicodetemplate']="
              u"'北京';"
              u"</script>")
+
+        self.assertEqual(res, expected)
 
 
     @override_settings(JSTEMPLATE_DIRS=[DIR])
@@ -279,14 +288,26 @@ class DustTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
             "{% load jstemplate %}{% dustjs 'unicodetemplate' %}"
             ).render(Context())
 
-        self.assertEqual(
-            res,
-            u'<script type="text/javascript">'
-            u"if (typeof(dust) !== 'undefined') {"
-                u"compiled = dust.compile('北京', 'unicodetemplate');"
-                u"dust.loadSource(compiled);"
-            u"}"
-            u'</script>')
+        if six.PY3:
+            expected = (
+                '<script type="text/javascript">'
+                "if (typeof(dust) !== 'undefined') {"
+                    "compiled = dust.compile('北京', 'unicodetemplate');"
+                    "dust.loadSource(compiled);"
+                "}"
+                '</script>'
+            )
+        else:
+            expected = (
+                u'<script type="text/javascript">'
+                u"if (typeof(dust) !== 'undefined') {"
+                    u"compiled = dust.compile('北京', 'unicodetemplate');"
+                    u"dust.loadSource(compiled);"
+                u"}"
+                u'</script>'
+            )
+
+        self.assertEqual(res, expected)
 
 
     @override_settings(JSTEMPLATE_DIRS=[DIR])
