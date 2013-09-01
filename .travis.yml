@@ -11,7 +11,7 @@ env:
   - DJANGO="git+git://github.com/django/django.git@master#egg=django"
 
 # command to install dependencies
-install: ci/install.sh
+install: pip install six==1.2.0 mock==0.7.2 $DJANGO --use-mirrors
 
 # command to run tests
 script: python runtests.py
