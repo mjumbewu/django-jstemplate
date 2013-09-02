@@ -4,6 +4,14 @@ CHANGES
 1.3.3
 ------------------
 
+* Fix compatibility with Python 3.2. Explicity unicode literals (i.e., u'...')
+  are not supported in Python 3.2 and cause a syntax error. Support was revived
+  in Python 3.3. Python 2.6 and 2.7 allow using unicode string literals by
+  default with `from __future__ import unicode_literals`, so we use that here.
+
+1.3.3
+------------------
+
 * Sort translatable strings so that results are consistent across Python
   versions.
 
