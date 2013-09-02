@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
 import mock
 import os.path
 
@@ -120,18 +121,11 @@ class MustacheJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
             "{% load jstemplate %}{% mustachejs 'unicodetemplate' %}"
             ).render(Context())
 
-        if six.PY3:
-            expected = (
-             "<script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};"
-             "Mustache.TEMPLATES['unicodetemplate']="
-             "'北京';"
-             "</script>")
-        else:
-            expected = (
-             "<script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};"
-             "Mustache.TEMPLATES['unicodetemplate']="
-             "'北京';"
-             "</script>").decode('utf-8')
+        expected = (
+            "<script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};"
+            "Mustache.TEMPLATES['unicodetemplate']="
+            "'北京';"
+            "</script>")
 
         self.assertEqual(res, expected)
 
@@ -175,16 +169,10 @@ class ICHTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
             "{% load jstemplate %}{% icanhazjs 'unicodetemplate' %}"
             ).render(Context())
 
-        if six.PY3:
-            expected = (
-                '<script type="text/html" id="unicodetemplate">'
-                '北京'
-                '</script>')
-        else:
-            expected = (
-                '<script type="text/html" id="unicodetemplate">'
-                '北京'
-                '</script>').decode('utf-8')
+        expected = (
+            '<script type="text/html" id="unicodetemplate">'
+            '北京'
+            '</script>')
 
         self.assertEqual(res, expected)
 
@@ -224,16 +212,10 @@ class HandlebarsJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
             "{% load jstemplate %}{% handlebarsjs 'unicodetemplate' %}"
             ).render(Context())
 
-        if six.PY3:
-            expected = (
-                '<script type="text/x-handlebars-template" id="unicodetemplate">'
-                '北京'
-                '</script>')
-        else:
-            expected = (
-                '<script type="text/x-handlebars-template" id="unicodetemplate">'
-                '北京'
-                '</script>').decode('utf-8')
+        expected = (
+            '<script type="text/x-handlebars-template" id="unicodetemplate">'
+            '北京'
+            '</script>')
 
         self.assertEqual(res, expected)
 
@@ -302,24 +284,13 @@ class DustTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
             "{% load jstemplate %}{% dustjs 'unicodetemplate' %}"
             ).render(Context())
 
-        if six.PY3:
-            expected = (
-                '<script type="text/javascript">'
-                "if (typeof(dust) !== 'undefined') {"
-                    "compiled = dust.compile('北京', 'unicodetemplate');"
-                    "dust.loadSource(compiled);"
-                "}"
-                '</script>'
-            )
-        else:
-            expected = (
-                '<script type="text/javascript">'
-                "if (typeof(dust) !== 'undefined') {"
-                    "compiled = dust.compile('北京', 'unicodetemplate');"
-                    "dust.loadSource(compiled);"
-                "}"
-                '</script>'
-            ).decode('utf-8')
+        expected = (
+            '<script type="text/javascript">'
+            "if (typeof(dust) !== 'undefined') {"
+                "compiled = dust.compile('北京', 'unicodetemplate');"
+                "dust.loadSource(compiled);"
+            "}"
+            '</script>')
 
         self.assertEqual(res, expected)
 
@@ -365,9 +336,7 @@ class RawTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
             "{% load jstemplate %}{% rawjstemplate 'unicodetemplate' %}"
             ).render(Context())
 
-        self.assertEqual(
-            res,
-            '北京' if six.PY3 else ('北京').decode('utf-8'))
+        self.assertEqual(res, '北京')
 
 
     @override_settings(JSTEMPLATE_DIRS=[DIR])
