@@ -11,10 +11,17 @@ env:
   - DJANGO="git+git://github.com/django/django.git@master#egg=django"
 
 # command to install dependencies
-install: pip install six==1.2.0 mock==0.7.2 $DJANGO --use-mirrors
+install:
+  - pip install $DJANGO --use-mirrors
+  - pip install -r requirements.txt --use-mirrors
 
 # command to run tests
-script: python runtests.py
+script:
+  - coverage run runtests.py
+after_success:
+  - coverage report --include=jstemplate/*
+  - pip install --quiet python-coveralls
+  - coveralls
 
 matrix:
   exclude:
