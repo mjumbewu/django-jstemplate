@@ -2,10 +2,16 @@
 django-jstemplate
 =================
 
-|build status|_
-
-.. |build status| image:: https://secure.travis-ci.org/mjumbewu/django-jstemplate.png
-.. _build status: https://secure.travis-ci.org/mjumbewu/django-jstemplate
+.. image:: https://travis-ci.org/mjumbewu/django-jstemplate.png
+   :alt: Build Status
+   :target: https://travis-ci.org/mjumbewu/django-jstemplate
+.. image:: https://coveralls.io/repos/mjumbewu/django-jstemplate/badge.png?branch=master
+   :alt: Coverage Status
+   :target: https://coveralls.io/r/mjumbewu/django-jstemplate
+.. image:: https://pypip.in/v/django-jstemplate/badge.png
+   :target: https://crate.io/packages/django-jstemplate/
+.. image:: https://pypip.in/d/django-jstemplate/badge.png
+   :target: https://crate.io/packages/django-jstemplate/
 
 A templatetag framework for easier integration of `mustache.js`_, `dust.js`_,
 `handlebars.js`_, or other JavaScript templates with Django templates. Also will
