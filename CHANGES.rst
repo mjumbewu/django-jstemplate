@@ -1,7 +1,15 @@
 CHANGES
 =======
 
-1.3.3
+1.3.5
+------------------
+
+* Use `document.getElementById` and `innerHtml` instead of depending on jQuery
+  to get the text of handlebars templates.
+* Switch the order of precompiling and registering partials in handlebars tag,
+  so that partials can used compiled template.
+
+1.3.4
 ------------------
 
 * Fix compatibility with Python 3.2. Explicity unicode literals (i.e., u'...')

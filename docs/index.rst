@@ -117,6 +117,44 @@ and ``app/templates/main.html``::
     </body>
     </html>
 
+Handlebars.js
+-------------
+
+The ``handlebarsjs`` template tag has two optional parameters.
+
+* *precompile* will add your templates to a ``templates`` attribute on the
+  ``Handlebars`` object. For example::
+
+    {% handlebarsjs 'my-template' precompile %}
+
+    <script>
+      var html = Handlebars.templates['my-template']();
+    </script>
+
+* *register_partial* will make your templates available as partials to use in
+  other templates. For example, take the following templates:
+
+*my-template.html*::
+
+    <p>This is a list</p>
+    <ul>
+      {{# each people }}
+      {{> my-partial }}
+      {{/ each }}
+    </ul>
+
+*my-partial.html*::
+
+    <li>{{ name }}</li>
+
+*index.html*::
+
+    ...
+    {% handlebarsjs 'my-template' %}
+    {% handlebarsjs 'my-partial' register_partials %}
+    ...
+
+
 What's going on?
 ----------------
 
@@ -126,7 +164,7 @@ tags::
     {% load jstemplate %}
     {% mustachejs "main" %}
 
-django-jstemplate will generate the following::
+django-jstemplate will generate something like the following::
 
     <script>Mustache.TEMPLATES=Mustache.TEMPLATES||{};Mustache.TEMPLATES['main']='<div>\n  <p>This is {{ name }}\'s template</p>\n</div>';</script>
 
