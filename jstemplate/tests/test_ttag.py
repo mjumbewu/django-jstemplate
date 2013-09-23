@@ -256,7 +256,7 @@ class HandlebarsJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
             res,
              '<script type="text/x-handlebars-template" id="testtemplate">'
              '<p>Mustache\'s template full of {{ foo }} and \\.</p>\n'
-             '</script><script>(function(H) {var source = $("#testtemplate").html();'
+             '</script><script>(function(H) {var source = document.getElementById("testtemplate").innerHtml;'
              'H.templates = H.templates || {};'
              'H.templates["testtemplate"] = H.compile(source);})(Handlebars);</script>')
 
@@ -271,7 +271,7 @@ class HandlebarsJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
             res,
              '<script type="text/x-handlebars-template" id="testtemplate">'
              '<p>Mustache\'s template full of {{ foo }} and \\.</p>\n'
-             '</script><script>(function(H) {var source = $("#testtemplate").html();'
+             '</script><script>(function(H) {var source = document.getElementById("testtemplate").innerHtml;'
              'H.registerPartial("testtemplate", source);})(Handlebars);</script>')
 
 

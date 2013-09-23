@@ -22,7 +22,7 @@ class HandlebarsJSNode(BaseJSTemplateNode):
             output += (
                 '<script>'
                     '(function(H) {{'
-                        'var source = $("#{name}").html();'
+                        'var source = document.getElementById("{name}").innerHtml;'
             )
 
             if 'register_partials' in self.args:
