@@ -256,9 +256,11 @@ class HandlebarsJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
             res,
              '<script type="text/x-handlebars-template" id="testtemplate">'
              '<p>Mustache\'s template full of {{ foo }} and \\.</p>\n'
-             '</script><script>(function(H) {var source = document.getElementById("testtemplate").innerHtml;'
+             '</script><script>(function(H) {var source = document.getElementById("testtemplate").innerHtml,'
+             'template = source;'
+             'template = H.compile(source);'
              'H.templates = H.templates || {};'
-             'H.templates["testtemplate"] = H.compile(source);})(Handlebars);</script>')
+             'H.templates["testtemplate"] = template;})(Handlebars);</script>')
 
 
     @override_settings(JSTEMPLATE_DIRS=[DIR])
@@ -271,8 +273,9 @@ class HandlebarsJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
             res,
              '<script type="text/x-handlebars-template" id="testtemplate">'
              '<p>Mustache\'s template full of {{ foo }} and \\.</p>\n'
-             '</script><script>(function(H) {var source = document.getElementById("testtemplate").innerHtml;'
-             'H.registerPartial("testtemplate", source);})(Handlebars);</script>')
+             '</script><script>(function(H) {var source = document.getElementById("testtemplate").innerHtml,'
+             'template = source;'
+             'H.registerPartial("testtemplate", template);})(Handlebars);</script>')
 
 
 class DustTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):

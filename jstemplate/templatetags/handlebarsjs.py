@@ -22,15 +22,17 @@ class HandlebarsJSNode(BaseJSTemplateNode):
             output += (
                 '<script>'
                     '(function(H) {{'
-                        'var source = document.getElementById("{name}").innerHtml;'
+                        'var source = document.getElementById("{name}").innerHtml,'
+                            'template = source;'
             )
 
-            if 'register_partials' in self.args:
-                output += 'H.registerPartial("{name}", source);'
-
             if 'precompile' in self.args:
-                output += ('H.templates = H.templates || {{}};'
-                           'H.templates["{name}"] = H.compile(source);')
+                output += ('template = H.compile(source);'
+                           'H.templates = H.templates || {{}};'
+                           'H.templates["{name}"] = template;')
+
+            if 'register_partials' in self.args:
+                output += 'H.registerPartial("{name}", template);'
 
             output += (
                     '}})(Handlebars);'
