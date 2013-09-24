@@ -22,7 +22,7 @@ class HandlebarsJSNode(BaseJSTemplateNode):
             output += (
                 '<script>'
                     '(function(H) {{'
-                        'var source = document.getElementById("{name}").innerHtml,'
+                        'var source = document.getElementById("{name}").innerHTML,'
                             'template = source;'
             )
 
