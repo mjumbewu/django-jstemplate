@@ -87,12 +87,16 @@ class FilesystemRegexFinder(BaseFinder):
         return matches.items()
 
     def _update_matches(self, matches, directory, pattern):
-        for filename in os.listdir(directory):
-            if not os.path.isdir(filename):
-                match = pattern.match(filename)
+        # Walk recursively under directory and search for matches
+        for root, dirs, files in os.walk(directory):
+            # Build relative path to current directory, omit .
+            relative_root = os.path.relpath(root, directory).replace('.', '', 1)
+            for filename in files:
+                # Build relative path to file
+                relative_filepath = os.path.join(relative_root, filename)
+                match = pattern.match(relative_filepath)
                 if match is not None and match.group(1) not in matches:
-                    matches[match.group(1)] = os.path.join(directory, filename)
-
+                    matches[match.group(1)] = os.path.join(directory, relative_filepath)
 
 
 def _get_app_template_dirs():
