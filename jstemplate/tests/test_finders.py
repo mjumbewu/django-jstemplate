@@ -143,9 +143,9 @@ class FilesystemRegexFinderTest(TestCase):
     @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
     def test_find_files_in_subdirectories(self):
         self.assertEqual(
-            list(self.finder.find('(subdirectory.*)')),
-            [('subdirectory/subdirectory2/testtemplate', os.path.join(here, 'templates', 'subdirectory', 'subdirectory2', 'testtemplate.html')),
-             ('subdirectory/testtemplate', os.path.join(here, 'templates', 'subdirectory', 'testtemplate.html'))])
+            set(self.finder.find('(subdirectory.*)')),
+            set([('subdirectory/subdirectory2/testtemplate', os.path.join(here, 'templates', 'subdirectory', 'subdirectory2', 'testtemplate.html')),
+                 ('subdirectory/testtemplate', os.path.join(here, 'templates', 'subdirectory', 'testtemplate.html'))]))
 
 
 class AppFinderTest(TestCase):
