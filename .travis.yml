@@ -17,8 +17,7 @@ install:
 
 # command to run tests
 script:
-  - coverage run runtests.py
+  - coverage run --source=jstemplate runtests.py
 after_success:
-  - coverage report --include=jstemplate/*
-  - pip install --quiet python-coveralls
+  - pip install --quiet coveralls
   - coveralls
