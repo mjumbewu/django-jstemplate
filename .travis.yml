@@ -17,7 +17,7 @@ install:
 
 # command to run tests
 script:
-  - coverage run --source=jstemplate runtests.py
+  - coverage run --source=jstemplate jstemplate/tests/project/manage.py test
 after_success:
   - pip install --quiet coveralls
   - coveralls

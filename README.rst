@@ -77,6 +77,14 @@ mustache.js)::
     </html>
 
 
+Running tests
+-------------
+
+To run the tests (for development), install ``mock`` and ``six`` and run::
+
+    jstemplate/tests/project/manage.py test
+
+
 Rationale
 ---------
 

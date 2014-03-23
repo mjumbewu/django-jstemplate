@@ -2,15 +2,11 @@ import sys
 import os
 
 DIR = os.path.dirname(__file__)
-sys.path.append(os.path.join(DIR, '..', '..', '..', '..'))
+BASE_DIR = os.path.join(DIR, '..', '..', '..', '..')
+sys.path.insert(0, os.path.abspath(BASE_DIR))
 
 DEBUG = True
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-    }
-}
+DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3'} }
 
 LANGUAGE_CODE = 'en-us'
 USE_I18N = True
