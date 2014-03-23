@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.3.7
+-----
+
+- Bug fix: Fail silently when using an invalid regex to match templates.
+
 1.3.6
 -----
 
