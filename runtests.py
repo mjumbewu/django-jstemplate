@@ -25,14 +25,14 @@ def runtests(*test_args):
     sys.path.insert(0, parent)
 
     try:
-        from django.test.simple import DjangoTestSuiteRunner
-        def run_tests(test_args, verbosity, interactive):
-            runner = DjangoTestSuiteRunner(
-                verbosity=verbosity, interactive=interactive, failfast=False)
-            return runner.run_tests(test_args)
+        from django.test.runner import DiscoverRunner as DjangoTestSuiteRunner
     except ImportError:
-        # for Django versions that don't have DjangoTestSuiteRunner
-        from django.test.simple import run_tests
+        from django.test.simple import DjangoTestSuiteRunner
+
+    def run_tests(test_args, verbosity, interactive):
+        runner = DjangoTestSuiteRunner(
+            verbosity=verbosity, interactive=interactive, failfast=False)
+        return runner.run_tests(test_args)
     failures = run_tests(test_args, verbosity=1, interactive=True)
     sys.exit(failures)
 
