@@ -148,6 +148,10 @@ class FilesystemRegexFinderTest(TestCase):
                  ('subdirectory/testtemplate', os.path.join(here, 'templates', 'subdirectory', 'testtemplate.html'))]))
 
 
+    @override_settings(JSTEMPLATE_DIRS=[os.path.join(here, "templates")])
+    def test_fails_silently_on_invalid_reges(self):
+        self.assertEqual(self.finder.find("*"), [])
+
 class AppFinderTest(TestCase):
     @property
     def finder(self):

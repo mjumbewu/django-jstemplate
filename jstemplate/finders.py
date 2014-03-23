@@ -75,7 +75,10 @@ class FilesystemRegexFinder(BaseFinder):
     def find(self, name):
         matches = {}
 
-        pattern = re.compile(name + ".(?:" + '|'.join(self.extensions) + ")$")
+        try:
+            pattern = re.compile(name + ".(?:" + '|'.join(self.extensions) + ")$")
+        except re.error:
+            return []
 
         # Bail if there are no capturing groups in the pattern
         if pattern.groups == 0:
