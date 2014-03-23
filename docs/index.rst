@@ -25,8 +25,8 @@ Quickstart
 Dependencies
 ------------
 
-Tested with `Django`_ 1.5 through trunk, and `Python`_ 2.6, 2.7, and 3.2, and
-3.3. Almost certainly works with older versions of both.
+Tested with `Django`_ 1.5 through trunk, and `Python`_ 2.6, 2.7, and 3.3.
+Almost certainly works with older versions of both.
 
 .. _Django: http://www.djangoproject.com/
 .. _Python: http://www.python.org/
@@ -349,3 +349,10 @@ Source
 The source for django-jstemplate is available on `GitHub`_
 
 .. _GitHub: http://github.com/mjumbewu/django-jstemplate/
+
+Running tests
+=============
+
+To run the tests (for development), install ``mock`` and ``six`` and run::
+
+    jstemplate/tests/project/manage.py test
