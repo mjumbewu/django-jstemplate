@@ -110,7 +110,7 @@ def _get_app_template_dirs():
             mod = import_module(app)
         except ImportError as e:
             raise ImproperlyConfigured("ImportError %s: %s" % (app, e.args[0]))
-        app_dir = os.path.dirname(mod.__file__)
+        app_dir = os.path.abspath(os.path.dirname(mod.__file__))
         for dirname in conf.JSTEMPLATE_APP_DIRNAMES:
             template_dir = os.path.join(app_dir, dirname)
             if os.path.isdir(template_dir):
