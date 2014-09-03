@@ -16,6 +16,7 @@ USE_L10N = True
 SECRET_KEY = 'w1$8^sjw_=%owwctqsa-czup!37mqv2ok$dw!e(tt2yc(cl&amp;bq'
 
 ROOT_URLCONF = 'project.urls'
+MIDDLEWARE_CLASSES = ()
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'project.wsgi.application'
