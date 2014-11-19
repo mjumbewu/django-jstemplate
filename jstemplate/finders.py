@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
 
+import warnings
 import glob, os, sys, re
 import six
 
-from django.core.exceptions import ImproperlyConfigured
 from django.utils.importlib import import_module
 
 from .conf import conf
@@ -108,8 +108,9 @@ def _get_app_template_dirs():
     for app in conf.INSTALLED_APPS:
         try:
             mod = import_module(app)
-        except ImportError as e:
-            raise ImproperlyConfigured("ImportError %s: %s" % (app, e.args[0]))
+        except ImportError:
+            warnings.warn('Installed app %s is not an importable Python module and will be ignored' % app)
+            continue
         app_dir = os.path.dirname(mod.__file__)
         for dirname in conf.JSTEMPLATE_APP_DIRNAMES:
             template_dir = os.path.join(app_dir, dirname)
