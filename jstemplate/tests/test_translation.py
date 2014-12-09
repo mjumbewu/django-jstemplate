@@ -16,7 +16,7 @@ __all__ = [
 ]
 
 
-DIR = os.path.join(os.path.dirname(__file__), "templates")
+DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
 
 
 class I18nTest (TestCase):

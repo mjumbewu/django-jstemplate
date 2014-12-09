@@ -12,9 +12,9 @@
 # serve to show the default.
 
 import sys, os
-from os.path import join, dirname
+from os.path import join, dirname, abspath
 
-here = dirname(__file__)
+here = dirname(abspath(__file__))
 def get_version():
     fh = open(join(here, "..", "jstemplate", "__init__.py"))
     try:

@@ -13,7 +13,7 @@ __all__ = ["BaseFinderTest", "FilesystemFinderTest", "AppFinderTest",
            "FilesystemRegexFinderTest"]
 
 
-here = os.path.abspath(os.path.dirname(__file__))
+here = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
 
 
 

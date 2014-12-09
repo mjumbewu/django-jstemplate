@@ -9,7 +9,7 @@ from jstemplate.management.commands import makemessages
 
 from .utils import override_settings
 
-DIR = os.path.join(os.path.dirname(__file__), "project", "project", "jstemplates")
+DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "project", "project", "jstemplates")
 
 class MonkeyPatchedTemplatizeTest (TestCase):
 

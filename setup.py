@@ -1,8 +1,8 @@
-from os.path import join, dirname
+from os.path import join, dirname, abspath
 
 from setuptools import setup, find_packages
 
-here = dirname(__file__)
+here = dirname(abspath(__file__))
 
 long_description = (open(join(here, "README.rst")).read() + "\n\n" +
                     open(join(here, "CHANGES.rst")).read() + "\n\n" +
