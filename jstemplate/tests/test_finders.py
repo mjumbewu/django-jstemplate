@@ -183,5 +183,6 @@ class AppFinderTest(TestCase):
 
     @override_settings(INSTALLED_APPS=["jstemplate.nonexistent"])
     def test_bad_app(self):
-        with self.assertRaises(ImproperlyConfigured):
+        with patch('warnings.warn') as warn:
             self.func()
+            self.assertEqual(warn.call_count, 1)
