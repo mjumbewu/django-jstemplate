@@ -190,6 +190,7 @@ template tags that you can use to render your mustache templates:
   ICanHaz.js
 * ``{% handlebarsjs ... %}`` renders templates ready for consumption by
   Handlebars.js
+* ``{% ractivejs ... %}`` renders templates ready for consumption by Ractive.js
 * ``{% rawjstemplate ... %}`` renders the raw contents of a mustache template,
   after preprocessing
 
@@ -341,7 +342,8 @@ It is simple to extend django-jstemplate to prepare your JavaScript templates to
 be used with your favorite Javascript library by creating a template node class
 that derives from ``jstemplate.templatetags.BaseJSTemplateNode``, and overriding
 a single function.  Refer to the existing tag definitions for ``mustachejs``,
-``icanhazjs``, ``rawjstemplate``, and ``handlebarsjs`` for more information.
+``icanhazjs``, ``rawjstemplate``, ``ractivejs`` and ``handlebarsjs`` for more
+information.
 
 Source
 ======

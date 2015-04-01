@@ -24,6 +24,7 @@ included, it's easy to add.  Inspired by `django-icanhaz`_.
 .. _handlebars.js: http://handlebarsjs.com/
 .. _ICanHaz.js: http://icanhazjs.com/
 .. _django-icanhaz: http://github.com/carljm/django-icanhaz
+.. _ractive.js: http://ractivejs.org
 
 Quick Usage
 -----------

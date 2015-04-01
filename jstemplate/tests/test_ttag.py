@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-import mock
 import os.path
 
 from django.template import Template, Context, TemplateSyntaxError
 from django.test import TestCase
-from mock import patch
-import six
 
 from .utils import override_settings
-
 
 
 __all__ = [
@@ -19,6 +15,7 @@ __all__ = [
     "ICHTemplateTagTest",
     "HandlebarsJSTemplateTagTest",
     "DustTemplateTagTest",
+    "RactiveJSTemplateTagTest",
 ]
 
 
@@ -158,6 +155,51 @@ class MustacheJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
              "</script>")
 
 
+class RactiveJSTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
+    tag_string = 'ractivejs'
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_unicode(self):
+        res = Template(
+            "{% load jstemplate %}{% ractivejs 'unicodetemplate' %}"
+        ).render(Context())
+
+        expected = (
+            "<script>Ractive.TEMPLATES=Ractive.TEMPLATES||{};"
+            "Ractive.TEMPLATES['unicodetemplate']=Ractive.parse("
+            "'北京'"
+            ");</script>"
+        )
+        self.assertEqual(res, expected)
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_simple(self):
+        res = Template(
+            "{% load jstemplate %}{% ractivejs 'testtemplate' %}"
+        ).render(Context())
+
+        expected = (
+            r"<script>Ractive.TEMPLATES=Ractive.TEMPLATES||{};"
+            r"Ractive.TEMPLATES['testtemplate']=Ractive.parse"
+            r"('<p>Mustache\'s template full of {{ foo }} and \\.</p>\n');"
+            r"</script>"
+        )
+        self.assertEqual(res, expected)
+
+    @override_settings(JSTEMPLATE_DIRS=[DIR])
+    def test_variable_template_name(self):
+        res = Template(
+            "{% load jstemplate %}{% ractivejs templatename %}").render(
+            Context({"templatename": "testtemplate"})
+        )
+
+        expected = (
+            r"<script>Ractive.TEMPLATES=Ractive.TEMPLATES||{};"
+            r"Ractive.TEMPLATES['testtemplate']=Ractive.parse"
+            r"('<p>Mustache\'s template full of {{ foo }} and \\.</p>\n');"
+            r"</script>"
+        )
+        self.assertEqual(res, expected)
 
 
 class ICHTemplateTagTest(TestCase, BaseJSTemplateTagTestMixin):
