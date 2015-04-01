@@ -4,7 +4,10 @@ import warnings
 import glob, os, sys, re
 import six
 
-from django.utils.importlib import import_module
+try:
+    from importlib import import_module
+except ImportError:
+    from django.utils.importlib import import_module
 
 from .conf import conf
 
