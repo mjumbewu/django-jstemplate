@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.3.8
+-----
+
+- Bug fix: Update to work with Django 1.9
+
 1.3.7
 -----
 
