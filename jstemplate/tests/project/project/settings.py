@@ -5,7 +5,7 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.join(DIR, '..', '..', '..', '..')
 sys.path.insert(0, os.path.abspath(BASE_DIR))
 
-DEBUG = True
+DEBUG = False
 DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3'} }
 
 LANGUAGE_CODE = 'en-us'
@@ -25,3 +25,10 @@ INSTALLED_APPS = (
   'project',
   'jstemplate'
 )
+
+TEMPLATES = [
+  {
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'APP_DIRS': True,
+  },
+]
