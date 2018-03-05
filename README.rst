@@ -8,9 +8,9 @@ django-jstemplate
 .. image:: https://coveralls.io/repos/mjumbewu/django-jstemplate/badge.png?branch=master
    :alt: Coverage Status
    :target: https://coveralls.io/r/mjumbewu/django-jstemplate
-.. image:: https://pypip.in/v/django-jstemplate/badge.png
+.. image:: https://img.shields.io/pypi/v/django-jstemplate.svg
    :target: https://crate.io/packages/django-jstemplate/
-.. image:: https://pypip.in/d/django-jstemplate/badge.png
+.. image:: https://img.shields.io/pypi/dm/django-jstemplate.svg
    :target: https://crate.io/packages/django-jstemplate/
 
 A templatetag framework for easier integration of `mustache.js`_, `dust.js`_,
