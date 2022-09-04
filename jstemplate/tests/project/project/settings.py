@@ -1,8 +1,6 @@
 import sys
 import os
 
-FILE_CHARSET = "utf8"
-
 DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.join(DIR, '..', '..', '..', '..')
 sys.path.insert(0, os.path.abspath(BASE_DIR))
