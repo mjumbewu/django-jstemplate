@@ -1,16 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
-import mock
 import os.path
 
 from django.template import Template, Context, TemplateSyntaxError
-from django.test import TestCase
-from mock import patch
-import six
-
-from .utils import override_settings
-
+from django.test import override_settings, TestCase
 
 
 __all__ = [

@@ -1,8 +1,7 @@
-from __future__ import unicode_literals
-
 import re
-from django.utils.translation import ugettext
+from django.utils.translation import gettext
 from .conf import conf
+
 
 class I18nPreprocessor(object):
     @property
@@ -13,7 +12,7 @@ class I18nPreprocessor(object):
     def short_trans_re(self):
         # Should match strings like: {{ _ "Hello, world! }}
         tagnames = '|'.join(['(?:{0})'.format(t) for t in self.tagnames])
-        
+
         left_side = r'''(?P<left>\{\{\s*(?P<tag>(?:''' + tagnames + r''')\s+)(?P<quote>['"]))'''
         right_side = r'''(?P<right>(?P=quote)\s*\}\})'''
 
@@ -23,7 +22,7 @@ class I18nPreprocessor(object):
     def long_trans_re(self):
         # Should match strings like: {{# _ }}Hello, {{ name }}.{{/ _ }}
         tagnames = '|'.join(['(?:{0})'.format(t) for t in self.tagnames])
-        
+
         start_tag = r'\{\{#\s*(?P<tag>' + tagnames + r')\s*\}\}'
         end_tag = r'\{\{\/\s*(?P=tag)\s*\}\}'
 
@@ -33,14 +32,14 @@ class I18nPreprocessor(object):
         """Translate a result of matching the compiled trans_re pattern."""
         tag = match.group('tag')
         msg = match.group('msg')
-        msg = ugettext(msg) if len(msg) > 0 else ''
+        msg = gettext(msg) if len(msg) > 0 else ''
         string = match.group('left').replace(tag, '', 1) + msg + match.group('right')
         return string
 
     def translate_long_form(self, match):
         """Translate a result of matching the compiled trans_re pattern."""
         msg = match.group('msg')
-        string = ugettext(msg) if len(msg) > 0 else ''
+        string = gettext(msg) if len(msg) > 0 else ''
         return string
 
     def process(self, content):

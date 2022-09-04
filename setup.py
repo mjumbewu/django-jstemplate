@@ -28,8 +28,7 @@ setup(
     packages=find_packages(),
     package_data={'jstemplate': ['static/libs/*.js']},
     install_requires=[
-        'Django >= 1.3',
-        'six'
+        'Django >= 2.2',
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -38,15 +37,14 @@ setup(
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.6",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.2",
-        "Programming Language :: Python :: 3.3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Framework :: Django",
     ],
     zip_safe=False,
-    tests_require=["Django>=1.3", "mock", "six"],
+    tests_require=["Django>=2.2", "coverage"],
     test_suite="runtests.runtests"
 )

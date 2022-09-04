@@ -1,6 +1,3 @@
-from __future__ import unicode_literals
-
-import six
 from django import template
 from ..conf import conf
 from ..loading import find, preprocess, JSTemplateNotFound
@@ -45,13 +42,8 @@ class BaseJSTemplateNode(template.Node):
         return output
 
     def read_template_file_contents(self, filepath):
-        if six.PY3:
-            with open(filepath, "r", encoding=conf.FILE_CHARSET) as fp:
-                template_text = fp.read()
-        else:
-            with open(filepath, "r") as fp:
-                template_text = fp.read().decode(conf.FILE_CHARSET)
-
+        with open(filepath, "r") as fp:
+            template_text = fp.read()
         template_text = self.preprocess(template_text)
         return template_text
 
