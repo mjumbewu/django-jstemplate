@@ -28,7 +28,7 @@ setup(
     packages=find_packages(),
     package_data={'jstemplate': ['static/libs/*.js']},
     install_requires=[
-        'Django >= 1.3',
+        'Django >= 1.8',
         'six'
     ],
     classifiers=[
@@ -47,6 +47,6 @@ setup(
         "Framework :: Django",
     ],
     zip_safe=False,
-    tests_require=["Django>=1.3", "mock", "six"],
+    tests_require=["Django>=1.8", "mock", "six"],
     test_suite="runtests.runtests"
 )
