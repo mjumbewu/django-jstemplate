@@ -1,4 +1,4 @@
-django>=1.5
+django>=1.8
 six
 mock
 coverage

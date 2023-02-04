@@ -46,11 +46,11 @@ class BaseJSTemplateNode(template.Node):
 
     def read_template_file_contents(self, filepath):
         if six.PY3:
-            with open(filepath, "r", encoding=conf.FILE_CHARSET) as fp:
+            with open(filepath, "r", encoding='utf-8') as fp:
                 template_text = fp.read()
         else:
             with open(filepath, "r") as fp:
-                template_text = fp.read().decode(conf.FILE_CHARSET)
+                template_text = fp.read().decode('utf-8')
 
         template_text = self.preprocess(template_text)
         return template_text
