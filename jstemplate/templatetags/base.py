@@ -45,12 +45,16 @@ class BaseJSTemplateNode(template.Node):
         return output
 
     def read_template_file_contents(self, filepath):
+        # As of Django 2.2, the FILE_CHARSET setting is deprecated, and as of
+        # Django 3.1, UTF-8 is always expected.
+        encoding = getattr(conf, 'FILE_CHARSET', 'utf-8')
+
         if six.PY3:
-            with open(filepath, "r", encoding='utf-8') as fp:
+            with open(filepath, "r", encoding=encoding) as fp:
                 template_text = fp.read()
         else:
             with open(filepath, "r") as fp:
-                template_text = fp.read().decode('utf-8')
+                template_text = fp.read().decode(encoding)
 
         template_text = self.preprocess(template_text)
         return template_text
