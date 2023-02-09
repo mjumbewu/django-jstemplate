@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+1.3.9
+-----
+
+- In order to support the latest versions of Django, removed dependence on the
+  FILE_CHARSET setting.  This means that the templates will always be read as
+  UTF-8.
+
 1.3.8
 -----
 

@@ -25,7 +25,7 @@ Quickstart
 Dependencies
 ------------
 
-Tested with `Django`_ 1.5 through trunk, and `Python`_ 2.6, 2.7, and 3.3.
+Tested with `Django`_ 1.8 through trunk, and `Python`_ 2.6, 2.7, and 3.3.
 Almost certainly works with older versions of both.
 
 .. _Django: http://www.djangoproject.com/

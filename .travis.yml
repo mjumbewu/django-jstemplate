@@ -4,9 +4,9 @@ python:
   - "3.4"
 
 env:
-  - DJANGO="django<1.7"  # 1.6.x
-  - DJANGO="django<1.8"  # 1.7.x
   - DJANGO="django<1.9"  # 1.8.x
+  - DJANGO="django<3"  # 2.2.x
+  - DJANGO="django<4"  # 3.2.x
   - DJANGO="git+git://github.com/django/django.git@master#egg=django"
 
 # command to install dependencies
