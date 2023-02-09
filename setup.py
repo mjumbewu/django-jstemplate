@@ -22,6 +22,7 @@ setup(
     version=get_version(),
     description="A Django template tag for embedding Mustache.js templates -- or other JavaScript templates -- safely.",
     long_description=long_description,
+    long_description_content_type="text/x-rst",
     author="Mjumbe Wawatu Ukweli",
     author_email="mjumbewu@gmail.com",
     url="https://github.com/mjumbewu/django-jstemplate/",
