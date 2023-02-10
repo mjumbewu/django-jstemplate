@@ -1,10 +1,9 @@
 from django.core.exceptions import ImproperlyConfigured
-from django.test import TestCase
+from django.test import override_settings, TestCase
 
-from mock import patch
+from unittest.mock import patch
 
 from .mockfinders import MockFinder
-from .utils import override_settings
 
 
 

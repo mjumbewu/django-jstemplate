@@ -1,11 +1,7 @@
-from __future__ import unicode_literals
-
-import six
 from django.core.exceptions import ImproperlyConfigured
 from importlib import import_module
 
 from .conf import conf
-
 
 
 def find(name):
@@ -16,7 +12,7 @@ def find(name):
 
         # <finder>.find may return a single string.  The name of the template
         # will then be the name given to 'find'
-        if isinstance(matches, six.text_type):
+        if isinstance(matches, str):
             filepath = matches
             if name not in all_matches:
                 all_matches[name] = filepath

@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+2.0.0
+-----
+
+- Support Python 3.7-3.10
+- Support Django 2.2-4.1
+- Drop support for Python<3.7 and Django<3.2
+
 1.3.9
 -----
 

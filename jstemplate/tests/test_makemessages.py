@@ -1,13 +1,8 @@
-import mock
 import os.path
 
-from django.template import Template, Context, TemplateSyntaxError
-from django.test import TestCase
-from mock import patch
+from django.test import override_settings, TestCase
 
 from jstemplate.management.commands import makemessages
-
-from .utils import override_settings
 
 DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "project", "project", "jstemplates")
 
