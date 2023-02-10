@@ -1,6 +1,4 @@
-from __future__ import unicode_literals
 from django import template
-from ..conf import conf
 from .base import BaseJSTemplateNode, jstemplate_tag_helper
 
 
@@ -49,7 +47,7 @@ def handlebarsjs(parser, token):
     Finds the Handlebars template for the given name and renders it surrounded
     by the requisite Handlebars <script> tags.
 
-    We don't use the jstemplate_tag_helper here, since we can take an 
+    We don't use the jstemplate_tag_helper here, since we can take an
     additional parameter denoting whether to register partials inline.
 
     """

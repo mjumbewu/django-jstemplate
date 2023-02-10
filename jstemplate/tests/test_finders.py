@@ -1,11 +1,8 @@
 import os
 
-from django.core.exceptions import ImproperlyConfigured
-from django.test import TestCase
+from django.test import override_settings, TestCase
 
-from mock import patch
-
-from .utils import override_settings
+from unittest.mock import patch
 
 
 
@@ -181,8 +178,9 @@ class AppFinderTest(TestCase):
         self.assertEqual(self.func(), [os.path.join(here, "templates")])
 
 
-    @override_settings(INSTALLED_APPS=["jstemplate.nonexistent"])
     def test_bad_app(self):
-        with patch('warnings.warn') as warn:
-            self.func()
-            self.assertEqual(warn.call_count, 1)
+        with self.assertRaises(ModuleNotFoundError):
+            # Adding the non-existent app to INSTALLED_APPS triggers a
+            # ModuleNotFoundError
+            with override_settings(INSTALLED_APPS=["jstemplate.nonexistent"]):
+                pass

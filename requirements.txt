@@ -1,4 +1,2 @@
-django>=1.8
-six
-mock
+django>=2.2
 coverage
