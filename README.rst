@@ -9,9 +9,9 @@ django-jstemplate
    :alt: Coverage Status
    :target: https://coveralls.io/r/mjumbewu/django-jstemplate
 .. image:: https://img.shields.io/pypi/v/django-jstemplate.svg
-   :target: https://crate.io/packages/django-jstemplate/
+   :target: https://pypi.org/project/django-jstemplate/
 .. image:: https://img.shields.io/pypi/dm/django-jstemplate.svg
-   :target: https://crate.io/packages/django-jstemplate/
+   :target: https://pypi.org/project/django-jstemplate/
 
 A templatetag framework for easier integration of `mustache.js`_, `dust.js`_,
 `handlebars.js`_, or other JavaScript templates with Django templates. Also will
