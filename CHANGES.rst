@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+2.0.1
+-----
+
+Fix pacthing of the makemessages command to work for Django later than 1.11.
+
 2.0.0
 -----
 
