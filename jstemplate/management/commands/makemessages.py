@@ -23,8 +23,6 @@ import re
 import sys
 from itertools import chain
 
-from django.core.management.commands.makemessages \
-    import Command as BaseI18nCommand
 from django.utils.translation \
     import templatize as base_templatize
 
@@ -32,15 +30,11 @@ from jstemplate.loading import find, preprocess
 from jstemplate.preprocessors import I18nPreprocessor
 
 
-class Command (BaseI18nCommand):
-    help = ('Adds the translatable strings from the js templates to the '
-            'messages')
-
-    def handle_noargs(self, *args, **options):
-        return super(Command, self).handle_noargs(*args, **options)
-
-
 def templatize(src, origin=None):
+    """
+    Override the templatize function to extract translatable strings from
+    jstemplates.
+    """
     # Get all the paths that we know about
     paths = [os.path.abspath(path) for name, path in find('(.*)')]
 
@@ -77,7 +71,7 @@ def templatize(src, origin=None):
     # If the file isn't in one of our paths, then delegate to the original
     # method.
     else:
-        return base_templatize(src, origin)
+        return base_templatize(src, origin=origin)
 
 
 # ============================================================================
@@ -87,5 +81,18 @@ def templatize(src, origin=None):
 # Patch it globally so that any other commands that also patch the function
 # will inherit this functionality.
 
-import django.utils.translation
-django.utils.translation.templatize = templatize
+# Since Django 1.11, the django.core.management.commands.makemessages module
+# has imported templatize from django.utils.translation directly.
+# https://github.com/django/django/commit/5fb22b4d4c664e14b7734550afc258ae97a4f8be#diff-f6dcf84eeecbbfbad63c316715f09e3eaf55784c75295e97a7fa57f424a52205R24
+import django.core.management.commands.makemessages as base_makemessages
+base_makemessages.templatize = templatize
+
+# ============================================================================
+
+
+class Command (base_makemessages.Command):
+    help = ('Adds the translatable strings from the js templates to the '
+            'messages')
+
+    def handle_noargs(self, *args, **options):
+        return super(Command, self).handle_noargs(*args, **options)
